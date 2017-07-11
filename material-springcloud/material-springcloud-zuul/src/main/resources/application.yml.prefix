@@ -1,0 +1,29 @@
+#该配置主要配置zuul的路由(反向代理)
+spring:
+  application:
+    name: material-springcloud-zuul  #设置应用名称
+server:
+  port: 8040    #设置应用访问端口
+
+eureka:
+  client:
+    serviceUrl:
+     defaultZone: http://sunxiaorong:xiaorong1111@localhost:8761/eureka  #为该应用配置euraka服务发现
+  instance:
+    prefer-ip-address: true
+
+zuul:
+  #如下场景为全局设置
+  prefix: /material   #该设置以material前缀开头访问  例如: locahost:8080/ 此时应该用 localhost:8080/material
+  strip-prefix: false #代理前缀被删除 例如: locahost:8080/material-service  当设置为true时material-service 被删除  访问路径变为 locahost:8080/material  zuul.stripPrefix=false关闭此行为
+  
+  #如下场景为约束特定服务设置
+  ignoredPatterns: /**/admin/**    #忽略细粒度的访问规则    例如: /**/admin/** 此路径 忽略了所有带admin的请求
+  routes:
+    users:
+      path: /material/user/**
+      stripPrefix: false
+logging:
+  level: 
+     com.netflix: debug
+  

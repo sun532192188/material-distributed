@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: material-springcloud-zuul  #设置应用名称
+server:
+  port: 8040    #设置应用访问端口
+
+eureka:
+  client:
+    serviceUrl:
+     defaultZone: http://sunxiaorong:xiaorong1111@localhost:8761/eureka  #为该应用配置euraka服务发现
+  instance:
+    prefer-ip-address: true
+
+zuul:
+  #如下场景为全局设置
+  prefix: /material   #该设置以material前缀开头访问  例如: locahost:8080/ 此时应该用 localhost:8080/material
+  strip-prefix: true #代理前缀被删除 例如: locahost:8080/material-service  当设置为true时material-service 被删除  访问路径变为 locahost:8080/material  zuul.stripPrefix=false关闭此行为
+#使用zuul进行上传
+#如果您@EnableZuulProxy您可以使用代理路径上传文件，只要文件很小，它就应该工作。
+#对于大文件，有一个替代路径绕过“/ zuul / *”中的Spring DispatcherServlet（以避免多部分处理）
+#通过zuul的请求 都会用hystrix进行包裹 所以这里需用设置hystrix超时时间
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+#zuul 使用了ribbon作负载均衡 所以这里同样也需要设置超时时间
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
+
+logging:
+  level: 
+     com.netflix: debug
+     
+  

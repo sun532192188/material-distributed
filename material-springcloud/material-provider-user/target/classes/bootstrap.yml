@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: material-provider-user  #建议使用小写
+  cloud:
+    config: 
+#      discovery:
+#        enabled: true
+#      service-id:  material-config-server
+#      fail-fast: true
+#      username: sunxiaorong
+#      password: wgg0821..
+      uri: http://sunxiaorong:wgg0821..@localhost:8989
+encrypt:
+  failOnError: true     
+ 
+#配置eureka服务发现
+eureka:
+  client:
+    healthcheck:
+       enable: true
+    serviceUrl:
+      defaultZone: http://sunxiaorong:xiaorong1111@localhost:8761/eureka
+  instance:
+    ip-address: true
+    #instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+  
+      
+   
+      
+   

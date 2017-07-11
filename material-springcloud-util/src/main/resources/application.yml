@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: material-springcloud-util
+server:
+  port: 8888

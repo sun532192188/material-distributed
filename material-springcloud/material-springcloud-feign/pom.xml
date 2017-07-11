@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <artifactId>material-springcloud-feign</artifactId>
+  <packaging>jar</packaging>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+  </properties>
+  
+   <parent>
+    <groupId>com.material.website</groupId>
+    <artifactId>material-springcloud</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- 添加feign依赖 -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-feign</artifactId>
+     <!-- 添加euraka依赖 -->
+     </dependency>
+       <dependency>
+	   <groupId>org.springframework.cloud</groupId>
+	   <artifactId>spring-cloud-starter-eureka</artifactId>
+	</dependency>  
+	<dependency>
+	  <groupId>com.material.website</groupId>
+	  <artifactId>material-springcloud-common</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>org.infinispan</groupId>
+		<artifactId>infinispan-commons</artifactId>
+		<version>8.0.2.Final</version>
+	</dependency>
+  </dependencies>
+</project>

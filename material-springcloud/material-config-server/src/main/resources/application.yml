@@ -1,0 +1,36 @@
+server:
+   port: 8989
+   
+security:
+  basic:
+    enabled: true
+  user:
+    name: sunxiaorong 
+    password: wgg0821..
+
+   
+spring:
+  application:
+    name: material-config-server
+  cloud:
+    config: 
+      enabled: true  
+      server:
+        git:
+          uri: https://github.com/sun532192188/material-springcloud-resp.git
+          clone-on-start: true
+        default-label: master
+#配置eureka服务发现
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://sunxiaorong:xiaorong1111@localhost:8761/eureka
+  instance:
+    ip-address: true
+    #instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    
+    
+  
+  
+      
+   

@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: material-springcloud-zuul  #设置应用名称
+server:
+  port: 8040    #设置应用访问端口
+
+eureka:
+  client:
+    serviceUrl:
+     defaultZone: http://sunxiaorong:xiaorong1111@localhost:8761/eureka  #为该应用配置euraka服务发现
+  instance:
+    prefer-ip-address: true
+zuul:
+  ignoredServices: '*'  #除 以下服务 之外，所有服务都被忽略。
+  routes:
+    microservice-provider-user: /user/**  #设置user微服务访问路径
+    
+ribbon:
+  eureka:
+    enabled: false
+
+users:     #这里指的是serviceid
+  ribbon:
+    listOfServers: example.com,google.com
+  

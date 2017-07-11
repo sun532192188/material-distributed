@@ -1,0 +1,35 @@
+spring: 
+   application:
+    name: material-springcloud-service    #配置微服务名称
+   cloud:
+    config: 
+#       uri: http://sunxiaorong:wgg0821..@localhost:8989   #url使用
+      discovery: 
+        enabled: true
+      #为了config-server高可用(场景:config-server在使用过程中有可能也会迁移如果此处些config-server url改变的话 那么每个
+      #微服务都需要更改config-server路径 所以将config-server注册到euraka服务发现中 此处只需些config-server的serviceid即可)
+        service-id: material-config-server
+#        fail-fast: true
+      username: sunxiaorong
+      password: wgg0821..
+
+#配置eureka服务发现
+eureka:
+  client:
+    healthcheck:
+       enable: true
+    serviceUrl:
+      defaultZone: http://sunxiaorong:xiaorong1111@localhost:8761/eureka
+  instance:
+    ip-address: true
+    #instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+  
+      
+   
+
+
+    
+  
+  
+      
+   

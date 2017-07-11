@@ -1,0 +1,6 @@
+各服务端口展示
+euraka:8761
+zuul:8040
+config-server:8989
+material-springcloud-service:7900
+
