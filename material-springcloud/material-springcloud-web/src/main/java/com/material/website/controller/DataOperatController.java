@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +47,9 @@ import com.material.website.entity.MaterialConsume;
 import com.material.website.entity.Storage;
 import com.material.website.entity.Supplier;
 import com.material.website.entity.UseAlloct;
+import com.material.website.feign.DepartmentCenterFeign;
+import com.material.website.feign.DepartmentFeign;
+import com.material.website.feign.StorageFeign;
 import com.material.website.service.ICategorySercice;
 import com.material.website.service.IDepartmentCenterService;
 import com.material.website.service.IDepartmentService;
@@ -71,12 +75,12 @@ import com.material.website.web.MySqlImportAndExport;
 @RequestMapping(value = "dataOperatController")
 public class DataOperatController {
 
-	@Inject
-	private IDepartmentCenterService departCenterService;
-	@Inject
-	private IDepartmentService departmentService;
-	@Inject
-	private IStorageService storageService;
+	@Autowired
+	private DepartmentCenterFeign departCenterFiegn;
+	@Autowired
+	private DepartmentFeign departmentFeign;
+	@Autowired
+	private StorageFeign storageFeign;
 	@Inject
 	private ISupplierService supplierService;
 	@Inject

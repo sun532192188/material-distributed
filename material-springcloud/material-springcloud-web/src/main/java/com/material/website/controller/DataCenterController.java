@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.material.website.feign.AdminFeign;
-import com.material.website.service.IAdminService;
 import com.material.website.util.PropertiesUtil;
 import com.material.website.web.MySqlImportAndExport;
 
@@ -63,7 +60,7 @@ public class DataCenterController {
 			    if(StringUtils.isNotEmpty(tables)){
 			    	String[]tableArray = tables.split(";");
 			    	for(String str:tableArray){
-			    		adminService.deleteAllData(str);
+			    		adminFeign.deleteAllData(str);
 			    		System.out.println("数据表【"+str+"】清除成功...");
 			    	}
 			    	System.out.println("数据库清除完毕...");
