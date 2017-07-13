@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -47,17 +47,14 @@ import com.material.website.entity.MaterialConsume;
 import com.material.website.entity.Storage;
 import com.material.website.entity.Supplier;
 import com.material.website.entity.UseAlloct;
+import com.material.website.feign.CategoryFeign;
 import com.material.website.feign.DepartmentCenterFeign;
 import com.material.website.feign.DepartmentFeign;
+import com.material.website.feign.GoodsFeign;
+import com.material.website.feign.StockFeign;
 import com.material.website.feign.StorageFeign;
-import com.material.website.service.ICategorySercice;
-import com.material.website.service.IDepartmentCenterService;
-import com.material.website.service.IDepartmentService;
-import com.material.website.service.IGoodsService;
-import com.material.website.service.IStockService;
-import com.material.website.service.IStorageService;
-import com.material.website.service.ISupplierService;
-import com.material.website.service.IUseAlloctService;
+import com.material.website.feign.SupplierFeign;
+import com.material.website.feign.UseAlloctFeign;
 import com.material.website.system.Pager;
 import com.material.website.util.BigDecimaUtil;
 import com.material.website.util.ExcelUtil;
@@ -81,18 +78,16 @@ public class DataOperatController {
 	private DepartmentFeign departmentFeign;
 	@Autowired
 	private StorageFeign storageFeign;
-	@Inject
-	private ISupplierService supplierService;
-	@Inject
-	private IStockService stockService;
-	@Inject
-	private ICategorySercice categoryService;
-	@Inject
-	private IUseAlloctService useAlloctService;
-	@Inject
-	private IGoodsService goodsService;
-	@Inject
-	private IDepartmentService departService;
+	@Autowired
+	private SupplierFeign supplierFeign;
+	@Autowired
+	private StockFeign stockFeign;
+	@Autowired
+	private CategoryFeign categoryFeign;
+	@Autowired
+	private UseAlloctFeign useAlloctFeign;
+	@Autowired
+	private GoodsFeign goodsFeign;
 	
 	
 	/**
@@ -103,12 +98,12 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/statisStockOperat")
-	public String statisStockOperat(StockArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String statisStockOperat(@RequestBody StockArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if (StringUtils.isNotEmpty(queryArgs.getGoodsName())) {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName()
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
-		Pager<StockDto> pages = stockService.queryStockPager(queryArgs);
+		Pager<StockDto> pages = stockFeign.queryStockPager(queryArgs);
 		List<StockDto> resultList = pages.getRows();
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
@@ -138,13 +133,13 @@ public class DataOperatController {
             String nowTime = new SimpleDateFormat("YYYY年MM月dd日").format(new Date());
         	model.addAttribute("nowTime",nowTime);
         	if(queryArgs.getCategoryOne() != null){
-        		Category category = categoryService.loadCategory(queryArgs.getCategoryOne());
+        		Category category = categoryFeign.loadCategory(queryArgs.getCategoryOne());
         		model.addAttribute("categoryOneName",category.getCategoryName());
         	}else{
         		model.addAttribute("categoryOneName","全部");
         	}
         	if(queryArgs.getCategoryTwo() != null){
-        		Category category = categoryService.loadCategory(queryArgs.getCategoryTwo());
+        		Category category = categoryFeign.loadCategory(queryArgs.getCategoryTwo());
         		model.addAttribute("categoryTwoName",category.getCategoryName());
         	}else{
         		model.addAttribute("categoryTwoName","全部");
@@ -223,14 +218,14 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/dpeartPlanOperat",method={RequestMethod.POST,RequestMethod.GET})
-	public String dpeartPlanOperat(
+	public String dpeartPlanOperat(@RequestBody
 			StaticsDepartPlanArgs queryArgs,Model model, HttpServletRequest request,HttpServletResponse response)
 			throws IOException {
 		if (StringUtils.isNotEmpty(queryArgs.getGoodsName())) {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName()
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
-		Pager<StaticsDepartPlanDto> pages = departCenterService
+		Pager<StaticsDepartPlanDto> pages = departCenterFiegn
 				.staticsDepartPlan(queryArgs);
 		List<StaticsDepartPlanDto> resultList = pages.getRows();
 		Integer buchongNum = 0;
@@ -253,7 +248,7 @@ public class DataOperatController {
             String nowTime = new SimpleDateFormat("YYYY年MM月dd日").format(new Date());
         	model.addAttribute("nowTime",nowTime);
         	if(queryArgs.getDepartId() != null){
-        		Department department = departmentService.loadDepartment(queryArgs.getDepartId());
+        		Department department = departmentFeign.loadDepartment(queryArgs.getDepartId());
         		model.addAttribute("departmentName",department.getDepartmentName());
         		model.addAttribute("remarks",resultList.get(0).getRemarks());
         	}else{
@@ -336,12 +331,12 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/storageOperat")
-	public String storageOperat(StaticsStorageArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String storageOperat(@RequestBody StaticsStorageArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if (StringUtils.isNotEmpty(queryArgs.getGoodsName())) {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName()
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
-		Pager<StaticsStorageDto> pages = storageService.staticsStoragePager(queryArgs);
+		Pager<StaticsStorageDto> pages = storageFeign.staticsStoragePager(queryArgs);
 		List<StaticsStorageDto> resultList = pages.getRows();
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
@@ -367,7 +362,7 @@ public class DataOperatController {
         	}
         	model.addAttribute("statisTime",statisTime);
         	if(queryArgs.getSupplierId() != null){
-        		Supplier supplier = supplierService.querySupplierById(queryArgs.getSupplierId());
+        		Supplier supplier = supplierFeign.querySupplierById(queryArgs.getSupplierId());
         		model.addAttribute("supplierName",supplier.getShortName());
         	}else{
         		model.addAttribute("supplierName","所有供应商");
@@ -449,7 +444,7 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/useAlloctOpeart")
-	public String useAlloctOpeart(StatisUseAlloctArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String useAlloctOpeart(@RequestBody StatisUseAlloctArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if (StringUtils.isNotEmpty(queryArgs.getGoodsName())) {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName()
 					.getBytes("ISO-8859-1"), "UTF-8"));
@@ -458,7 +453,7 @@ public class DataOperatController {
 			queryArgs.setTitle(new String(queryArgs.getTitle()
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
-		Pager<StatisUseAlloctDto> pages = useAlloctService.statisUseAlloctPager(queryArgs);
+		Pager<StatisUseAlloctDto> pages = useAlloctFeign.statisUseAlloctPager(queryArgs);
 		List<StatisUseAlloctDto> resultList = pages.getRows();
 		Double sumMoney = 0.0;
     	for(StatisUseAlloctDto dto:resultList){
@@ -496,7 +491,7 @@ public class DataOperatController {
         	}
         	model.addAttribute("statisTime",statisTime);
         	if(queryArgs.getDepartId() != null){
-        		Department department = departmentService.loadDepartment(queryArgs.getDepartId());
+        		Department department = departmentFeign.loadDepartment(queryArgs.getDepartId());
         		model.addAttribute("departmentName",department.getDepartmentName());
         	}else{
         		model.addAttribute("departmentName","所有部门");
@@ -572,17 +567,17 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/yanshouAndYucunOperat")
-	public String yanshouAndYucunOperat(StorageQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String yanshouAndYucunOperat(@RequestBody StorageQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(queryArgs.getTitle())){
 			queryArgs.setTitle(new String(queryArgs.getTitle().getBytes("ISO-8859-1"),"UTF-8"));
 		    model.addAttribute("title",queryArgs.getTitle());
 		}
-		Storage storage = storageService.queryStorageById(queryArgs.getStorageId());
+		Storage storage = storageFeign.queryStorageById(queryArgs.getStorageId());
 		List<GoodsInstallDto> resultList = null;
 		if(storage.getStatus() == 0){
-			resultList = goodsService.queryAllTemp(null, storage.getStorageNo());
+			resultList = goodsFeign.queryAllTemp(null, storage.getStorageNo());
 		}else{
-			resultList = storageService.queryGoodsById(queryArgs.getStorageId());
+			resultList = storageFeign.queryGoodsById(queryArgs.getStorageId());
 		}
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
@@ -599,7 +594,7 @@ public class DataOperatController {
             String operatTime =  operatTime = new SimpleDateFormat("YYYY年MM月dd日").format(storage.getStorageDate());
         	model.addAttribute("operatTime",operatTime);
         	if(queryArgs.getSupplierId() != null){
-        		Supplier supplier = supplierService.querySupplierById(queryArgs.getSupplierId());
+        		Supplier supplier = supplierFeign.querySupplierById(queryArgs.getSupplierId());
         		model.addAttribute("supplierName",supplier.getShortName());
         	}else{
         		model.addAttribute("supplierName","全部");
@@ -676,14 +671,14 @@ public class DataOperatController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/supplierOperat")
-	public String supplierOperat(SupplierQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String supplierOperat(@RequestBody SupplierQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(queryArgs.getSupplierName())){
 			queryArgs.setSupplierName(new String(queryArgs.getSupplierName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
 		if(StringUtils.isNotEmpty(queryArgs.getAddress())){
 			queryArgs.setAddress(new String(queryArgs.getAddress().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		Pager<SupplierDto>pages = supplierService.querySupplierList(queryArgs);
+		Pager<SupplierDto>pages = supplierFeign.querySupplierList(queryArgs);
 		if(StringUtils.isEmpty(queryArgs.getSupplierName())){
 			queryArgs.setSupplierName("全部");
 		}
@@ -775,12 +770,12 @@ public class DataOperatController {
 		if (StringUtils.isNotEmpty(title)) {
 			title = new String(title.getBytes("ISO-8859-1"), "UTF-8");
 		}
-		UseAlloct useAlloct = useAlloctService.queryUseAlloctNo(operatNo);
+		UseAlloct useAlloct = useAlloctFeign.queryUseAlloctNo(operatNo);
 		List<GoodsInstallDto> resultList = null;
 		if(useAlloct.getStatus() == 0){
-			resultList  = goodsService.queryAllTemp(null, operatNo);
+			resultList  = goodsFeign.queryAllTemp(null, operatNo);
 		}else{
-			resultList  =  useAlloctService.queryGoodsList(useAlloctId);
+			resultList  =  useAlloctFeign.queryGoodsList(useAlloctId);
 		}
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
@@ -863,14 +858,14 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/goodsDataOperat")
-	public String goodsDataOperat(GoodsQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String goodsDataOperat(@RequestBody GoodsQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if (StringUtils.isNotEmpty(queryArgs.getGoodsName())) {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
 		if (StringUtils.isNotEmpty(queryArgs.getTitle())) {
 			queryArgs.setTitle(new String(queryArgs.getTitle().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		List<GoodsDto> resultList = goodsService.queryGoodsPager(queryArgs).getRows();
+		List<GoodsDto> resultList = goodsFeign.queryGoodsPager(queryArgs).getRows();
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
 			buchongNum = 50;
@@ -886,14 +881,14 @@ public class DataOperatController {
 			model.addAttribute("goodsName",queryArgs.getGoodsName().equals("")?"全部":queryArgs.getGoodsName());
 			String categoryOneName = "";
 			if(queryArgs.getCategoryOne() != null){
-				 categoryOneName = categoryService.loadCategory(queryArgs.getCategoryOne()).getCategoryName();
+				 categoryOneName = categoryFeign.loadCategory(queryArgs.getCategoryOne()).getCategoryName();
 			}else{
 				categoryOneName = "全部";
 			}
 			String categoryTwoName = "";
 			model.addAttribute("categoryOneName",categoryOneName);
 			if(queryArgs.getCategoryTwo() != null){
-				categoryTwoName = categoryService.loadCategory(queryArgs.getCategoryTwo()).getCategoryName();
+				categoryTwoName = categoryFeign.loadCategory(queryArgs.getCategoryTwo()).getCategoryName();
 			}else{
 				categoryTwoName = "全部";
 			}
@@ -953,21 +948,21 @@ public class DataOperatController {
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/departCKOperat")
 	public String departCKOperat(Integer ckId,String title,Integer operatType,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
-		MaterialConsume consume = departCenterService.queryConsumeInfo(null, ckId);
+		MaterialConsume consume = departCenterFiegn.queryConsumeInfo(null, ckId);
 		String returnPage = "";
 		if (StringUtils.isNotEmpty(title)) {
 			title = new String(title.getBytes("ISO-8859-1"),"UTF-8");
 		}
 		List<GoodsInstallDto> resultList = null;
 		if(consume.getStatus() == 0){
-			resultList = goodsService.queryAllTemp(null, consume.getOperatNo());
+			resultList = goodsFeign.queryAllTemp(null, consume.getOperatNo());
 		}else{
-			resultList = departCenterService.queryCkGoodsList(ckId);
+			resultList = departCenterFiegn.queryCkGoodsList(ckId);
 		}
 		
 		Integer buchongNum = 0;
 		Integer pageNum  = 0;
-		Department depart = departService.loadDepartment(consume.getDepartId());
+		Department depart = departmentFeign.loadDepartment(consume.getDepartId());
 		model.addAttribute("departName",depart.getDepartmentName());
 		if(resultList != null){
 			if(resultList.size() <= 0){
@@ -979,7 +974,7 @@ public class DataOperatController {
 			if(consume.getType() == null || consume.getType() == 1){
 			    returnPage = "admin/print/depart_ck_print";
 			}else if(consume.getType() == 2){
-				Department targetDepart = departService.loadDepartment(consume.getTargetDepartId());
+				Department targetDepart = departmentFeign.loadDepartment(consume.getTargetDepartId());
 				model.addAttribute("targetDepartName",targetDepart.getDepartmentName());
 				  returnPage = "admin/print/depart_db_print";
 			}
@@ -1057,7 +1052,7 @@ public class DataOperatController {
 	public String departMonthPlan(Integer planId,String departmentName,String sumMoney,String time,Integer operatType,String title,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		departmentName = new String(departmentName.getBytes("ISO-8859-1"),"UTF-8");
 		title = new String(title.getBytes("ISO-8859-1"),"UTF-8");
-		List<MonthPlanGoodsDto> resultList = departCenterService.queryMonthPlanGoods(planId);
+		List<MonthPlanGoodsDto> resultList = departCenterFiegn.queryMonthPlanGoods(planId);
 		Integer buchongNum = 0;
 		Integer pageNum  = 0;
 		if(resultList != null){

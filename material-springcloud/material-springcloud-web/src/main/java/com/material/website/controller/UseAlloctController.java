@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,8 +28,8 @@ import com.material.website.dto.StatisUseAlloctDto;
 import com.material.website.dto.UseAlloctDto;
 import com.material.website.entity.Admin;
 import com.material.website.entity.UseAlloct;
-import com.material.website.service.ICategorySercice;
-import com.material.website.service.IUseAlloctService;
+import com.material.website.feign.CategoryFeign;
+import com.material.website.feign.UseAlloctFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.MaterialOperate;
@@ -47,9 +48,9 @@ import com.material.website.util.MaterialNoUtil;
 public class UseAlloctController {
 
 	@Inject
-	private IUseAlloctService useAlloctService;
+	private UseAlloctFeign  useAlloctFeign;
 	@Inject
-	private ICategorySercice categoryService;
+	private CategoryFeign categoryFeign;
 
 	/**
 	 * 查询领用/调拨/部门调拨 分页
@@ -58,8 +59,8 @@ public class UseAlloctController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping(value = "/queryUseAlloctPager")
-	public String queryUseAlloctPager(UseAlloctQueryArgs queryArgs, Model model,HttpSession session) throws UnsupportedEncodingException {
+	@RequestMapping(value = "/queryUseAlloctPager",method={RequestMethod.GET,RequestMethod.POST})
+	public String queryUseAlloctPager(@RequestBody UseAlloctQueryArgs queryArgs, Model model,HttpSession session) throws UnsupportedEncodingException {
 		if(StringUtils.isNotEmpty(queryArgs.getOperatNo())){
 			queryArgs.setOperatNo(new String(queryArgs.getOperatNo().getBytes("ISO-8859-1"),"UTF-8"));
 		}
@@ -68,7 +69,7 @@ public class UseAlloctController {
 			queryArgs.setDepartId(loginManager.getDepartId());
 		}
 		model.addAttribute("queryArgs", queryArgs);
-		Pager<UseAlloctDto> pages = useAlloctService
+		Pager<UseAlloctDto> pages = useAlloctFeign
 				.queryDepartUsePager(queryArgs);
 		model.addAttribute("pages", pages);
 		if (queryArgs.getType() == 1) {
@@ -88,7 +89,7 @@ public class UseAlloctController {
 	 */
 	@RequestMapping(value = "/addInit")
 	public String addInit(Integer type,Model model) {
-		Integer count = useAlloctService.queryUseAlloct(type);
+		Integer count = useAlloctFeign.queryUseAlloct(type);
 		if (type == 1) {
 			 model.addAttribute("storageNo",MaterialNoUtil.getNo(MaterialOperate.DIAOBO.getName(), count+1));
 			return "admin/usealloct/alloct/add";
@@ -105,9 +106,9 @@ public class UseAlloctController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/addUseAlloct")
+	@RequestMapping(value = "/addUseAlloct",method={RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
-	public Map<String, Object> addUseAlloct(UseAlloctAddArgs addArgs, Model model) {
+	public Map<String, Object> addUseAlloct(@RequestBody UseAlloctAddArgs addArgs, Model model) {
 		List validInfo = ValidUtil.newInstance().valid(addArgs);
 		Map<String, Object>map  = new HashMap<String, Object>();
 		if (validInfo.size() > 0) {
@@ -116,7 +117,7 @@ public class UseAlloctController {
 			return map;
 		}
 		try {
-			map = useAlloctService.addUseAlloct(addArgs);
+			map = useAlloctFeign.addUseAlloct(addArgs);
 		} catch (Exception e1) {
 			map.put("status", 500);
 			map.put("msg", e1.getMessage());
@@ -136,7 +137,7 @@ public class UseAlloctController {
 	 */
 	@RequestMapping(value="/queryGoodsByUseAlloctId")
 	public String queryGoodsByUseAlloctId(Integer useAlloctId,String operatNo,Double sumMoney,String departName,Model model) throws UnsupportedEncodingException{
-		List<GoodsInstallDto>goodsList = useAlloctService.queryGoodsList(useAlloctId);
+		List<GoodsInstallDto>goodsList = useAlloctFeign.queryGoodsList(useAlloctId);
 		model.addAttribute("goodsList",goodsList);
 		model.addAttribute("operatNo",operatNo);
 		String formatMoney = BigDecimaUtil.formatMoney(sumMoney);
@@ -153,12 +154,12 @@ public class UseAlloctController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping(value="/statisUseAlloctPager")
-	public String statisUseAlloctPager(StatisUseAlloctArgs queryArgs,Model model) throws UnsupportedEncodingException{
+	@RequestMapping(value="/statisUseAlloctPager",method={RequestMethod.GET,RequestMethod.POST})
+	public String statisUseAlloctPager(@RequestBody StatisUseAlloctArgs queryArgs,Model model) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(queryArgs.getGoodsName())){
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-	    Pager<StatisUseAlloctDto>pages = useAlloctService.statisUseAlloctPager(queryArgs);
+	    Pager<StatisUseAlloctDto>pages = useAlloctFeign.statisUseAlloctPager(queryArgs);
 	    model.addAttribute("pages",pages);
 	    model.addAttribute("queryArgs",queryArgs);
 	    model.addAttribute("categoryList",queryCategoryOne());
@@ -175,7 +176,7 @@ public class UseAlloctController {
 	 */
 	@RequestMapping(value="/updateUseAlloctInit")
 	public String updateStorageInit(Integer useAlloctId,Integer useAlloctType,Model model){
-		Map<String,Object>resultMap = useAlloctService.updateUseAlloctInit(useAlloctId);
+		Map<String,Object>resultMap = useAlloctFeign.updateUseAlloctInit(useAlloctId);
 		model.addAttribute("goodsList",resultMap.get("resultList"));
 		UseAlloct useAlloct = (UseAlloct) resultMap.get("useAlloct");
 		String time = new SimpleDateFormat("YYYY-MM-dd").format(useAlloct.getUseAlloctDate());
@@ -212,7 +213,7 @@ public class UseAlloctController {
         	map.put("msg","请求参数为空");
         	return map;
         }
-        UseAlloct useAlloct = useAlloctService.queryUseAlloctNo(operatNo);
+        UseAlloct useAlloct = useAlloctFeign.queryUseAlloctNo(operatNo);
         String timeStr = new SimpleDateFormat("YYYY-MM-dd").format(useAlloct.getUseAlloctDate());
         map.put("useAlloctDate", timeStr);
         map.put("status", 200);
@@ -229,7 +230,7 @@ public class UseAlloctController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/updateUseAlloct",method={RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
-	public Map<String, Object> updateUseAlloct(UseAlloctAddArgs updateArgs){
+	public Map<String, Object> updateUseAlloct(@RequestBody UseAlloctAddArgs updateArgs){
 		Map<String, Object>map = new HashMap<String, Object>();
 		List validInfo = ValidUtil.newInstance().valid(updateArgs);
 		if (validInfo.size() > 0) {
@@ -237,7 +238,7 @@ public class UseAlloctController {
 			map.put("msg", validInfo.get(0).toString());
 			return map;
 		}
-		boolean  isTrue = useAlloctService.updateUseAlloct(updateArgs);
+		boolean  isTrue = useAlloctFeign.updateUseAlloct(updateArgs);
 		if(isTrue){
 			map.put("status", 200);
 			map.put("msg", "修改成功");
@@ -263,7 +264,7 @@ public class UseAlloctController {
 			map.put("msg", "请求参数为空");
 			return map;
 		}
-		boolean isSuccess = useAlloctService.addLockUseAlloct(useAlloctId);
+		boolean isSuccess = useAlloctFeign.addLockUseAlloct(useAlloctId);
 		if(isSuccess){
 			map.put("status", 200);
 			map.put("msg", "入账成功");
@@ -280,7 +281,7 @@ public class UseAlloctController {
 	 * @return
 	 */
 	public List<CategoryDto> queryCategoryOne() {
-		List<CategoryDto> categoryList = categoryService.queryCategoryList(0);
+		List<CategoryDto> categoryList = categoryFeign.queryCategoryList(0);
 		return categoryList;
 	}
 }

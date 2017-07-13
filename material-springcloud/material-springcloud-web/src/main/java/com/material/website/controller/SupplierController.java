@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,7 +24,7 @@ import com.material.website.args.SupplierAddArgs;
 import com.material.website.args.SupplierQueryArgs;
 import com.material.website.entity.Department;
 import com.material.website.entity.Supplier;
-import com.material.website.service.ISupplierService;
+import com.material.website.feign.SupplierFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
@@ -39,7 +40,7 @@ import com.material.website.system.Pager;
 public class SupplierController {
    
 	@Inject
-	private ISupplierService supplierService;
+	private SupplierFeign supplierFeign;
 	
 	
 	/**
@@ -51,14 +52,14 @@ public class SupplierController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/querySupplierList",method={RequestMethod.GET,RequestMethod.POST})
-	public String querySupplierList(SupplierQueryArgs supplierArgs,Model model) throws UnsupportedEncodingException{
+	public String querySupplierList(@RequestBody SupplierQueryArgs supplierArgs,Model model) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(supplierArgs.getSupplierName())){
 			 supplierArgs.setSupplierName(new String(supplierArgs.getSupplierName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
 		if(StringUtils.isNotEmpty(supplierArgs.getAddress())){
 			supplierArgs.setAddress(new String(supplierArgs.getAddress().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		Pager pager = supplierService.querySupplierList(supplierArgs);
+		Pager pager = supplierFeign.querySupplierList(supplierArgs);
 		model.addAttribute("pages",pager);
 		model.addAttribute("supplierArgs",supplierArgs);
 		return "admin/supplier/list";
@@ -81,7 +82,7 @@ public class SupplierController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/addSupplier",method={RequestMethod.GET,RequestMethod.POST})
-	public String addSupplier(SupplierAddArgs  supplierArgs,Model model){
+	public String addSupplier(@RequestBody SupplierAddArgs  supplierArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(supplierArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");
@@ -91,7 +92,7 @@ public class SupplierController {
 		}
 		Supplier supplier = new Supplier();
 		BeanUtils.copyProperties(supplierArgs, supplier);
-		boolean isSuccess = supplierService.addSupplier(supplier);
+		boolean isSuccess = supplierFeign.addSupplier(supplier);
 		if(!isSuccess){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -117,7 +118,7 @@ public class SupplierController {
 			model.addAttribute("errorInfo","查询参数为空");
 			return "admin/supplier/update";
 		}
-		Supplier supplier = supplierService.querySupplierById(supplierId);
+		Supplier supplier = supplierFeign.querySupplierById(supplierId);
 		if(supplier == null){
 			model.addAttribute("errorInfo","初始化出错！");
 			return "admin/supplier/update";
@@ -133,7 +134,7 @@ public class SupplierController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/updateSupplier",method={RequestMethod.GET,RequestMethod.POST})
-	public String updateSupplier(SupplierAddArgs updateArgs,Model model){
+	public String updateSupplier(@RequestBody SupplierAddArgs updateArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(updateArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");
@@ -144,7 +145,7 @@ public class SupplierController {
 		Supplier supplier = new Supplier();
 		BeanUtils.copyProperties(updateArgs, supplier);
 		try {
-			supplierService.updateSupplier(supplier);
+			supplierFeign.updateSupplier(supplier);
 			model.addAttribute("type","success");
 			model.addAttribute("title","操作成功");
 			model.addAttribute("msg","修改供应商成功");
@@ -184,7 +185,7 @@ public class SupplierController {
 	public Map<String, Object> queryAllSuppler(){
 		Map<String, Object>resultMap = new HashMap<String, Object>();
 		try {
-			List<Supplier>resultList = supplierService.queryAllSupplier();
+			List<Supplier>resultList = supplierFeign.queryAllSupplier();
 			resultMap.put("status", 200);
 			resultMap.put("msg", "查询成功");
 			resultMap.put("resultList", resultList);

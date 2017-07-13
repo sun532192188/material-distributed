@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: material-springcloud-web
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Sunxiaorong
+Built-By: sunxiaorong
 Implementation-Vendor-Id: com.material.website
-Build-Jdk: 1.8.0_31
+Build-Jdk: 1.8.0_101
 Implementation-URL: http://projects.spring.io/spring-boot/material-spr
  ingcloud/material-springcloud-web/
 Created-By: Maven Integration for Eclipse

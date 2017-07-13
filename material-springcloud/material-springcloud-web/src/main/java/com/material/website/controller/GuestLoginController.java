@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.material.website.dto.RoleFunctionDto;
 import com.material.website.entity.Admin;
-import com.material.website.service.IAdminService;
-import com.material.website.service.IRoleFunctionService;
+import com.material.website.feign.AdminFeign;
+import com.material.website.feign.RoleFunctionFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.util.PropertiesUtil;
@@ -32,9 +32,9 @@ import com.material.website.util.PropertiesUtil;
 public class GuestLoginController {
 	
 	@Inject
-	private IAdminService adminService;
+	private AdminFeign adminFeign;
 	@Inject
-	private RoleFunctionFeign roleFunctionService;
+	private RoleFunctionFeign roleFunctionFeign;
 	
 	/**
 	 * 登录
@@ -73,15 +73,15 @@ public class GuestLoginController {
 			return "admin/login";
 		}
 		try {
-			Admin loginManager=adminService.login(username, password);
-		/*	LoginLog log = adminService.queryLogByUserName(username);
+			Admin loginManager=adminFeign.login(username, password);
+		/*	LoginLog log = adminFeign.queryLogByUserName(username);
 			if(log != null){
 				if(log.getStatus() == 1){
 					errors.add("该账号已在其他设备中登录");
 					model.addAttribute("errors",errors);
 					return "admin/login";
 				}else{
-					adminService.updateLogByUserName(username, 1);
+					adminFeign.updateLogByUserName(username, 1);
 				}
 			}else{
 				log = new LoginLog();
@@ -89,11 +89,11 @@ public class GuestLoginController {
 				log.setStatus(1);
 				log.setUserId(loginManager.getId());
 				log.setUserName(loginManager.getUserName());
-				adminService.addUserLoginLog(log);
+				adminFeign.addUserLoginLog(log);
 			}*/
 			model.addAttribute("loginManager",loginManager);
 			session.setAttribute("loginManager",loginManager);
-		    List<RoleFunctionDto>roleList = roleFunctionService.queryFunctionByRoleId(loginManager.getRoleId());
+		    List<RoleFunctionDto>roleList = roleFunctionFeign.queryFunctionByRoleId(loginManager.getRoleId());
 		    model.addAttribute("roleList",roleList);
 		 } catch (Exception e) {
 			e.printStackTrace();
@@ -118,7 +118,7 @@ public class GuestLoginController {
 	@RequestMapping(value="/logout")
 	public String logout(HttpSession session) {
 	/*	Admin loginManager= (Admin) session.getAttribute("loginManager");
-		adminService.updateLogByUserName(loginManager.getUserName(), 0);*/
+		adminFeign.updateLogByUserName(loginManager.getUserName(), 0);*/
 		session.invalidate();
 		return "redirect:/guest/login";
 	}

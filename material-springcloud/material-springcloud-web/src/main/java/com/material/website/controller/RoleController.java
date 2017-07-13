@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,8 +22,8 @@ import com.material.website.dto.RoleFunctionDto;
 import com.material.website.dto.RoleTreeDto;
 import com.material.website.entity.Role;
 import com.material.website.entity.RoleFunction;
-import com.material.website.service.IRoleFunctionService;
-import com.material.website.service.IRoleService;
+import com.material.website.feign.RoleFeign;
+import com.material.website.feign.RoleFunctionFeign;
 
 /**
  * 角色控制类
@@ -34,9 +35,9 @@ import com.material.website.service.IRoleService;
 public class RoleController {
 
 	@Inject
-	private  IRoleService roleService;
+	private  RoleFeign roleFeign;
 	@Inject
-	private RoleFunctionFeign roleFunctionService;
+	private RoleFunctionFeign roleFunctionFeign;
 	
 	
 	
@@ -51,7 +52,7 @@ public class RoleController {
 		List<Role> resultList = null;
 		List<RoleTreeDto> treeList = new ArrayList<RoleTreeDto>();;
 		try {
-			resultList =roleService.queryRole();
+			resultList =roleFeign.queryRole();
 			if(resultList != null && resultList.size()>0){
 				for(Role role:resultList){
 					RoleTreeDto dto = new RoleTreeDto();
@@ -75,7 +76,7 @@ public class RoleController {
 	 */
 	@RequestMapping(value="/addInit")
 	public String addInit(Model model){
-		List<FunctionDto>functionList = roleFunctionService.queryAllFunction();
+		List<FunctionDto>functionList = roleFunctionFeign.queryAllFunction();
 		model.addAttribute("functionList",functionList);
 		return "admin/role/add";
 	}
@@ -87,7 +88,7 @@ public class RoleController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/addRole")
-	public String addRole(RoleAddArgs roleArgs,Model model){
+	public String addRole(@RequestBody RoleAddArgs roleArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(roleArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");
@@ -95,7 +96,7 @@ public class RoleController {
 			model.addAttribute("msg",validInfo.get(0).toString());
 			return "admin/role/add";
 		}
-		Integer resultNum = roleService.addRole(roleArgs);
+		Integer resultNum = roleFeign.addRole(roleArgs);
 		if(resultNum == -1){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -131,7 +132,7 @@ public class RoleController {
 			model.addAttribute("type","danger");
 			model.addAttribute("title","查询失败");
 		}else{
-			List<RoleFunctionDto> resultList = roleFunctionService.queryFunctionByRoleId(roleId);
+			List<RoleFunctionDto> resultList = roleFunctionFeign.queryFunctionByRoleId(roleId);
 			model.addAttribute("resultList",resultList);
 		}
 		return "admin/role/list";
@@ -150,7 +151,7 @@ public class RoleController {
 		    map.put("status", 500);
 		    map.put("msg", "请选择删除功能");
 		}else{
-		   boolean isTrue =  roleFunctionService.delRoleFunction(id);
+		   boolean isTrue =  roleFunctionFeign.delRoleFunction(id);
 		   if(isTrue){
 			   map.put("status", 200);
 			   map.put("msg","删除成功");
@@ -170,9 +171,9 @@ public class RoleController {
 	 */
 	@RequestMapping(value="/updateInit")
 	public String updateInit(Integer roleId,Model model){
-		Role role = roleService.queryRoleById(roleId);
+		Role role = roleFeign.queryRoleById(roleId);
 		model.addAttribute("role",role);
-		List<FunctionDto>functionList = roleFunctionService.queryAllFunction();
+		List<FunctionDto>functionList = roleFunctionFeign.queryAllFunction();
 		model.addAttribute("functionList",functionList);
 		return "admin/role/update";
 	}
@@ -180,7 +181,7 @@ public class RoleController {
 	@RequestMapping(value="/queryRoleFunctionByRoleId",method=RequestMethod.POST)
 	@ResponseBody
 	public List<RoleFunction> queryRoleFunctionByRoleId(Integer roleId){
-		List<RoleFunction>roleFunctionList = roleService.queryRoleFunctionByRoleId(roleId);
+		List<RoleFunction>roleFunctionList = roleFeign.queryRoleFunctionByRoleId(roleId);
 		return roleFunctionList;
 	}
 	
@@ -190,7 +191,7 @@ public class RoleController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/updateRole")
-	public String updateRole(RoleAddArgs roleArgs,Model model){
+	public String updateRole(@RequestBody RoleAddArgs roleArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(roleArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");
@@ -198,7 +199,7 @@ public class RoleController {
 			model.addAttribute("msg",validInfo.get(0).toString());
 			return "admin/role/update";
 		}
-		Integer  resultNum = roleService.updateRole(roleArgs);
+		Integer  resultNum = roleFeign.updateRole(roleArgs);
 		if(resultNum <= 0){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -224,7 +225,7 @@ public class RoleController {
 		if(StringUtils.isEmpty(roleName)){
 			return "isNull";
 		}
-		Role role = roleService.queryRoleByName(roleName);
+		Role role = roleFeign.queryRoleByName(roleName);
 		if(role != null){
 			return "isExit";
 		}

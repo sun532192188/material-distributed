@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,9 +28,9 @@ import com.material.website.entity.Category;
 import com.material.website.entity.Department;
 import com.material.website.entity.Goods;
 import com.material.website.entity.OperatTemp;
-import com.material.website.service.ICategorySercice;
-import com.material.website.service.IDepartmentService;
-import com.material.website.service.IGoodsService;
+import com.material.website.feign.CategoryFeign;
+import com.material.website.feign.DepartmentFeign;
+import com.material.website.feign.GoodsFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
@@ -47,12 +48,12 @@ import com.material.website.util.MaterialNoUtil;
 @Auth(ManagerType.EVERYONE)
 public class GoodsController {
 
-	@Inject
-	private IGoodsService goodsService;
-	@Inject
-	private ICategorySercice categoryService;
-	@Inject
-	private IDepartmentService departmentService;
+	@Autowired
+	private GoodsFeign goodsFeign;
+	@Autowired
+	private CategoryFeign categoryFeign;
+	@Autowired
+	private DepartmentFeign departmentFeign;
 
 	/**
 	 * 商品查询(分页)
@@ -63,11 +64,11 @@ public class GoodsController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value = "/queryGoodsPager")
-	public String queryGoodsPager(GoodsQueryArgs queryArgs, Model model) throws UnsupportedEncodingException {
+	public String queryGoodsPager(@RequestBody GoodsQueryArgs queryArgs, Model model) throws UnsupportedEncodingException {
 		if(StringUtils.isNotEmpty(queryArgs.getGoodsName())){
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		Pager<GoodsDto> pages = goodsService.queryGoodsPager(queryArgs);
+		Pager<GoodsDto> pages = goodsFeign.queryGoodsPager(queryArgs);
 		model.addAttribute("queryArgs", queryArgs);
 		model.addAttribute("pages", pages);
 		model.addAttribute("categoryList", queryCategoryOne());
@@ -104,7 +105,7 @@ public class GoodsController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/addGoods", method = { RequestMethod.POST })
-	public String addSupplier(GoodsAddArgs goodsAddArgs, Model model) {
+	public String addSupplier(@RequestBody GoodsAddArgs goodsAddArgs, Model model) {
 		List validInfo = ValidUtil.newInstance().valid(goodsAddArgs);
 		if (validInfo.size() > 0) {
 			model.addAttribute("type", "danger");
@@ -112,7 +113,7 @@ public class GoodsController {
 			model.addAttribute("msg", validInfo.get(0).toString());
 			return "admin/goods/add";
 		}
-		boolean isSuccess = goodsService.addGoods(goodsAddArgs);
+		boolean isSuccess = goodsFeign.addGoods(goodsAddArgs);
 		if (!isSuccess) {
 			model.addAttribute("type", "danger");
 			model.addAttribute("title", "错误提示");
@@ -139,7 +140,7 @@ public class GoodsController {
 			model.addAttribute("errorInfo", "查询参数为空");
 			return "admin/goods/update";
 		}
-		Goods goods = goodsService.loadGoods(goodsId);
+		Goods goods = goodsFeign.loadGoods(goodsId);
 		if (goods == null) {
 			model.addAttribute("errorInfo", "初始化出错！");
 			return "admin/goods/update";
@@ -155,11 +156,11 @@ public class GoodsController {
 	    dto.setSupplierId(goods.getSupplierId());
 	    dto.setGoodsType(goods.getGoodsType());
 	    dto.setGoodsNo(goods.getGoodsNo());
-		Category category = categoryService
+		Category category = categoryFeign
 				.loadCategory(goods.getCategoryOne());
 		dto.setCategoryOneName(category.getCategoryName());
 		dto.setCategoryOne(category.getId());
-		category = categoryService.loadCategory(goods.getCategoryTwo());
+		category = categoryFeign.loadCategory(goods.getCategoryTwo());
 		dto.setCategoryTwoName(category.getCategoryName());
 		dto.setCategoryTwo(category.getId());
 		model.addAttribute("goods", dto);
@@ -179,7 +180,7 @@ public class GoodsController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/updateGoods", method = { RequestMethod.GET,
 			RequestMethod.POST })
-	public String updateSupplier(GoodsAddArgs goodsArgs, Model model) {
+	public String updateSupplier(@RequestBody GoodsAddArgs goodsArgs, Model model) {
 		List validInfo = ValidUtil.newInstance().valid(goodsArgs);
 		if (validInfo.size() > 0) {
 			model.addAttribute("type", "danger");
@@ -188,7 +189,7 @@ public class GoodsController {
 			return "admin/goods/update";
 		}
 		try {
-			goodsService.updateGoods(goodsArgs);
+			goodsFeign.updateGoods(goodsArgs);
 			model.addAttribute("type", "success");
 			model.addAttribute("title", "操作成功");
 			model.addAttribute("msg", "修改商品成功");
@@ -214,7 +215,7 @@ public class GoodsController {
 		if (goodsId == null) {
 			return "isNull";
 		}
-		boolean isTrue = goodsService.delGoods(goodsId);
+		boolean isTrue = goodsFeign.delGoods(goodsId);
 		if (isTrue) {
 			return "success";
 		} else {
@@ -233,7 +234,7 @@ public class GoodsController {
 	public Map<String, Object> queryCategoryByParentId(Integer parentId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			List<CategoryDto> list = categoryService
+			List<CategoryDto> list = categoryFeign
 					.queryCategoryList(parentId);
 			resultMap.put("status", "200");
 			resultMap.put("msg", "成功");
@@ -252,7 +253,7 @@ public class GoodsController {
 	 * @return
 	 */
 	public List<CategoryDto> queryCategoryOne() {
-		List<CategoryDto> categoryList = categoryService.queryCategoryList(0);
+		List<CategoryDto> categoryList = categoryFeign.queryCategoryList(0);
 		return categoryList;
 	}
 
@@ -263,9 +264,9 @@ public class GoodsController {
 	 */
 	@RequestMapping(value = "/queryAllGoods", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> queryAllGoods(GoodsQueryArgs queryArgs) {
+	public Map<String, Object> queryAllGoods(@RequestBody GoodsQueryArgs queryArgs) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		List<GoodsDto> resultList = goodsService.queryAllGoods(queryArgs);
+		List<GoodsDto> resultList = goodsFeign.queryAllGoods(queryArgs);
 		resultMap.put("status", 200);
 		resultMap.put("msg", "查询成功");
 		resultMap.put("resultList", resultList);
@@ -301,18 +302,18 @@ public class GoodsController {
 				if(StringUtils.isEmpty(operatNo)){
 					operatNo = (String) session.getAttribute("md5Str");
 					Admin admin = (Admin) session.getAttribute("loginManager");
-					Department department = departmentService.loadDepartment(admin.getDepartId());
+					Department department = departmentFeign.loadDepartment(admin.getDepartId());
 					model.addAttribute("departmentName",department.getDepartmentName());
 				}
-				 temp = goodsService.loadTemp(goodsId, suppId, operatNo,goodsPrice);
+				 temp = goodsFeign.loadTemp(goodsId, suppId, operatNo,goodsPrice);
 				if(temp != null){
 					temp.setGoodsNum(goodsNum+temp.getGoodsNum());
 					Double singleMoney = temp.getGoodsNum()*temp.getPrice();
 					singleMoney = BigDecimaUtil.formatDouble(singleMoney);
 					temp.setSingleMoney(singleMoney);
-					goodsService.updateTempGoodsNum(temp);
+					goodsFeign.updateTempGoodsNum(temp);
 				}else{
-					Goods goods = goodsService.loadGoods(goodsId); 
+					Goods goods = goodsFeign.loadGoods(goodsId); 
 					if(goods != null){
 						temp = new OperatTemp();
 						BeanUtils.copyProperties(goods, temp);
@@ -325,11 +326,11 @@ public class GoodsController {
 						temp.setGoodsId(goodsId);
 						temp.setSupplierId(suppId);
 						temp.setGoodsNo(goods.getGoodsNo());
-						goodsService.addOperatTemp(temp);
+						goodsFeign.addOperatTemp(temp);
 					}
 				}
 			}
-			List<GoodsInstallDto> goodsList = goodsService.queryAllTemp(suppId, operatNo); 
+			List<GoodsInstallDto> goodsList = goodsFeign.queryAllTemp(suppId, operatNo); 
 			Double sumMoney = 0.0;
 			for(GoodsInstallDto dto: goodsList){
 				sumMoney += dto.getPrice()*dto.getGoodsNum();
@@ -359,10 +360,10 @@ public class GoodsController {
 		if(StringUtils.isEmpty(operatNo)){
 			operatNo = (String) session.getAttribute("md5Str");
 			Admin admin = (Admin) session.getAttribute("loginManager");
-			Department department = departmentService.loadDepartment(admin.getDepartId());
+			Department department = departmentFeign.loadDepartment(admin.getDepartId());
 			model.addAttribute("departmentName",department.getDepartmentName());
 		}
-		List<GoodsInstallDto> goodsList = goodsService.queryAllTemp(supplierId,
+		List<GoodsInstallDto> goodsList = goodsFeign.queryAllTemp(supplierId,
 				operatNo);
 		Double sumMoney = 0.0;
 		for (GoodsInstallDto dto : goodsList) {
@@ -389,7 +390,7 @@ public class GoodsController {
 	public Map<String, Object> delAllOperatTemp(Integer supplierId,
 			String operatNo) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		goodsService.delAllTemp(supplierId, operatNo);
+		goodsFeign.delAllTemp(supplierId, operatNo);
 		resultMap.put("status", 200);
 		resultMap.put("msg", "删除成功");
 		return resultMap;
@@ -404,7 +405,7 @@ public class GoodsController {
 	@ResponseBody
 	public Map<String, Object>delTempById(Integer id){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		goodsService.delOperaTemp(id);
+		goodsFeign.delOperaTemp(id);
 		resultMap.put("status", 200);
 		resultMap.put("msg", "删除成功");
 		return resultMap;
@@ -418,8 +419,8 @@ public class GoodsController {
 	@RequestMapping(value="/createGoodsNo",method=RequestMethod.POST)
 	@ResponseBody
 	public String createGoodsNo(Integer categoryTwo){
-		Category category = categoryService.loadCategory(categoryTwo);
-		List<Goods>list = goodsService.queryGoodsByCategoryId(categoryTwo);
+		Category category = categoryFeign.loadCategory(categoryTwo);
+		List<Goods>list = goodsFeign.queryGoodsByCategoryId(categoryTwo);
 		String goodsNo = "";
 		if(list == null || list.size() <= 0){
 			goodsNo = category.getCategoryNo()+"00001";

@@ -13,6 +13,9 @@ import com.material.website.entity.Supplier;
 import com.material.website.feign.config.FeignConfiguration;
 import com.material.website.system.Pager;
 
+import feign.Param;
+import feign.RequestLine;
+
 /**
  * 供应商客户端申明
  * @author Sunxiaorong
@@ -34,26 +37,30 @@ public interface SupplierFeign {
 	 * @param supplier
 	 * @return
 	 */
-	public boolean addSupplier(Supplier supplier);
+	@RequestMapping(value="/addSupplier",method=RequestMethod.POST)
+	public boolean addSupplier(@RequestBody Supplier supplier);
 	
 	/**
 	 * 修改供应商信息
 	 * @param supplier
 	 * @return
 	 */
-	public void updateSupplier(Supplier supplier);
+	@RequestMapping(value="/updateSupplier",method=RequestMethod.POST)
+	public void updateSupplier(@RequestBody Supplier supplier);
 	
 	/**
 	 * 根据供应商编号查询供应商信息
 	 * @param supplierId
 	 * @return
 	 */
-	public Supplier querySupplierById(Integer supplierId);
+	@RequestLine("GET /querySupplierById/{supplierId}")
+	public Supplier querySupplierById(@Param("supplierId") Integer supplierId);
 	
 	/**
 	 * 查询所有的供应商
 	 * @return
 	 */
+	@RequestLine("GET /queryAllSupplier")
 	public List<Supplier> queryAllSupplier();
 	
 }

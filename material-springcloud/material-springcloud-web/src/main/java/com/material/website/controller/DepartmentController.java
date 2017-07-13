@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,7 +18,7 @@ import org.zh.validate.util.ValidUtil;
 
 import com.material.website.args.DepartmentArgs;
 import com.material.website.entity.Department;
-import com.material.website.service.IDepartmentService;
+import com.material.website.feign.DepartmentFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
@@ -33,8 +33,8 @@ import com.material.website.system.Pager;
 @Auth(ManagerType.EVERYONE)
 public class DepartmentController {
    
-	@Inject
-	private IDepartmentService departmentService;
+	@Autowired
+	private DepartmentFeign departmentFeign;
 	
 	/**
 	 * 查询部门列表 
@@ -49,7 +49,7 @@ public class DepartmentController {
 		if(StringUtils.isNotEmpty(departName)){
 			departName = new String(departName.getBytes("ISO-8859-1"),"UTF-8");
 		}
-		Pager pages = departmentService.queryDepartmentList(departName,phone);
+		Pager pages = departmentFeign.queryDepartmentList(departName,phone);
 		model.addAttribute("departName",departName);
 		model.addAttribute("phone",phone);
 		model.addAttribute("pages",pages);
@@ -73,7 +73,7 @@ public class DepartmentController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/addDepart",method={RequestMethod.POST})
-	public String addSupplier(DepartmentArgs  departmentArgs,Model model){
+	public String addSupplier(@RequestBody DepartmentArgs  departmentArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(departmentArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");
@@ -84,7 +84,7 @@ public class DepartmentController {
 		Department department = new Department();
 		BeanUtils.copyProperties(departmentArgs, department);
 		department.setDescription(department.getDescription().trim());
-		boolean isSuccess = departmentService.addDepartment(department);
+		boolean isSuccess = departmentFeign.addDepartment(department);
 		if(!isSuccess){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -110,7 +110,7 @@ public class DepartmentController {
 			model.addAttribute("errorInfo","查询参数为空");
 			return "admin/department/update";
 		}
-		Department department = departmentService.loadDepartment(departId);
+		Department department = departmentFeign.loadDepartment(departId);
 		if(department == null){
 			model.addAttribute("errorInfo","初始化出错！");
 			return "admin/department/update";
@@ -126,7 +126,7 @@ public class DepartmentController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/updateDepart",method={RequestMethod.GET,RequestMethod.POST})
-	public String updateSupplier(DepartmentArgs updateArgs,Model model){
+	public String updateSupplier(@RequestBody DepartmentArgs updateArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(updateArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");
@@ -137,7 +137,7 @@ public class DepartmentController {
 		Department department = new Department();
 		BeanUtils.copyProperties(updateArgs, department);
 		try {
-			departmentService.updateDepartment(department);
+			departmentFeign.updateDepartment(department);
 			model.addAttribute("type","success");
 			model.addAttribute("title","操作成功");
 			model.addAttribute("msg","修改部门成功");
@@ -159,7 +159,7 @@ public class DepartmentController {
 	@ResponseBody
 	public Map<String, Object> queryAllDepartment(){
 		Map<String, Object>resultMap = new HashMap<String, Object>();
-		List<Department>resultList = departmentService.queryAllDepartMent();
+		List<Department>resultList = departmentFeign.queryAllDepartMent();
 		resultMap.put("status", 200);
 		resultMap.put("msg", "查询成功");
 		resultMap.put("resultList", resultList);

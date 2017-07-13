@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.material.website.args.StockArgs;
 import com.material.website.dto.CategoryDto;
 import com.material.website.dto.StockDto;
-import com.material.website.service.ICategorySercice;
-import com.material.website.service.IStockService;
+import com.material.website.feign.CategoryFeign;
+import com.material.website.feign.StockFeign;
 import com.material.website.system.Pager;
 
 /**
@@ -30,11 +30,11 @@ import com.material.website.system.Pager;
 @RequestMapping(value="/stock")
 public class StockController {
   
-	@Inject
-	private IStockService stockService;
+	@Autowired
+	private StockFeign stockFeign;
 	
-	@Inject
-	private ICategorySercice categoryService;
+	@Autowired
+	private CategoryFeign categoryFeign;
 	
 	/**
 	 * 查询库存信息分页
@@ -42,13 +42,13 @@ public class StockController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping(value="/queryStockPage")
-	public String queryStockPage(StockArgs stockArgs,Model model) throws UnsupportedEncodingException{
+	@RequestMapping(value="/queryStockPage",method=RequestMethod.POST)
+	public String queryStockPage(@RequestBody StockArgs stockArgs,Model model) throws UnsupportedEncodingException{
 		if(StringUtils.isNotBlank(stockArgs.getGoodsName())){
 			String goodsName = new String(stockArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8");
 			stockArgs.setGoodsName(goodsName);
 		}
-		Pager<StockDto> pages = stockService.queryStockPager(stockArgs);
+		Pager<StockDto> pages = stockFeign.queryStockPager(stockArgs);
 		model.addAttribute("categoryList", queryCategoryOne());
 		model.addAttribute("stockArgs",stockArgs);
 		model.addAttribute("pages",pages);
@@ -61,7 +61,7 @@ public class StockController {
 	 * @return
 	 */
 	public List<CategoryDto> queryCategoryOne() {
-		List<CategoryDto> categoryList = categoryService.queryCategoryList(0);
+		List<CategoryDto> categoryList = categoryFeign.queryCategoryList(0);
 		return categoryList;
 	}
 	
@@ -90,7 +90,7 @@ public class StockController {
 	@ResponseBody
 	public Map<String, Object> queryStockList(StockArgs stockArgs) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		List<StockDto> resultList = stockService.queryStockList(stockArgs);
+		List<StockDto> resultList = stockFeign.queryStockList(stockArgs);
 		resultMap.put("status", 200);
 		resultMap.put("msg", "查询成功");
 		resultMap.put("resultList", resultList);
