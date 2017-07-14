@@ -1187,10 +1187,10 @@ public class DataOperatController {
 	}
 	
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		for(int i = 0 ;i<1000;i++){
 			Integer num = i%50;
 			System.out.println(num);
 		}
-	}
+	}*/
 }
