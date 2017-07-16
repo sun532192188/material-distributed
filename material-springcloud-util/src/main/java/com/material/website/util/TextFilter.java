@@ -1,4 +1,4 @@
-/*package com.material.website.util;
+package com.material.website.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -22,16 +22,16 @@ public class TextFilter {
         return instance;
     }
     
-    *//**
+    /**
      * 词库
-     *//*
+     */
     private Map<Character, Map<Character, Set<Integer>>> states = new HashMap<Character, Map<Character, Set<Integer>>>();
     private int maxLength; 
 
-    *//**
+    /**
      * 添加敏感词
      * @param word
-     *//*
+     */
     public void add(String word) {
         if (word == null || word.trim().length() == 0) {
             return;
@@ -42,9 +42,9 @@ public class TextFilter {
         add(wordChars, wordChars.length, wordChars.length, null);
     }
     
-    *//**
+    /**
      * 初始化词库
-     *//*
+     */
 	public void init() {
 		if(init) {
 			return;
@@ -66,10 +66,10 @@ public class TextFilter {
 		init = true;
 	}
 
-    *//**
+    /**
      * 删除敏感词
      * @param word
-     *//*
+     */
     public void del(String word) {
         if (word == null || word.trim().length() == 0) {
             return;
@@ -110,10 +110,10 @@ public class TextFilter {
         }
     }
 
-    *//**
+    /**
      * @param src
      * @return 过滤后的文本路径
-     *//*
+     */
     public Map<String,Object> filter(String src) {
     	src = "#"+src.replaceAll("\\s","")+"#";
     	Map<String,Object> re = new HashMap<String,Object>();
@@ -202,4 +202,3 @@ public class TextFilter {
         return re;
     }
 }
-*/

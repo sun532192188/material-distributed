@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2014.
  * 北京云腾致用科技有限公司
- 
+ */
 package com.material.website.util;
 
 import java.io.BufferedInputStream;
@@ -21,21 +21,21 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 
-*//**
+/**
  * @Description: 文件下载工具类
  * @author 张明虎 zhangminghu@yuntengzhiyong.com
  * @date 2014年12月8日 下午3:47:57
- *//*
+ */
 
 public class FileOutPutUtil {
 	
-	*//**
+	/**
 	 * 普通文件下载
 	 * @param response   web的response对象
 	 * @param filepath   文件的路径
 	 * @param filename   文件名、这儿的文件名是文件的原始名称
 	 * @throws IOException 
-	 *//*
+	 */
 	public static void download(HttpServletResponse response,String filepath,String filename,Long progress) throws IOException {
 		InputStream fis = null;
 		OutputStream out = null;
@@ -69,12 +69,12 @@ public class FileOutPutUtil {
 		}
 	}
 	
-	*//**
+	/**
 	 * 验证码生成
 	 * 验证码的值会存储到session里、
 	 * @param response
 	 * @throws IOException 
-	 *//*
+	 */
 	public static void writeValidCode(HttpServletResponse response,HttpSession session) throws IOException {
 		response.setContentType("image/jpg");
 		int width = 150;
@@ -90,12 +90,12 @@ public class FileOutPutUtil {
 		ImageIO.write(c.generateCheckImg(checkcode), "jpg", os);
 	}
 	
-	*//**
+	/**
 	 * 读取输入流到字节数组
 	 * @param inputStream
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public static byte[] readInputStream2byte(InputStream inputStream) throws Exception{
         byte[] buffer = new byte[1024];
         int len = -1;
@@ -108,11 +108,11 @@ public class FileOutPutUtil {
         return outputStream.toByteArray();
     }
 	
-	*//**
+	/**
 	 * 加密文件
 	 * @param source
 	 * @param target
-	 *//*
+	 */
 	public static void encodeFile(File source,File target) {
 		try {
 			String readFileToString = FileUtils.readFileToString(source);
@@ -127,4 +127,3 @@ public class FileOutPutUtil {
 		}
 	}
 }
-*/

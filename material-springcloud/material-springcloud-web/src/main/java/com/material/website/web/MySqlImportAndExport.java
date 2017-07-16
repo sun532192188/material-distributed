@@ -9,18 +9,18 @@ import java.util.Properties;
 
 public class MySqlImportAndExport {
 	
-	 public static void main(String args[]) throws IOException {  
+	/* public static void main(String args[]) throws IOException {  
 	        InputStream is = MySqlImportAndExport.class.getClassLoader().getResourceAsStream("jdbc.properties");  
-	     /*   Properties properties = new Properties();  
+	        Properties properties = new Properties();  
 	        properties.load(is);  
 	       MySqlImportAndExport.export(properties);//这里简单点异常我就直接往上抛  
-	       // MySqlImportAndExport.importSql(properties);  */	    
+	       // MySqlImportAndExport.importSql(properties);  	    
 	        String exportPath = "D:/aaa/bbb";
 	        File file = new File(exportPath);
              if(!file.exists()){
 	        	file.mkdirs();
 	        }
-	 }  
+	 }  */
 	      
 	    /** 
 	     * 根据属性文件的配置导出指定位置的指定数据库到指定位置 

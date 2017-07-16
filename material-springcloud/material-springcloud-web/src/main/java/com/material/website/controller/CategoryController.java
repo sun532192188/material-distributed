@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,7 +76,7 @@ public class CategoryController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping(value="/queryCategoryPager",method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value="/queryCategoryPager",method={RequestMethod.GET})
 	public String queryCategoryPager(Integer parentId,String categoryName,Integer status,Model model) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(categoryName)){
 			categoryName = new String(categoryName.getBytes("ISO-8859-1"),"UTF-8");
@@ -108,7 +109,7 @@ public class CategoryController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/addCategory",method={RequestMethod.POST})
-	public String addSupplier(CategoryArgs categoryArgs,Model model){
+	public String addSupplier(@RequestBody CategoryArgs categoryArgs,Model model){
 		model.addAttribute("categoryArgs",categoryArgs);
 		List validInfo=ValidUtil.newInstance().valid(categoryArgs);
 		if(validInfo.size()>0){
