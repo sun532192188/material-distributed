@@ -41,10 +41,10 @@
         <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
      <!-- 该依赖授权登录eureka时需帐号密码登录 -->
-     <dependency>
+   <!--   <dependency>
 	     <groupId>org.springframework.boot</groupId>
 	     <artifactId>spring-boot-starter-security</artifactId>
-     </dependency>
+     </dependency> -->
     <!-- 该依赖可在启动时打印详细日志 -->
 	<dependency>
 	   <groupId>org.springframework.boot</groupId>

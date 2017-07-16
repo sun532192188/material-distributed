@@ -23,7 +23,9 @@ spring:
 #配置eureka服务发现
 eureka:
   client:
-    serviceUrl:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
       defaultZone: http://sunxiaorong:xiaorong1111@localhost:8761/eureka
   instance:
     ip-address: true
