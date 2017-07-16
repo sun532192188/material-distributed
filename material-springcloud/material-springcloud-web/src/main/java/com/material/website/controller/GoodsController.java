@@ -34,6 +34,7 @@ import com.material.website.feign.GoodsFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
 import com.material.website.util.MaterialNoUtil;
 
@@ -68,7 +69,7 @@ public class GoodsController {
 		if(StringUtils.isNotEmpty(queryArgs.getGoodsName())){
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		Pager<GoodsDto> pages = goodsFeign.queryGoodsPager(queryArgs);
+		Pager<GoodsDto> pages = goodsFeign.queryGoodsPager(BeanMapUtil.convertBean(queryArgs));
 		model.addAttribute("queryArgs", queryArgs);
 		model.addAttribute("pages", pages);
 		model.addAttribute("categoryList", queryCategoryOne());
@@ -113,7 +114,7 @@ public class GoodsController {
 			model.addAttribute("msg", validInfo.get(0).toString());
 			return "admin/goods/add";
 		}
-		boolean isSuccess = goodsFeign.addGoods(goodsAddArgs);
+		boolean isSuccess = goodsFeign.addGoods(BeanMapUtil.convertBean(goodsAddArgs));
 		if (!isSuccess) {
 			model.addAttribute("type", "danger");
 			model.addAttribute("title", "错误提示");
@@ -189,7 +190,7 @@ public class GoodsController {
 			return "admin/goods/update";
 		}
 		try {
-			goodsFeign.updateGoods(goodsArgs);
+			goodsFeign.updateGoods(BeanMapUtil.convertBean(goodsArgs));
 			model.addAttribute("type", "success");
 			model.addAttribute("title", "操作成功");
 			model.addAttribute("msg", "修改商品成功");
@@ -266,7 +267,7 @@ public class GoodsController {
 	@ResponseBody
 	public Map<String, Object> queryAllGoods(@RequestBody GoodsQueryArgs queryArgs) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		List<GoodsDto> resultList = goodsFeign.queryAllGoods(queryArgs);
+		List<GoodsDto> resultList = goodsFeign.queryAllGoods(BeanMapUtil.convertBean(queryArgs));
 		resultMap.put("status", 200);
 		resultMap.put("msg", "查询成功");
 		resultMap.put("resultList", resultList);
@@ -311,7 +312,7 @@ public class GoodsController {
 					Double singleMoney = temp.getGoodsNum()*temp.getPrice();
 					singleMoney = BigDecimaUtil.formatDouble(singleMoney);
 					temp.setSingleMoney(singleMoney);
-					goodsFeign.updateTempGoodsNum(temp);
+					goodsFeign.updateTempGoodsNum(BeanMapUtil.convertBean(temp));
 				}else{
 					Goods goods = goodsFeign.loadGoods(goodsId); 
 					if(goods != null){
@@ -326,7 +327,7 @@ public class GoodsController {
 						temp.setGoodsId(goodsId);
 						temp.setSupplierId(suppId);
 						temp.setGoodsNo(goods.getGoodsNo());
-						goodsFeign.addOperatTemp(temp);
+						goodsFeign.addOperatTemp(BeanMapUtil.convertBean(temp));
 					}
 				}
 			}

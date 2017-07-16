@@ -34,6 +34,7 @@ import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.MaterialOperate;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
 import com.material.website.util.MaterialNoUtil;
 
@@ -70,7 +71,7 @@ public class UseAlloctController {
 		}
 		model.addAttribute("queryArgs", queryArgs);
 		Pager<UseAlloctDto> pages = useAlloctFeign
-				.queryDepartUsePager(queryArgs);
+				.queryDepartUsePager(BeanMapUtil.convertBean(queryArgs));
 		model.addAttribute("pages", pages);
 		if (queryArgs.getType() == 1) {
 			return "admin/usealloct/alloct/list";
@@ -159,7 +160,7 @@ public class UseAlloctController {
 		if(StringUtils.isNotEmpty(queryArgs.getGoodsName())){
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-	    Pager<StatisUseAlloctDto>pages = useAlloctFeign.statisUseAlloctPager(queryArgs);
+	    Pager<StatisUseAlloctDto>pages = useAlloctFeign.statisUseAlloctPager(BeanMapUtil.convertBean(queryArgs));
 	    model.addAttribute("pages",pages);
 	    model.addAttribute("queryArgs",queryArgs);
 	    model.addAttribute("categoryList",queryCategoryOne());
@@ -238,7 +239,7 @@ public class UseAlloctController {
 			map.put("msg", validInfo.get(0).toString());
 			return map;
 		}
-		boolean  isTrue = useAlloctFeign.updateUseAlloct(updateArgs);
+		boolean  isTrue = useAlloctFeign.updateUseAlloct(BeanMapUtil.convertBean(updateArgs));
 		if(isTrue){
 			map.put("status", 200);
 			map.put("msg", "修改成功");

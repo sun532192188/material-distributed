@@ -20,6 +20,7 @@ import com.material.website.dto.StockDto;
 import com.material.website.feign.CategoryFeign;
 import com.material.website.feign.StockFeign;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 
 /**
  * 库存控制类
@@ -48,7 +49,7 @@ public class StockController {
 			String goodsName = new String(stockArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8");
 			stockArgs.setGoodsName(goodsName);
 		}
-		Pager<StockDto> pages = stockFeign.queryStockPager(stockArgs);
+		Pager<StockDto> pages = stockFeign.queryStockPager(BeanMapUtil.convertBean(stockArgs));
 		model.addAttribute("categoryList", queryCategoryOne());
 		model.addAttribute("stockArgs",stockArgs);
 		model.addAttribute("pages",pages);
@@ -90,7 +91,7 @@ public class StockController {
 	@ResponseBody
 	public Map<String, Object> queryStockList(StockArgs stockArgs) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		List<StockDto> resultList = stockFeign.queryStockList(stockArgs);
+		List<StockDto> resultList = stockFeign.queryStockList(BeanMapUtil.convertBean(stockArgs));
 		resultMap.put("status", 200);
 		resultMap.put("msg", "查询成功");
 		resultMap.put("resultList", resultList);

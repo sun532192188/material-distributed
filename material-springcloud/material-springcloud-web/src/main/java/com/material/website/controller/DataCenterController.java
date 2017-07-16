@@ -31,6 +31,7 @@ public class DataCenterController {
 	
 	@Autowired   
 	private AdminFeign  adminFeign;
+	
 
 	/**
 	 * 数据操作

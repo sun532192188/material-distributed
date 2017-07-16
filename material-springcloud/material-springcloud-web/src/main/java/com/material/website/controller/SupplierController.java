@@ -28,6 +28,7 @@ import com.material.website.feign.SupplierFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 
 /**
  * 供应商控制类
@@ -59,7 +60,7 @@ public class SupplierController {
 		if(StringUtils.isNotEmpty(supplierArgs.getAddress())){
 			supplierArgs.setAddress(new String(supplierArgs.getAddress().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		Pager pager = supplierFeign.querySupplierList(supplierArgs);
+		Pager pager = supplierFeign.querySupplierList(BeanMapUtil.convertBean(supplierArgs));
 		model.addAttribute("pages",pager);
 		model.addAttribute("supplierArgs",supplierArgs);
 		return "admin/supplier/list";
@@ -92,7 +93,7 @@ public class SupplierController {
 		}
 		Supplier supplier = new Supplier();
 		BeanUtils.copyProperties(supplierArgs, supplier);
-		boolean isSuccess = supplierFeign.addSupplier(supplier);
+		boolean isSuccess = supplierFeign.addSupplier(BeanMapUtil.convertBean(supplier));
 		if(!isSuccess){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -145,7 +146,7 @@ public class SupplierController {
 		Supplier supplier = new Supplier();
 		BeanUtils.copyProperties(updateArgs, supplier);
 		try {
-			supplierFeign.updateSupplier(supplier);
+			supplierFeign.updateSupplier(BeanMapUtil.convertBean(supplier));
 			model.addAttribute("type","success");
 			model.addAttribute("title","操作成功");
 			model.addAttribute("msg","修改供应商成功");

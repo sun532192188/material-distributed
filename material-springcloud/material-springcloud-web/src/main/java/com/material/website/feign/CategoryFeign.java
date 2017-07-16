@@ -4,11 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.material.website.args.CategoryArgs;
 import com.material.website.dto.CategoryDto;
 import com.material.website.entity.Category;
 import com.material.website.feign.config.FeignConfiguration;
@@ -42,15 +39,17 @@ public interface CategoryFeign {
 	 * @param categoryArgs
 	 * @return
 	 */
-	@RequestMapping(value="/addCategory",method=RequestMethod.POST)
-	public boolean addCategory(@RequestBody CategoryArgs categoryArgs);
+	/*@RequestMapping(value="/addCategory",method=RequestMethod.GET)*/
+	@RequestLine("GET /addCategory")
+	public boolean addCategory(@RequestParam  Map<String, Object>map);
 	/**
 	 * 修改分类信息
 	 * @param categoryArgs
 	 * @return
 	 */
-	@RequestMapping(value="/updateCategory",method=RequestMethod.POST)
-	public boolean updateCategory(@RequestBody CategoryArgs categoryArgs);
+/*	@RequestMapping(value="/updateCategory",method=RequestMethod.GET)*/
+	@RequestLine("GET /updateCategory")
+	public boolean updateCategory(@RequestParam Map<String, Object>map);
 	/**
 	 * 删除分类
 	 * @param categoryId

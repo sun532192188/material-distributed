@@ -5,12 +5,9 @@ import java.util.Map;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.material.website.args.StatisUseAlloctArgs;
 import com.material.website.args.UseAlloctAddArgs;
-import com.material.website.args.UseAlloctQueryArgs;
 import com.material.website.dto.GoodsInstallDto;
 import com.material.website.dto.StatisUseAlloctDto;
 import com.material.website.dto.UseAlloctDto;
@@ -35,14 +32,14 @@ public interface UseAlloctFeign {
 	 * @param queryArgs
 	 * @return
 	 */
-	@RequestMapping(value="/queryDepartUsePager",method=RequestMethod.POST)
-	public Pager<UseAlloctDto> queryDepartUsePager(@RequestBody UseAlloctQueryArgs queryArgs);
+	@RequestLine("GET /queryDepartUsePager}")
+	public Pager<UseAlloctDto> queryDepartUsePager(@RequestParam Map<String, Object>map);
 
 	/**
 	 * 添加领用/调拨 
 	 * @param addArgs
 	 */
-	@RequestMapping(value="/addUseAlloct",method=RequestMethod.POST)
+	@RequestLine("GET /addUseAlloct}")
 	public Map<String, Object> addUseAlloct(@RequestBody UseAlloctAddArgs addArgs);
 	/**
 	 * 根据类型查询
@@ -65,8 +62,8 @@ public interface UseAlloctFeign {
 	 * @param queryArgs
 	 * @return
 	 */
-	@RequestMapping(value="/statisUseAlloctPager",method=RequestMethod.POST)
-	public Pager<StatisUseAlloctDto> statisUseAlloctPager(@RequestBody StatisUseAlloctArgs queryArgs);
+	@RequestLine("GET /statisUseAlloctPager")
+	public Pager<StatisUseAlloctDto> statisUseAlloctPager(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 更新初始化
@@ -81,8 +78,8 @@ public interface UseAlloctFeign {
 	 * @param addArgs
 	 * @return
 	 */
-	@RequestMapping(value="/updateUseAlloct",method=RequestMethod.POST)
-	public boolean updateUseAlloct(@RequestBody UseAlloctAddArgs updateArgs);
+	@RequestLine("GET /updateUseAlloct")
+	public boolean updateUseAlloct(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 根据物资编号查询调拨/领用信息

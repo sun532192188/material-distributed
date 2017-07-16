@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +32,7 @@ import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.MaterialOperate;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
 import com.material.website.util.MaterialNoUtil;
 
@@ -60,13 +60,13 @@ public class StorageController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/queryStorage",method=RequestMethod.POST)
-	public String queryStorage(@RequestBody StorageQueryArgs queryArgs,Model model,HttpServletRequest request) throws UnsupportedEncodingException{
+	public String queryStorage(StorageQueryArgs queryArgs,Model model,HttpServletRequest request) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(queryArgs.getOperatNo())){
 			queryArgs.setOperatNo(new String(queryArgs.getOperatNo().getBytes("ISO-8859-1"),"UTF-8"));
 		}
 		Pager<StorageDto>pages = null;
 		model.addAttribute("queryArgs",queryArgs);
-		pages = storageFeign.queryStoragePager(queryArgs);
+		pages = storageFeign.queryStoragePager(BeanMapUtil.convertBean(queryArgs));
 		model.addAttribute("pages",pages);
 		if(queryArgs.getType() == 1){
 			return "admin/storage/yanshou/checkList";
@@ -101,7 +101,7 @@ public class StorageController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/addStoage",method={RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
-	public Map<String, Object> addStoage(@RequestBody StorageAddArgs stoageArgs){
+	public Map<String, Object> addStoage(StorageAddArgs stoageArgs){
 		Map<String, Object>map = new HashMap<String, Object>();
 		List validInfo = ValidUtil.newInstance().valid(stoageArgs);
 		if (validInfo.size() > 0) {
@@ -109,7 +109,7 @@ public class StorageController {
 			map.put("msg", validInfo.get(0).toString());
 			return map;
 		}
-		boolean  isTrue = storageFeign.addStorage(stoageArgs);
+		boolean  isTrue = storageFeign.addStorage(BeanMapUtil.convertBean(stoageArgs));
 		if(isTrue){
 			map.put("status", 200);
 			map.put("msg", "添加成功");
@@ -183,7 +183,7 @@ public class StorageController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/updateStorage",method={RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
-	public Map<String, Object> updateStorage(@RequestBody StorageAddArgs updsateArgs){
+	public Map<String, Object> updateStorage(StorageAddArgs updsateArgs){
 		Map<String, Object>map = new HashMap<String, Object>();
 		List validInfo = ValidUtil.newInstance().valid(updsateArgs);
 		if (validInfo.size() > 0) {
@@ -191,7 +191,7 @@ public class StorageController {
 			map.put("msg", validInfo.get(0).toString());
 			return map;
 		}
-		boolean  isTrue = storageFeign.updateStorageInfo(updsateArgs);
+		boolean  isTrue = storageFeign.updateStorageInfo(BeanMapUtil.convertBean(updsateArgs));
 		if(isTrue){
 			map.put("status", 200);
 			map.put("msg", "修改成功");
@@ -243,11 +243,11 @@ public class StorageController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/staticsStoragePager",method=RequestMethod.POST)
-	public String staticsStoragePager(@RequestBody StaticsStorageArgs queryArgs,Model model) throws UnsupportedEncodingException{
+	public String staticsStoragePager(StaticsStorageArgs queryArgs,Model model) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(queryArgs.getGoodsName())){
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		Pager<StaticsStorageDto>pages = storageFeign.staticsStoragePager(queryArgs);
+		Pager<StaticsStorageDto>pages = storageFeign.staticsStoragePager(BeanMapUtil.convertBean(queryArgs));
 		model.addAttribute("queryArgs",queryArgs);
 	    model.addAttribute("pages",pages);
 	    model.addAttribute("categoryList",queryCategoryOne());

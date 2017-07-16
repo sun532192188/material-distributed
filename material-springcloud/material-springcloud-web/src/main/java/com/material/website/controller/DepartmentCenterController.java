@@ -14,7 +14,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,6 +48,7 @@ import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.MaterialOperate;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
 import com.material.website.util.MaterialNoUtil;
 
@@ -78,10 +78,10 @@ public class DepartmentCenterController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryMonthPlanPager")
-	public String queryMonthPlanPager(@RequestBody DepartPlanQueryArgs queryArgs,Model model,HttpSession session){
+	public String queryMonthPlanPager(DepartPlanQueryArgs queryArgs,Model model,HttpSession session){
 		Admin loginManager  = (Admin) session.getAttribute("loginManager");
 		queryArgs.setDepartmentId(loginManager.getDepartId());
-		Pager<DeparPlanDto>pages = departCenterFeign.queryPlanPager(queryArgs); 
+		Pager<DeparPlanDto>pages = departCenterFeign.queryPlanPager(BeanMapUtil.convertBean(queryArgs)); 
 		model.addAttribute("queryArgs",queryArgs);
 		model.addAttribute("pages",pages);
 		return "admin/departmentCenter/monthPlan/list";
@@ -118,7 +118,7 @@ public class DepartmentCenterController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/addMonthPlan",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> addMonthPlan(@RequestBody DepartPlanAddArgs addArgs,Model model,HttpSession session){
+	public Map<String, Object> addMonthPlan(DepartPlanAddArgs addArgs,Model model,HttpSession session){
 		List validInfo = ValidUtil.newInstance().valid(addArgs);
 		Map<String, Object>map  = new HashMap<String, Object>();
 		if (validInfo.size() > 0) {
@@ -135,7 +135,7 @@ public class DepartmentCenterController {
 				addArgs.setDepartmentId(admin.getDepartId());
 				addArgs.setDepartmentName(department.getDepartmentName());
 			}
-			departCenterFeign.addMonthPlan(addArgs);
+			departCenterFeign.addMonthPlan(BeanMapUtil.convertBean(addArgs));
 			map.put("status", 200);
 			map.put("msg", "添加成功");
 		} catch (Exception e1) {
@@ -267,7 +267,7 @@ public class DepartmentCenterController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/materialConsumePager")
-	public String materialConsumePager(@RequestBody MaterialConsumeQueryArgs queryArgs,HttpSession session,Model model) throws UnsupportedEncodingException{
+	public String materialConsumePager(MaterialConsumeQueryArgs queryArgs,HttpSession session,Model model) throws UnsupportedEncodingException{
         Admin admin = (Admin) session.getAttribute("loginManager");
         if(admin != null){
         	queryArgs.setDepartmentId(admin.getDepartId());
@@ -275,7 +275,7 @@ public class DepartmentCenterController {
         if(StringUtils.isNotEmpty(queryArgs.getOperatNo())){
         	queryArgs.setOperatNo(new String(queryArgs.getOperatNo().getBytes("ISO-8859-1"),"UTF-8"));
         }
-        Pager<MaterialConsumeDto> pages = departCenterFeign.queryConsumePager(queryArgs);
+        Pager<MaterialConsumeDto> pages = departCenterFeign.queryConsumePager(BeanMapUtil.convertBean(queryArgs));
         model.addAttribute("queryArgs",queryArgs);
         model.addAttribute("pages",pages);
 	    return "admin/departmentCenter/outStock/list";
@@ -292,7 +292,7 @@ public class DepartmentCenterController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/departStockPager")
-	public String departStockPager(@RequestBody DepartStockQueryArgs  queryArgs,HttpSession session,Model model) throws UnsupportedEncodingException{
+	public String departStockPager(DepartStockQueryArgs  queryArgs,HttpSession session,Model model) throws UnsupportedEncodingException{
         Admin admin = (Admin) session.getAttribute("loginManager");
         if(admin != null){
         	queryArgs.setDepartmentId(admin.getDepartId());
@@ -302,7 +302,7 @@ public class DepartmentCenterController {
            goodsName = new String(goodsName.getBytes("ISO-8859-1"),"UTF-8");
            queryArgs.setGoodsName(goodsName);
         }
-        Pager<DepartStockDto> pages = departCenterFeign.queryDepartStockPager(queryArgs);
+        Pager<DepartStockDto> pages = departCenterFeign.queryDepartStockPager(BeanMapUtil.convertBean(queryArgs));
         model.addAttribute("queryArgs",queryArgs);
         model.addAttribute("pages",pages);
         model.addAttribute("categoryList", queryCategoryOne());
@@ -316,11 +316,11 @@ public class DepartmentCenterController {
 	 */
 	@RequestMapping(value = "/queryDepartStockList", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> queryDepartStockList(@RequestBody DepartStockQueryArgs queryArgs,HttpSession session) {
+	public Map<String, Object> queryDepartStockList(DepartStockQueryArgs queryArgs,HttpSession session) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Admin loginManager = (Admin) session.getAttribute("loginManager");
 		queryArgs.setDepartmentId(loginManager.getDepartId());
-		List<StockDto> resultList = departCenterFeign.queryDepartStockList(queryArgs);
+		List<StockDto> resultList = departCenterFeign.queryDepartStockList(BeanMapUtil.convertBean(queryArgs));
 		resultMap.put("status", 200);
 		resultMap.put("msg", "查询成功");
 		resultMap.put("resultList", resultList);
@@ -336,7 +336,7 @@ public class DepartmentCenterController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/departCK")
 	@ResponseBody
-	public Map<String, Object> departCK(@RequestBody MaterialConsumeAddArgs addArgs,Model model,HttpSession session){
+	public Map<String, Object> departCK(MaterialConsumeAddArgs addArgs,Model model,HttpSession session){
 		List validInfo = ValidUtil.newInstance().valid(addArgs);
 		Map<String, Object>map  = new HashMap<String, Object>();
 		if (validInfo.size() > 0) {
@@ -350,7 +350,7 @@ public class DepartmentCenterController {
 			if(admin.getDepartId() != null){
 				addArgs.setDepartmentId(admin.getDepartId());
 			}
-			map  = departCenterFeign.addDepartOutStock(addArgs);
+			map  = departCenterFeign.addDepartOutStock(BeanMapUtil.convertBean(addArgs));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			map.put("status", 500);
@@ -424,14 +424,14 @@ public class DepartmentCenterController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/staticsDepartPlan")
-    public String staticsDepartPlan(@RequestBody StaticsDepartPlanArgs queryArgs,Model model) throws UnsupportedEncodingException{
+    public String staticsDepartPlan(StaticsDepartPlanArgs queryArgs,Model model) throws UnsupportedEncodingException{
     	if(StringUtils.isNotEmpty(queryArgs.getGoodsName())){
     		queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
     	}
     	if(StringUtils.isNotEmpty(queryArgs.getPlanName())){
     		queryArgs.setPlanName(new String(queryArgs.getPlanName().getBytes("ISO-8859-1"),"UTF-8"));
     	}
-    	Pager<StaticsDepartPlanDto>pages = departCenterFeign.staticsDepartPlan(queryArgs);
+    	Pager<StaticsDepartPlanDto>pages = departCenterFeign.staticsDepartPlan(BeanMapUtil.convertBean(queryArgs));
     	model.addAttribute("pages",pages);
     	model.addAttribute("queryArgs",queryArgs);
     	model.addAttribute("categoryList", queryCategoryOne());
@@ -444,13 +444,13 @@ public class DepartmentCenterController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/statisDepartStorage")
-	public String statisDepartStorage(@RequestBody StatisUseAlloctArgs queryArgs,Model model,HttpSession session) throws UnsupportedEncodingException{
+	public String statisDepartStorage(StatisUseAlloctArgs queryArgs,Model model,HttpSession session) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(queryArgs.getGoodsName())){
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
 		Admin loginManager = (Admin) session.getAttribute("loginManager");
 		queryArgs.setDepartId(loginManager.getDepartId());
-	    Pager<StatisUseAlloctDto>pages = useAlloctFeign.statisUseAlloctPager(queryArgs);
+	    Pager<StatisUseAlloctDto>pages = useAlloctFeign.statisUseAlloctPager(BeanMapUtil.convertBean(queryArgs));
 	    model.addAttribute("pages",pages);
 	    model.addAttribute("queryArgs",queryArgs);
 	    model.addAttribute("categoryList",queryCategoryOne());
@@ -464,13 +464,13 @@ public class DepartmentCenterController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/statisDepartConsumePager")
-	public String statisDepartConsumePager(@RequestBody StatisDepartConsumeArgs queryArgs,Model model,HttpSession session) throws UnsupportedEncodingException{
+	public String statisDepartConsumePager(StatisDepartConsumeArgs queryArgs,Model model,HttpSession session) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(queryArgs.getGoodsName())){
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
 		Admin loginManager = (Admin) session.getAttribute("loginManager");
 		queryArgs.setDepartId(loginManager.getDepartId());
-	    Pager<StatisDepartCounsumeDto>pages = departCenterFeign.statisDepartConsumePager(queryArgs);
+	    Pager<StatisDepartCounsumeDto>pages = departCenterFeign.statisDepartConsumePager(BeanMapUtil.convertBean(queryArgs));
 	    model.addAttribute("pages",pages);
 	    model.addAttribute("queryArgs",queryArgs);
 	    model.addAttribute("categoryList",queryCategoryOne());
@@ -510,7 +510,7 @@ public class DepartmentCenterController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/updateConsume",method={RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
-	public Map<String, Object> updateConsume(@RequestBody MaterialConsumeAddArgs updateArgs){
+	public Map<String, Object> updateConsume(MaterialConsumeAddArgs updateArgs){
 		Map<String, Object>map = new HashMap<String, Object>();
 		List validInfo = ValidUtil.newInstance().valid(updateArgs);
 		if (validInfo.size() > 0) {
@@ -518,7 +518,7 @@ public class DepartmentCenterController {
 			map.put("msg", validInfo.get(0).toString());
 			return map;
 		}
-		boolean  isTrue = departCenterFeign.updateDepartConsume(updateArgs);
+		boolean  isTrue = departCenterFeign.updateDepartConsume(BeanMapUtil.convertBean(updateArgs));
 		if(isTrue){
 			map.put("status", 200);
 			map.put("msg", "修改成功");
