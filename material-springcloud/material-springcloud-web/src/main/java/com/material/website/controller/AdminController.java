@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.material.website.dto.FunctionDto;
 import com.material.website.dto.RoleFunctionDto;
@@ -26,7 +26,7 @@ import com.material.website.util.PropertiesUtil;
  * @author 张明虎 zhangminghu@yuntengzhiyong.com
  * @date 2014年12月11日 下午6:04:38
  */
-@Controller
+@RestController
 @RequestMapping(value = "/admin")
 @Auth(ManagerType.EVERYONE)
 public class AdminController {

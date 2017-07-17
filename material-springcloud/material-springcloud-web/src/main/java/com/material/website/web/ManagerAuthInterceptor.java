@@ -4,12 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.material.website.entity.Admin;
 import com.material.website.system.Auth;
@@ -22,8 +19,7 @@ import com.material.website.system.ManagerType;
  * @author Sunxiaorong
  *
  *//*
-@Configuration  
-public class ManagerAuthInterceptor extends WebMvcConfigurerAdapter implements HandlerInterceptor {
+public class ManagerAuthInterceptor  implements HandlerInterceptor {
 
 	*//**
 	 * 在请求处理之前进行调用
@@ -91,18 +87,5 @@ public class ManagerAuthInterceptor extends WebMvcConfigurerAdapter implements H
 			HttpServletResponse response, Object object, Exception exception)
 			throws Exception {
 	}
-	
-	
-	@Override  
-    public void addInterceptors(InterceptorRegistry registry) {  
-        //众多的拦截器组成了一个拦截器链  
-        *//** 
-         * 主要方法说明： 
-         * addPathPatterns 用于添加拦截规则 
-         * excludePathPatterns 用户排除拦截 
-         *//*  
-        registry.addInterceptor(new ManagerAuthInterceptor()).addPathPatterns("/*");  
-        super.addInterceptors(registry);  
-    }  
 }
 */

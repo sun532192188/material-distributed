@@ -4,10 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,14 +26,15 @@ import com.material.website.util.PropertiesUtil;
  * @author 孙晓荣 sunxiaorong@yuntengzhiyong.com  
  * @date 2015年5月20日 下午3:59:27  
  */
+//在之前spring使用中使用该注解@Controller
 @Controller
 @RequestMapping(value="/guest")
 @Auth(ManagerType.EVERYONE)
 public class GuestLoginController {
 	
-	@Inject
+	@Autowired
 	private AdminFeign adminFeign;
-	@Inject
+	@Autowired
 	private RoleFunctionFeign roleFunctionFeign;
 	
 	/**

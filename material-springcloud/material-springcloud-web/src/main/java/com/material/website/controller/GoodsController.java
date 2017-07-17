@@ -10,12 +10,12 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.zh.validate.util.ValidUtil;
 
 import com.material.website.args.GoodsAddArgs;
@@ -44,7 +44,7 @@ import com.material.website.util.MaterialNoUtil;
  * @author sunxiaorong
  * 
  */
-@Controller
+@RestController
 @RequestMapping(value = "goods")
 @Auth(ManagerType.EVERYONE)
 public class GoodsController {

@@ -15,7 +15,7 @@ spring:
 #配置spring mvc
    mvc:
     view:
-      prefix: src/main/webapp/WEB-INF/pages/
+      prefix: /WEB-INF/pages/
       suffix: .jsp
   
 

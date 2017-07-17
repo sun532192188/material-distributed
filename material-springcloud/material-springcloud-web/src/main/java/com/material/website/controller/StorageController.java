@@ -11,11 +11,11 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.zh.validate.util.ValidUtil;
 
 import com.material.website.args.StaticsStorageArgs;
@@ -41,7 +41,7 @@ import com.material.website.util.MaterialNoUtil;
  * @author sunxiaorong
  *
  */
-@Controller
+@RestController
 @RequestMapping(value="/storage")
 @Auth(ManagerType.EVERYONE)
 public class StorageController {

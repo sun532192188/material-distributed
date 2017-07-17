@@ -8,12 +8,12 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.zh.validate.util.ValidUtil;
 
 import com.material.website.args.RoleAddArgs;
@@ -31,7 +31,7 @@ import com.material.website.util.BeanMapUtil;
  * @author sunxiaorong
  *
  */
-@Controller
+@RestController
 @RequestMapping(value="role")
 public class RoleController {
 
