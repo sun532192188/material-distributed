@@ -1,11 +1,10 @@
 package com.material.website.feign;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.material.website.dto.DepartmentDto;
 import com.material.website.entity.Department;
@@ -35,16 +34,16 @@ public interface DepartmentFeign {
 	 * @param department
 	 * @return
 	 */
-	@RequestMapping(value="/addDepartment",method=RequestMethod.POST)
-	public  boolean addDepartment(Department department);
+	@RequestLine("GET /addDepartment")
+	public  boolean addDepartment(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 修改部门数据
 	 * @param department
 	 * @return
 	 */
-	@RequestMapping(value="/updateDepartment",method=RequestMethod.POST)
-	public boolean updateDepartment(@RequestBody Department department);
+	@RequestLine("GET /updateDepartment")
+	public boolean updateDepartment(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 根据编号加载部门信息

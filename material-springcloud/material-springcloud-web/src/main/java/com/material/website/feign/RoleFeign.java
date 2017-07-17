@@ -1,13 +1,11 @@
 package com.material.website.feign;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.material.website.args.RoleAddArgs;
 import com.material.website.entity.Role;
 import com.material.website.entity.RoleFunction;
 import com.material.website.feign.config.FeignConfiguration;
@@ -23,8 +21,8 @@ public interface RoleFeign {
      * @param role
      * @return
      */
-	@RequestMapping(value="/addRole",method=RequestMethod.POST)
-	public Integer addRole(@RequestBody RoleAddArgs roleArgs);
+	@RequestLine("GET /addRole")
+	public Integer addRole(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 查询所有的角色信息
@@ -62,6 +60,6 @@ public interface RoleFeign {
 	 * @param updateArgs
 	 * @return
 	 */
-	@RequestMapping(value="/updateRole",method=RequestMethod.POST)
-	public Integer updateRole(@RequestBody RoleAddArgs updateArgs);
+	@RequestLine("GET /updateRole")
+	public Integer updateRole(@RequestParam Map<String, Object>map);
 }

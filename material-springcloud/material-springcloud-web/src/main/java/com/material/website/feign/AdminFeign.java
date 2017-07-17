@@ -1,12 +1,10 @@
 package com.material.website.feign;
 
+import java.util.Map;
+
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.material.website.args.AdminArgs;
 import com.material.website.dto.UserDto;
 import com.material.website.entity.Admin;
 import com.material.website.entity.LoginLog;
@@ -31,28 +29,28 @@ public interface AdminFeign {
 	 * @return
 	 */
 	@RequestLine("GET /login")
-	public Admin login(@RequestParam("username") String username,@RequestParam("paddword") String paddword);
+	public Admin login(@Param("username") String username,@Param("paddword") String paddword);
 	
 	/**
 	 * 加载管理员列表(分页)
 	 * @return
 	 */
 	@RequestLine("GET /queryUserPager")
-	public Pager<UserDto> queryUserPager(@RequestParam("userName") String userName,@RequestParam("roleId") Integer roleId,@RequestParam("remove") Integer remove);
+	public Pager<UserDto> queryUserPager(@Param("userName") String userName,@Param("roleId") Integer roleId,@Param("remove") Integer remove);
 	
 	/**
 	 * 管理员添加
 	 * @param adminArgs
 	 */
-	@RequestMapping(value="/add" , method = RequestMethod.POST)
-	public void add(@RequestBody AdminArgs userArgs);
+	@RequestLine("GET /add")
+	public void add(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 修改管理员信息
 	 * @param adminArgs
 	 */
-	@RequestMapping(value="/update" , method = RequestMethod.POST)
-	public Admin update(@RequestBody AdminArgs userArgs);
+	@RequestLine("GET /update")
+	public Admin update(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 更改管理员状态
@@ -81,8 +79,8 @@ public interface AdminFeign {
 	 * 添加用户 登录日志
 	 * @param userLoginLog
 	 */
-	@RequestMapping(value="/addUserLoginLog", method=RequestMethod.POST)
-	public void addUserLoginLog(@RequestBody LoginLog userLoginLog);
+	@RequestLine("GET /addUserLoginLog")
+	public void addUserLoginLog(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 根据用户名查询用户 登录日志
@@ -97,7 +95,7 @@ public interface AdminFeign {
 	 * @param userName
 	 */
 	@RequestLine("GET /updateLogByUserName")
-	public void updateLogByUserName(@RequestParam String userName,@RequestParam Integer status);
+	public void updateLogByUserName(@Param("userName") String userName,@Param("status") Integer status);
 	
 	/**
 	 * 删除表中的所有数据

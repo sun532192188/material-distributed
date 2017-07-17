@@ -4,13 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.material.website.args.StaticsStorageArgs;
-import com.material.website.args.StorageAddArgs;
-import com.material.website.args.StorageQueryArgs;
 import com.material.website.dto.GoodsInstallDto;
 import com.material.website.dto.StaticsStorageDto;
 import com.material.website.dto.StorageDto;
@@ -42,16 +37,16 @@ public interface StorageFeign {
 	 * @param storageArgs
 	 * @return
 	 */
-	@RequestMapping(value="/addStorage",method=RequestMethod.POST)
-	public boolean addStorage(@RequestBody StorageAddArgs storageArgs);
+	@RequestLine("GET /addStorage}")
+	public boolean addStorage(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 查询入库信息
 	 * @param queryArgs
 	 * @return
 	 */
-	@RequestMapping(value="/queryStoragePager",method=RequestMethod.POST)
-	public Pager<StorageDto> queryStoragePager(@RequestBody StorageQueryArgs queryArgs);
+	@RequestLine("GET /queryStoragePager}")
+	public Pager<StorageDto> queryStoragePager(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 根据单号编号 查询商品信息
@@ -66,8 +61,8 @@ public interface StorageFeign {
 	 * @param queryArgs
 	 * @return
 	 */
-	@RequestMapping(value="/staticsStoragePager",method=RequestMethod.POST)
-	public Pager<StaticsStorageDto> staticsStoragePager(@RequestBody StaticsStorageArgs queryArgs);
+	@RequestLine("GET /staticsStoragePager}")
+	public Pager<StaticsStorageDto> staticsStoragePager(@RequestParam Map<String, Object>map);
 	
 	@RequestLine("GET /queryStorageById/{storageId}")
 	public Storage queryStorageById(@Param("storageId") Integer storageId);
@@ -92,8 +87,8 @@ public interface StorageFeign {
 	 * @param updsateArgs
 	 * @return
 	 */
-	@RequestMapping(value="/updateStorageInfo")
-	public boolean updateStorageInfo(@RequestBody StorageAddArgs updsateArgs);
+	@RequestLine("GET /updateStorageInfo")
+	public boolean updateStorageInfo(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 根据物资编号查询入库信息

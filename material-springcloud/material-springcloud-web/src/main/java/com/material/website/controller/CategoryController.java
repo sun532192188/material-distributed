@@ -10,7 +10,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +23,7 @@ import com.material.website.feign.CategoryFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 import com.material.website.util.MaterialNoUtil;
 import com.material.website.util.PinYin2Abbreviation;
 
@@ -108,8 +108,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/addCategory",method={RequestMethod.POST})
-	public String addSupplier(@RequestBody CategoryArgs categoryArgs,Model model){
+	@RequestMapping(value="/addCategory",method=RequestMethod.GET)
+	public String addSupplier(CategoryArgs categoryArgs,Model model){
 		model.addAttribute("categoryArgs",categoryArgs);
 		List validInfo=ValidUtil.newInstance().valid(categoryArgs);
 		if(validInfo.size()>0){
@@ -134,13 +134,13 @@ public class CategoryController {
 		   }
 		   categoryArgs.setCategoryNo(categoryNo);
 		}
-		/*if(!categoryNo.equals(categoryArgs.getCategoryNo())){
+		if(!categoryNo.equals(categoryArgs.getCategoryNo())){
 			model.addAttribute("type","warning");
 			model.addAttribute("title","警告提示");
 			model.addAttribute("msg","分类编号与分类名称不符");
 			return "admin/category/add";
-		}*/
-		boolean isSuccess = categoryFeign.addCategory(categoryArgs);
+		}
+		boolean isSuccess = categoryFeign.addCategory(BeanMapUtil.convertBean(categoryArgs));
 		if(!isSuccess){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -187,7 +187,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/updateCategory",method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/updateCategory",method=RequestMethod.GET)
 	public String updateSupplier(CategoryArgs categoryArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(categoryArgs);
 		if(validInfo.size()>0){
@@ -197,7 +197,7 @@ public class CategoryController {
 			return "admin/category/update";
 		}
 		try {
-			categoryFeign.updateCategory(categoryArgs);
+			categoryFeign.updateCategory(BeanMapUtil.convertBean(categoryArgs));
 			model.addAttribute("type","success");
 			model.addAttribute("title","操作成功");
 			model.addAttribute("msg","修改分类成功");

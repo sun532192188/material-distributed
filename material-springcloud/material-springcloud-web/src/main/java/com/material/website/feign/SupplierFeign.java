@@ -1,13 +1,11 @@
 package com.material.website.feign;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.material.website.args.SupplierQueryArgs;
 import com.material.website.dto.SupplierDto;
 import com.material.website.entity.Supplier;
 import com.material.website.feign.config.FeignConfiguration;
@@ -29,24 +27,24 @@ public interface SupplierFeign {
 	 * @param supplierArgs
 	 * @return
 	 */
-	@RequestMapping(value="/querySupplierList",method=RequestMethod.POST)
-	public Pager<SupplierDto> querySupplierList(@RequestBody SupplierQueryArgs supplierArgs);
+	@RequestLine("GET /querySupplierList")
+	public Pager<SupplierDto> querySupplierList(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 添加供应商信息
 	 * @param supplier
 	 * @return
 	 */
-	@RequestMapping(value="/addSupplier",method=RequestMethod.POST)
-	public boolean addSupplier(@RequestBody Supplier supplier);
+	@RequestLine("GET /addSupplier")
+	public boolean addSupplier(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 修改供应商信息
 	 * @param supplier
 	 * @return
 	 */
-	@RequestMapping(value="/updateSupplier",method=RequestMethod.POST)
-	public void updateSupplier(@RequestBody Supplier supplier);
+	@RequestLine("GET /updateSupplier")
+	public void updateSupplier(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 根据供应商编号查询供应商信息

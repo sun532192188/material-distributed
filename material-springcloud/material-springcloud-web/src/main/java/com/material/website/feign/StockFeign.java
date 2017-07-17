@@ -1,16 +1,16 @@
 package com.material.website.feign;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.material.website.args.StockArgs;
 import com.material.website.dto.StockDto;
 import com.material.website.feign.config.FeignConfiguration;
 import com.material.website.system.Pager;
+
+import feign.RequestLine;
 
 /**
  * 库存客户端申明
@@ -26,8 +26,8 @@ public interface StockFeign {
 	 * @param stockArgs
 	 * @return
 	 */
-	@RequestMapping(value="/queryStockPager",method=RequestMethod.POST)
-	public Pager<StockDto> queryStockPager(@RequestBody StockArgs stockArgs);
+	@RequestLine("GET /queryStockPager")
+	public Pager<StockDto> queryStockPager(@RequestParam Map<String, Object>map);
 	
 	
 	/**
@@ -35,6 +35,6 @@ public interface StockFeign {
 	 * @param stockArgs
 	 * @return
 	 */
-	@RequestMapping(value="/queryStockList",method=RequestMethod.POST)
-	public List<StockDto> queryStockList(@RequestBody StockArgs stockArgs);
+	@RequestLine("GET /queryStockList")
+	public List<StockDto> queryStockList(@RequestParam Map<String, Object>map);
 }

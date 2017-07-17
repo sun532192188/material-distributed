@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +23,7 @@ import com.material.website.feign.AdminFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 
 
 /**
@@ -50,8 +50,8 @@ public class UserController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/addUser",method={RequestMethod.POST,RequestMethod.GET})
-	public String addUser(@RequestBody AdminArgs userArgs, Model model) {
+	@RequestMapping(value="/addUser",method=RequestMethod.GET)
+	public String addUser(AdminArgs userArgs, Model model) {
 		List validInfo = ValidUtil.newInstance().valid(userArgs);
 		if (validInfo.size() > 0) {
 			model.addAttribute("type", "danger");
@@ -60,7 +60,7 @@ public class UserController {
 			return "admin/user/add";
 		}
 		try {
-			adminFeign.add(userArgs);
+			adminFeign.add(BeanMapUtil.convertBean(userArgs));
 			model.addAttribute("type", "success");
 			model.addAttribute("title", "操作成功");
 			model.addAttribute("msg", "添加用户成功");
@@ -112,8 +112,8 @@ public class UserController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/updateUser",method={RequestMethod.POST,RequestMethod.GET})
-	public String updateUser(@RequestBody AdminArgs userArgs, Model model) {
+	@RequestMapping(value="/updateUser",method=RequestMethod.GET)
+	public String updateUser(AdminArgs userArgs, Model model) {
 		List validInfo = ValidUtil.newInstance().valid(userArgs);
 		if (validInfo.size() > 0) {
 			model.addAttribute("type", "danger");
@@ -122,7 +122,7 @@ public class UserController {
 			return "admin/user/add";
 		}
 		try {
-			adminFeign.update(userArgs);
+			adminFeign.update(BeanMapUtil.convertBean(userArgs));
 			model.addAttribute("type", "success");
 			model.addAttribute("title", "操作成功");
 			model.addAttribute("msg", "修改用户成功");

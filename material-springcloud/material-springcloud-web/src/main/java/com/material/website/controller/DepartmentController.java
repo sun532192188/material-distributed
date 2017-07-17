@@ -10,7 +10,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +21,7 @@ import com.material.website.feign.DepartmentFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 
 /**
  * 部门控制类
@@ -73,7 +73,7 @@ public class DepartmentController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/addDepart",method={RequestMethod.POST})
-	public String addSupplier(@RequestBody DepartmentArgs  departmentArgs,Model model){
+	public String addSupplier(DepartmentArgs  departmentArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(departmentArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");
@@ -84,7 +84,7 @@ public class DepartmentController {
 		Department department = new Department();
 		BeanUtils.copyProperties(departmentArgs, department);
 		department.setDescription(department.getDescription().trim());
-		boolean isSuccess = departmentFeign.addDepartment(department);
+		boolean isSuccess = departmentFeign.addDepartment(BeanMapUtil.convertBean(department));
 		if(!isSuccess){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -126,7 +126,7 @@ public class DepartmentController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/updateDepart",method={RequestMethod.GET,RequestMethod.POST})
-	public String updateSupplier(@RequestBody DepartmentArgs updateArgs,Model model){
+	public String updateSupplier(DepartmentArgs updateArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(updateArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");
@@ -137,7 +137,7 @@ public class DepartmentController {
 		Department department = new Department();
 		BeanUtils.copyProperties(updateArgs, department);
 		try {
-			departmentFeign.updateDepartment(department);
+			departmentFeign.updateDepartment(BeanMapUtil.convertBean(department));
 			model.addAttribute("type","success");
 			model.addAttribute("title","操作成功");
 			model.addAttribute("msg","修改部门成功");

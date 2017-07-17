@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -56,6 +55,7 @@ import com.material.website.feign.StorageFeign;
 import com.material.website.feign.SupplierFeign;
 import com.material.website.feign.UseAlloctFeign;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
 import com.material.website.util.ExcelUtil;
 import com.material.website.util.JsonUtil;
@@ -98,12 +98,12 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/statisStockOperat")
-	public String statisStockOperat(@RequestBody StockArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String statisStockOperat(StockArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if (StringUtils.isNotEmpty(queryArgs.getGoodsName())) {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName()
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
-		Pager<StockDto> pages = stockFeign.queryStockPager(queryArgs);
+		Pager<StockDto> pages = stockFeign.queryStockPager(BeanMapUtil.convertBean(queryArgs));
 		List<StockDto> resultList = pages.getRows();
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
@@ -218,7 +218,7 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/dpeartPlanOperat",method={RequestMethod.POST,RequestMethod.GET})
-	public String dpeartPlanOperat(@RequestBody
+	public String dpeartPlanOperat(
 			StaticsDepartPlanArgs queryArgs,Model model, HttpServletRequest request,HttpServletResponse response)
 			throws IOException {
 		if (StringUtils.isNotEmpty(queryArgs.getGoodsName())) {
@@ -226,7 +226,7 @@ public class DataOperatController {
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
 		Pager<StaticsDepartPlanDto> pages = departCenterFiegn
-				.staticsDepartPlan(queryArgs);
+				.staticsDepartPlan(BeanMapUtil.convertBean(queryArgs));
 		List<StaticsDepartPlanDto> resultList = pages.getRows();
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
@@ -331,12 +331,12 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/storageOperat")
-	public String storageOperat(@RequestBody StaticsStorageArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String storageOperat(StaticsStorageArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if (StringUtils.isNotEmpty(queryArgs.getGoodsName())) {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName()
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
-		Pager<StaticsStorageDto> pages = storageFeign.staticsStoragePager(queryArgs);
+		Pager<StaticsStorageDto> pages = storageFeign.staticsStoragePager(BeanMapUtil.convertBean(queryArgs));
 		List<StaticsStorageDto> resultList = pages.getRows();
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
@@ -444,7 +444,7 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/useAlloctOpeart")
-	public String useAlloctOpeart(@RequestBody StatisUseAlloctArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String useAlloctOpeart(StatisUseAlloctArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if (StringUtils.isNotEmpty(queryArgs.getGoodsName())) {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName()
 					.getBytes("ISO-8859-1"), "UTF-8"));
@@ -453,7 +453,7 @@ public class DataOperatController {
 			queryArgs.setTitle(new String(queryArgs.getTitle()
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
-		Pager<StatisUseAlloctDto> pages = useAlloctFeign.statisUseAlloctPager(queryArgs);
+		Pager<StatisUseAlloctDto> pages = useAlloctFeign.statisUseAlloctPager(BeanMapUtil.convertBean(queryArgs));
 		List<StatisUseAlloctDto> resultList = pages.getRows();
 		Double sumMoney = 0.0;
     	for(StatisUseAlloctDto dto:resultList){
@@ -567,7 +567,7 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/yanshouAndYucunOperat")
-	public String yanshouAndYucunOperat(@RequestBody StorageQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String yanshouAndYucunOperat(StorageQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(queryArgs.getTitle())){
 			queryArgs.setTitle(new String(queryArgs.getTitle().getBytes("ISO-8859-1"),"UTF-8"));
 		    model.addAttribute("title",queryArgs.getTitle());
@@ -671,14 +671,14 @@ public class DataOperatController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/supplierOperat")
-	public String supplierOperat(@RequestBody SupplierQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String supplierOperat(SupplierQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(queryArgs.getSupplierName())){
 			queryArgs.setSupplierName(new String(queryArgs.getSupplierName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
 		if(StringUtils.isNotEmpty(queryArgs.getAddress())){
 			queryArgs.setAddress(new String(queryArgs.getAddress().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		Pager<SupplierDto>pages = supplierFeign.querySupplierList(queryArgs);
+		Pager<SupplierDto>pages = supplierFeign.querySupplierList(BeanMapUtil.convertBean(queryArgs));
 		if(StringUtils.isEmpty(queryArgs.getSupplierName())){
 			queryArgs.setSupplierName("全部");
 		}
@@ -858,14 +858,14 @@ public class DataOperatController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/goodsDataOperat")
-	public String goodsDataOperat(@RequestBody GoodsQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public String goodsDataOperat(GoodsQueryArgs queryArgs,Model model,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		if (StringUtils.isNotEmpty(queryArgs.getGoodsName())) {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
 		if (StringUtils.isNotEmpty(queryArgs.getTitle())) {
 			queryArgs.setTitle(new String(queryArgs.getTitle().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		List<GoodsDto> resultList = goodsFeign.queryGoodsPager(queryArgs).getRows();
+		List<GoodsDto> resultList = goodsFeign.queryGoodsPager(BeanMapUtil.convertBean(queryArgs)).getRows();
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
 			buchongNum = 50;

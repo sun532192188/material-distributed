@@ -24,6 +24,7 @@ import com.material.website.entity.Role;
 import com.material.website.entity.RoleFunction;
 import com.material.website.feign.RoleFeign;
 import com.material.website.feign.RoleFunctionFeign;
+import com.material.website.util.BeanMapUtil;
 
 /**
  * 角色控制类
@@ -96,7 +97,7 @@ public class RoleController {
 			model.addAttribute("msg",validInfo.get(0).toString());
 			return "admin/role/add";
 		}
-		Integer resultNum = roleFeign.addRole(roleArgs);
+		Integer resultNum = roleFeign.addRole(BeanMapUtil.convertBean(roleArgs));
 		if(resultNum == -1){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -199,7 +200,7 @@ public class RoleController {
 			model.addAttribute("msg",validInfo.get(0).toString());
 			return "admin/role/update";
 		}
-		Integer  resultNum = roleFeign.updateRole(roleArgs);
+		Integer  resultNum = roleFeign.updateRole(BeanMapUtil.convertBean(roleArgs));
 		if(resultNum <= 0){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");

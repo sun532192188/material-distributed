@@ -1,14 +1,11 @@
 package com.material.website.feign;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.material.website.args.GoodsAddArgs;
-import com.material.website.args.GoodsQueryArgs;
 import com.material.website.dto.GoodsDto;
 import com.material.website.dto.GoodsInstallDto;
 import com.material.website.entity.Goods;
@@ -32,16 +29,16 @@ public interface GoodsFeign {
 	 * @param queryArgs
 	 * @return
 	 */
-	@RequestMapping(value="/queryGoodsPager",method=RequestMethod.POST)
-	public Pager<GoodsDto> queryGoodsPager(@RequestBody GoodsQueryArgs queryArgs);
+	@RequestLine("GET /queryGoodsPager")
+	public Pager<GoodsDto> queryGoodsPager(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 添加商品
 	 * @param goodsAddArgs
 	 * @return
 	 */
-	@RequestMapping(value="/addGoods",method=RequestMethod.POST)
-	public boolean addGoods(@RequestBody GoodsAddArgs goodsAddArgs);
+	@RequestLine("GET /addGoods")
+	public boolean addGoods(@RequestParam Map<String, Object>map);
 	
 	
 	/**
@@ -49,8 +46,8 @@ public interface GoodsFeign {
 	 * @param goodsArgs
 	 * @return
 	 */
-	@RequestMapping(value="/updateGoods",method=RequestMethod.POST)
-	public boolean updateGoods(@RequestBody GoodsAddArgs goodsArgs);
+	@RequestLine("GET /updateGoods")
+	public boolean updateGoods(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 根据id加载商品
@@ -72,8 +69,8 @@ public interface GoodsFeign {
 	 * 查询所有商品
 	 * @return
 	 */
-	@RequestMapping(value="/queryAllGoods",method=RequestMethod.POST)
-	public List<GoodsDto> queryAllGoods(@RequestBody GoodsQueryArgs queryArgs);
+	@RequestLine("GET /queryAllGoods")
+	public List<GoodsDto> queryAllGoods(@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 查询所有的临时商品信息
@@ -89,8 +86,8 @@ public interface GoodsFeign {
 	 * @param operatTemp
 	 * @return
 	 */
-	@RequestMapping(value="/addOperatTemp",method=RequestMethod.POST)
-	public boolean addOperatTemp(@RequestBody OperatTemp operatTemp);
+	@RequestLine("GET /addOperatTemp")
+	public boolean addOperatTemp(@RequestParam Map<String, Object>map);
 	/**
 	 * 删除临时操作表
 	 * @param id
@@ -111,8 +108,8 @@ public interface GoodsFeign {
 	 * 根据id更新临时表数据
 	 * @param tempId
 	 */
-	@RequestMapping(value="/updateTempGoodsNum",method=RequestMethod.POST)
-    public void updateTempGoodsNum(@RequestBody OperatTemp temp);
+	@RequestLine("GET /updateTempGoodsNum")
+    public void updateTempGoodsNum(@RequestParam Map<String, Object>map);
     
     /**
      * 根据条件加载单条数据
