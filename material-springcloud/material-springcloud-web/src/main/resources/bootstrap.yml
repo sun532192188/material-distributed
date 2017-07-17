@@ -12,6 +12,12 @@ spring:
 #        fail-fast: true
       username: sunxiaorong
       password: wgg0821..
+#配置spring mvc
+   mvc:
+    view:
+      prefix: src/main/webapp/WEB-INF/pages/
+      suffix: .jsp
+  
 
 #配置eureka服务发现
 eureka:

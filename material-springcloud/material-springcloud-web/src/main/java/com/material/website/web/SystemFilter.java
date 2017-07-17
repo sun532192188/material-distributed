@@ -8,12 +8,12 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Component;
 
 import com.material.website.system.SystemContext;
 
@@ -22,7 +22,7 @@ import com.material.website.system.SystemContext;
  * @author 张明虎 zhangminghu@yuntengzhiyong.com
  * @date 2014年12月4日 上午12:37:23
  */
-@Component("PageFilter") 
+@WebFilter(filterName="PageFilter",urlPatterns="/*")  
 public class SystemFilter implements Filter {
 	
 	@Override
