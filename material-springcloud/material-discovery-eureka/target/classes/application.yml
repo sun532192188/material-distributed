@@ -6,6 +6,9 @@ security:
     password: xiaorong1111
 server:
   port: 8761
+spring: 
+  application: 
+    name: material-discovery-eureka
 eureka:
   client: 
     register-with-eureka: true

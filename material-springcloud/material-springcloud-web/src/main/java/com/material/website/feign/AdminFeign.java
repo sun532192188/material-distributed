@@ -3,6 +3,8 @@ package com.material.website.feign;
 import java.util.Map;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.material.website.dto.UserDto;
@@ -28,7 +30,7 @@ public interface AdminFeign {
 	 * @param username
 	 * @return
 	 */
-	@RequestLine("GET /login")
+	@RequestLine("GET /login/{username}/{paddword}")
 	public Admin login(@Param("username") String username,@Param("paddword") String paddword);
 	
 	/**
