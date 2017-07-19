@@ -4,6 +4,8 @@ import javax.inject.Inject;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.material.website.args.AdminArgs;
 import com.material.website.dao.IAdminDao;
@@ -13,6 +15,7 @@ import com.material.website.entity.LoginLog;
 import com.material.website.service.IAdminService;
 import com.material.website.system.Pager;
 import com.material.website.util.SecurityUtil;
+
 
 /**  
  * @Description: 管理员业务实现类(功能描述) 
@@ -29,6 +32,7 @@ public class AdminService implements IAdminService{
 	 * @see org.ytzy.app.service.IAdminService#loadAdminByName(java.lang.String)
 	 */
 	@Override
+	@RequestMapping(value="/login",method=RequestMethod.GET)
 	public Admin login(String username,String password) {
 		 Admin admin=adminDao.loadAdminByName(username);
 		if(admin==null||admin.getRemove()==1||!admin.getPassword().equals(SecurityUtil.password(password))){

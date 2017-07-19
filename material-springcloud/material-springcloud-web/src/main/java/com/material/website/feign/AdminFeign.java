@@ -30,8 +30,9 @@ public interface AdminFeign {
 	 * @param username
 	 * @return
 	 */
-	@RequestLine("GET /login/{username}/{paddword}")
-	public Admin login(@Param("username") String username,@Param("paddword") String paddword);
+	@RequestLine("GET /login")
+	//@RequestMapping(value="/login",method=RequestMethod.GET)
+	public Admin login(@Param("username") String username,@Param("password") String password);
 	
 	/**
 	 * 加载管理员列表(分页)

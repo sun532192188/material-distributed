@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -42,7 +43,7 @@ public class GuestLoginController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping(value="/login")
+	@RequestMapping(value="/loginStart")
 	public String login(Model model) throws UnsupportedEncodingException {
 		String systemName = PropertiesUtil.newInstance().loadValue("system_name", "system_config.properties");
 	   // systemName = new String(systemName.getBytes("ISo-8859-1"),"UTF-8");
@@ -54,7 +55,8 @@ public class GuestLoginController {
 	 * 登陆
 	 * @return
 	 */
-	@RequestMapping(value="/login",method=RequestMethod.POST)
+	@GetMapping("/login")
+	//@RequestMapping(value="/login",method=RequestMethod.POST)
 	public String login(String username,String password,HttpSession session,Model model){
 		/*Admin  obj= (Admin) session.getAttribute("loginManager");
 		if(obj!=null){
