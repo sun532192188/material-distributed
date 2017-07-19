@@ -84,5 +84,6 @@
     <module>material-provider-user</module>
     <module>material-springcloud-feign</module>
     <module>material-springcloud-web</module>
+    <module>material-springcloud-api</module>
   </modules>
 </project>
