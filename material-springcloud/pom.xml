@@ -28,6 +28,16 @@
             <type>pom</type>
             <scope>import</scope>
         </dependency>
+        <dependency>
+		  <groupId>com.material.website</groupId>
+		  <artifactId>material-springcloud-common</artifactId>
+		  <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+	  <groupId>com.material.website</groupId>
+	  <artifactId>material-springcloud-api</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+	</dependency>
      </dependencies>
    </dependencyManagement>
   
@@ -82,7 +92,6 @@
     <module>material-config-server</module>
     <module>material-springcloud-zuul</module>
     <module>material-provider-user</module>
-    <module>material-springcloud-feign</module>
     <module>material-springcloud-web</module>
     <module>material-springcloud-api</module>
   </modules>

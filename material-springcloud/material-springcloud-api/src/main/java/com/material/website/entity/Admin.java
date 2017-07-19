@@ -1,9 +1,10 @@
 package com.material.website.entity;
- 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+ 
 
 /**
  * 用户表
