@@ -1,18 +1,18 @@
-package com.material.website.service.impl;
+package com.material.website.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.stereotype.Service;
-
+import com.material.website.api.RoleFunctionAPI;
 import com.material.website.dao.IRoleFunctionDao;
 import com.material.website.dto.FunctionDto;
 import com.material.website.dto.RoleFunctionDto;
 import com.material.website.entity.Function;
 import com.material.website.entity.RoleFunction;
-import com.material.website.service.IRoleFunctionService;
 import com.material.website.util.PropertiesUtil;
 
 /**
@@ -20,10 +20,11 @@ import com.material.website.util.PropertiesUtil;
  * @author sunxiaorong
  *
  */
-@Service
-public class RoleFunctionService implements IRoleFunctionService {
+@RestController
+@Transactional 
+public class RoleFunctionService implements RoleFunctionAPI {
 	
-	@Inject
+	@Autowired
 	private IRoleFunctionDao roleFunctionDao;
 
 	@Override

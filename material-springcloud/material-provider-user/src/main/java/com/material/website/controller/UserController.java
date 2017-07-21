@@ -5,6 +5,8 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.material.website.entity.User;
@@ -25,8 +27,14 @@ public class UserController {
 	private DiscoveryClient discoveryClient;
 	
 	
-	@SuppressWarnings("unused")
+	/*@SuppressWarnings("unused")
 	@GetMapping("/simple/{id}")
+	public User findById(@PathVariable Long id){
+		User user  = this.userRepository.findOne(id);
+		return this.userRepository.findOne(id);
+	}*/
+	
+	@GetMapping(value="/findById/{id}")
 	public User findById(@PathVariable Long id){
 		User user  = this.userRepository.findOne(id);
 		return this.userRepository.findOne(id);

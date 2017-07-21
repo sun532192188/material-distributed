@@ -1,19 +1,21 @@
-package com.material.website.service.impl;
+package com.material.website.service;
 
-import javax.inject.Inject;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.material.website.api.AdminAPI;
 import com.material.website.args.AdminArgs;
 import com.material.website.dao.IAdminDao;
 import com.material.website.dto.UserDto;
 import com.material.website.entity.Admin;
 import com.material.website.entity.LoginLog;
-import com.material.website.service.IAdminService;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 import com.material.website.util.SecurityUtil;
 
 
@@ -22,18 +24,18 @@ import com.material.website.util.SecurityUtil;
  * @author 孙晓荣 sunxiaorong@yuntengzhiyong.com  
  * @date 2015年5月20日 下午2:23:40  
  */
-@Service
-public class AdminService implements IAdminService{
-	
-	@Inject
+@RestController
+@Transactional 
+public class AdminService implements AdminAPI{
+
+	@Autowired
 	private IAdminDao adminDao;
 
 	/* (non-Javadoc)
 	 * @see org.ytzy.app.service.IAdminService#loadAdminByName(java.lang.String)
 	 */
 	@Override
-	@RequestMapping(value="/login",method=RequestMethod.GET)
-	public Admin login(String username,String password) {
+	public Admin login(String username,String password){
 		 Admin admin=adminDao.loadAdminByName(username);
 		if(admin==null||admin.getRemove()==1||!admin.getPassword().equals(SecurityUtil.password(password))){
 			throw new RuntimeException("用户名或密码错误");
@@ -45,7 +47,7 @@ public class AdminService implements IAdminService{
 	 * @see org.ytzy.app.service.IAdminService#loadAdmin()
 	 */
 	@Override
-	public Pager<UserDto> queryUserPager(String userName, Integer roleId,Integer remove){
+	public Pager<UserDto> queryUserPager(String userName,Integer roleId,Integer remove){
 		return adminDao.queryUserPager(userName, roleId,remove);
 	}
 
@@ -53,7 +55,8 @@ public class AdminService implements IAdminService{
 	 * @see org.ytzy.app.service.IAdminService#add(org.ytzy.app.args.AddAdminArgs)
 	 */
 	@Override
-	public void add(AdminArgs adminArgs) {
+	public void add(@RequestParam Map<String, Object>map) {
+		AdminArgs adminArgs = (AdminArgs) BeanMapUtil.convertMap(AdminArgs.class, map);
 		Admin admin=new Admin();
 		BeanUtils.copyProperties(adminArgs, admin);
 		admin.setPassword(SecurityUtil.password(adminArgs.getPassword()));
@@ -65,7 +68,8 @@ public class AdminService implements IAdminService{
 	 * @see org.ytzy.app.service.IAdminService#update(org.ytzy.app.args.AddAdminArgs)
 	 */
 	@Override
-	public Admin update(AdminArgs adminArgs) {
+	public Admin update(Map<String, Object>map) {
+		AdminArgs adminArgs = (AdminArgs) BeanMapUtil.convertMap(AdminArgs.class, map);
 		Admin admin= adminDao.get(adminArgs.getId());
 		if(admin != null){
 			String pwd = admin.getPassword();
@@ -105,7 +109,8 @@ public class AdminService implements IAdminService{
 	}
 	
 	@Override
-	public void addUserLoginLog(LoginLog userLoginLog) {
+	public void addUserLoginLog(Map<String, Object>map) {
+		LoginLog userLoginLog =  (LoginLog) BeanMapUtil.convertMap(LoginLog.class, map);
 		 adminDao.addEntity(userLoginLog);
 	}
 	

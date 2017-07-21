@@ -1,36 +1,38 @@
-package com.material.website.service.impl;
+package com.material.website.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.material.website.api.CategoryAPI;
 import com.material.website.args.CategoryArgs;
 import com.material.website.dao.ICategoryDao;
 import com.material.website.dao.IGoodsDao;
 import com.material.website.dto.CategoryDto;
 import com.material.website.entity.Category;
 import com.material.website.entity.Goods;
-import com.material.website.service.ICategorySercice;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 
 /**
  * 分类业务实现类
  * @author sunxiaorong
  *
  */
-@Service
-public class CategoryServiceImpl implements ICategorySercice {
+@RestController
+@Transactional 
+public class CategoryServiceImpl implements CategoryAPI {
 
-	@Inject
+	@Autowired
 	private ICategoryDao categoryDao;
-	@Inject
+	@Autowired
 	private IGoodsDao goodsDao;
 
 	@Override
@@ -56,8 +58,9 @@ public class CategoryServiceImpl implements ICategorySercice {
 	}
 	
 	@Override
-	public boolean addCategory(CategoryArgs categoryArgs) {
+	public boolean addCategory(Map<String, Object>map) {
 		try {
+			CategoryArgs categoryArgs = (CategoryArgs) BeanMapUtil.convertMap(CategoryArgs.class, map);
 			Category category = new Category();
 			BeanUtils.copyProperties(categoryArgs, category);
 			category.setStatus(0);
@@ -70,8 +73,9 @@ public class CategoryServiceImpl implements ICategorySercice {
 	}
 
 	@Override
-	public boolean updateCategory(CategoryArgs categoryArgs) {
+	public boolean updateCategory(Map<String, Object>map) {
 		try {
+			CategoryArgs categoryArgs =  (CategoryArgs) BeanMapUtil.convertMap(CategoryArgs.class, map);
 			Category category = new Category();
 			BeanUtils.copyProperties(categoryArgs, category);
 			categoryDao.updateEntity(category);

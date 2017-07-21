@@ -1,31 +1,35 @@
-package com.material.website.service.impl;
+package com.material.website.service;
 
 import java.util.List;
+import java.util.Map;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.stereotype.Service;
-
+import com.material.website.api.RoleAPI;
 import com.material.website.args.RoleAddArgs;
 import com.material.website.dao.IRoleDao;
 import com.material.website.entity.Function;
 import com.material.website.entity.Role;
 import com.material.website.entity.RoleFunction;
-import com.material.website.service.IRoleService;
+import com.material.website.util.BeanMapUtil;
 
 /**
  * 角色业务实现类
  * @author sunxiaorong
  *
  */
-@Service
-public class RoleService implements IRoleService {
+@RestController
+@Transactional 
+public class RoleService implements RoleAPI {
 	
-	@Inject
+	@Autowired
 	private IRoleDao roleDao;
 
 	@Override
-	public Integer addRole(RoleAddArgs roleArgs) {
+	public Integer addRole(Map<String, Object>map) {
+		RoleAddArgs roleArgs = (RoleAddArgs) BeanMapUtil.convertMap(RoleAddArgs.class, map);
 		Role role = new Role();
 		role.setRoleName(roleArgs.getRoleName());
 		role = roleDao.add(role);
@@ -70,7 +74,8 @@ public class RoleService implements IRoleService {
 
 
 	@Override
-	public Integer updateRole(RoleAddArgs updateArgs) {
+	public Integer updateRole(Map<String, Object>map) {
+		RoleAddArgs updateArgs = (RoleAddArgs) BeanMapUtil.convertMap(RoleAddArgs.class, map);
 		Role role = new Role();
 		role.setRoleName(updateArgs.getRoleName());
 		role.setId(updateArgs.getId());

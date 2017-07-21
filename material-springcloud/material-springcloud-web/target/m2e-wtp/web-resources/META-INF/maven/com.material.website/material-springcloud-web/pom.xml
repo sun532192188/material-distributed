@@ -50,6 +50,11 @@
 	   <groupId>org.springframework.boot</groupId>
 	   <artifactId>spring-boot-starter-actuator</artifactId>
 	</dependency>
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-test</artifactId>
+	    <scope>test</scope>
+	</dependency>
     <dependency>
 	  <groupId>com.material.website</groupId>
 	  <artifactId>material-springcloud-common</artifactId>
@@ -93,6 +98,11 @@
 		<groupId>jstl</groupId>
 		<artifactId>jstl</artifactId>
 		<version>1.2</version>
+	</dependency>
+	<dependency>
+	  <groupId>com.material.website</groupId>
+	  <artifactId>material-springcloud-api</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
 	</dependency>
   </dependencies>
    <build>

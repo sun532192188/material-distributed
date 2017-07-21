@@ -46,7 +46,7 @@ public interface RoleFunctionAPI {
 	 * @RequestParam id
 	 * @return
 	 */
-	@RequestMapping(value="/queryAllFunction",method=RequestMethod.GET)
+	@RequestMapping(value="/delRoleFunction",method=RequestMethod.GET)
 	public boolean delRoleFunction(@RequestParam("id") Integer id);
 	
 	/**

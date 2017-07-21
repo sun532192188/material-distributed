@@ -9,11 +9,11 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.material.website.feign.AdminFeign;
 import com.material.website.util.PropertiesUtil;
@@ -25,7 +25,7 @@ import com.material.website.web.MySqlImportAndExport;
  * @author sunxiaorong
  *
  */
-@RestController
+@Controller
 @RequestMapping(value = "dataCenterController")
 public class DataCenterController {
 	
