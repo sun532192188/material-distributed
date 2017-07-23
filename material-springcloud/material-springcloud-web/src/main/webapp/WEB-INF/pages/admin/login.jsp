@@ -92,7 +92,7 @@
 <body  class="login_back">
        <div class="system_name">${systemName}</div>
        <div class="loginbox">
-       <form id="userForm" action="${ctx}/guest/login" method="get">
+       <form id="userForm"  method="POST">
 	    <ul>
 		    <li style="margin-left: 27%;"><label style="color:red;">${errors}</label></li>
 		    <li><span>用户名：</span><input type="text" name="username" /></li>

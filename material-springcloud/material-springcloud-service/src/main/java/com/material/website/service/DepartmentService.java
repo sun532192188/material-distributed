@@ -1,26 +1,29 @@
-package com.material.website.service.impl;
+package com.material.website.service;
 
 import java.util.List;
+import java.util.Map;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.stereotype.Service;
-
+import com.material.website.api.DepartmentAPI;
 import com.material.website.dao.IDepartmentDao;
 import com.material.website.dto.DepartmentDto;
 import com.material.website.entity.Department;
-import com.material.website.service.IDepartmentService;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 
 /**
  * 部门业务实现类
  * @author sunxiaorong
  *
  */
-@Service
-public class DepartmentService implements IDepartmentService {
+@RestController
+@Transactional 
+public class DepartmentService implements DepartmentAPI {
 	
-	@Inject
+	@Autowired 
 	private IDepartmentDao departmentDao;
 
 	@Override
@@ -29,8 +32,9 @@ public class DepartmentService implements IDepartmentService {
 	}
 
 	@Override
-	public boolean addDepartment(Department department) {
+	public boolean addDepartment(Map<String, Object>map) {
 		try {
+			Department department = (Department) BeanMapUtil.convertMap(Department.class, map);
 			departmentDao.addEntity(department);
 			return true;
 		} catch (Exception e) {
@@ -40,8 +44,9 @@ public class DepartmentService implements IDepartmentService {
 	}
 
 	@Override
-	public boolean updateDepartment(Department department) {
+	public boolean updateDepartment(Map<String, Object>map) {
 		try {
+			Department department = (Department) BeanMapUtil.convertMap(Department.class, map);
 			departmentDao.updateEntity(department);
 			return true;
 		} catch (Exception e) {

@@ -1,4 +1,4 @@
-package com.material.website.service.impl;
+package com.material.website.service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,13 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.material.website.api.DepartmentCenterAPI;
 import com.material.website.args.DepartPlanAddArgs;
 import com.material.website.args.DepartPlanQueryArgs;
 import com.material.website.args.DepartStockQueryArgs;
@@ -42,28 +43,30 @@ import com.material.website.entity.MaterialConsume;
 import com.material.website.entity.MaterialConsumeDetail;
 import com.material.website.entity.UseAlloct;
 import com.material.website.entity.UseAlloctDetail;
-import com.material.website.service.IDepartmentCenterService;
 import com.material.website.system.MaterialOperate;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
 import com.material.website.util.MaterialNoUtil;
 
-@Service
-public class DepartmentCenterService implements IDepartmentCenterService {
+@RestController
+@Transactional 
+public class DepartmentCenterService implements DepartmentCenterAPI {
 
-	@Inject
+	@Autowired
 	private IDepartmentCenterDao departmentCenterDao;
-	@Inject
+	@Autowired
 	private IGoodsDao goodsDao;
-	@Inject
+	@Autowired
 	private IUseAlloctDao useAlloctDao;
-	@Inject
+	@Autowired
 	private IDepartmentDao departmentDao;
-	@Inject
+	@Autowired
 	private IStorageDao storageDao;
 
 	@Override
-	public Pager<DeparPlanDto> queryPlanPager(DepartPlanQueryArgs queryArgs) {
+	public Pager<DeparPlanDto> queryPlanPager(Map<String, Object>map) {
+		DepartPlanQueryArgs queryArgs = (DepartPlanQueryArgs) BeanMapUtil.convertMap(DepartPlanQueryArgs.class, map);
 		return departmentCenterDao.queryPlanPager(queryArgs);
 	}
 
@@ -73,8 +76,9 @@ public class DepartmentCenterService implements IDepartmentCenterService {
 	}
 
 	@Override
-	public boolean addMonthPlan(DepartPlanAddArgs addArgs) {
+	public boolean addMonthPlan(Map<String, Object>map) {
 		try {
+			DepartPlanAddArgs addArgs = (DepartPlanAddArgs) BeanMapUtil.convertMap(DepartPlanAddArgs.class, map);
 			String operatNo = addArgs.getTempId();
 			DepartPlan plan = new DepartPlan();
 			plan.setCreateDate(new Date());
@@ -103,9 +107,10 @@ public class DepartmentCenterService implements IDepartmentCenterService {
 	}
 
 	@Override
-	public Map<String, Object> addDepartOutStock(MaterialConsumeAddArgs addArgs) {
+	public Map<String, Object> addDepartOutStock(Map<String, Object>paramMap) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			MaterialConsumeAddArgs addArgs = (MaterialConsumeAddArgs) BeanMapUtil.convertMap(MaterialConsumeAddArgs.class, paramMap);
 			// 记录部门物资消耗生成ck单号
 			MaterialConsume consume = new MaterialConsume();
 			BeanUtils.copyProperties(addArgs, consume);
@@ -211,14 +216,14 @@ public class DepartmentCenterService implements IDepartmentCenterService {
 	}
 
 	@Override
-	public Pager<MaterialConsumeDto> queryConsumePager(
-			MaterialConsumeQueryArgs queryArgs) {
+	public Pager<MaterialConsumeDto> queryConsumePager(Map<String, Object>map) {
+		MaterialConsumeQueryArgs queryArgs = (MaterialConsumeQueryArgs) BeanMapUtil.convertMap(MaterialConsumeQueryArgs.class, map);
 		return departmentCenterDao.queryConsumePager(queryArgs);
 	}
 
 	@Override
-	public Pager<DepartStockDto> queryDepartStockPager(
-			DepartStockQueryArgs queryArgs) {
+	public Pager<DepartStockDto> queryDepartStockPager(Map<String, Object>map) {
+		DepartStockQueryArgs queryArgs = (DepartStockQueryArgs) BeanMapUtil.convertMap(DepartStockQueryArgs.class, map);
 		return departmentCenterDao.queryDepartStockPager(queryArgs);
 	}
 
@@ -228,7 +233,8 @@ public class DepartmentCenterService implements IDepartmentCenterService {
 	}
 
 	@Override
-	public List<StockDto> queryDepartStockList(DepartStockQueryArgs queryArgs) {
+	public List<StockDto> queryDepartStockList(Map<String, Object>map) {
+		DepartStockQueryArgs queryArgs = (DepartStockQueryArgs) BeanMapUtil.convertMap(DepartStockQueryArgs.class, map);
 		List<StockDto> list = departmentCenterDao
 				.queryDepartStockList(queryArgs);
 		List<StockDto> departStockList = new ArrayList<StockDto>();
@@ -317,14 +323,14 @@ public class DepartmentCenterService implements IDepartmentCenterService {
 	}
 
 	@Override
-	public Pager<StaticsDepartPlanDto> staticsDepartPlan(
-			StaticsDepartPlanArgs queryArgs) {
+	public Pager<StaticsDepartPlanDto> staticsDepartPlan(Map<String, Object>map) {
+		StaticsDepartPlanArgs queryArgs  = (StaticsDepartPlanArgs) BeanMapUtil.convertMap(StaticsDepartPlanArgs.class, map);
 		return departmentCenterDao.staticsDepartPlan(queryArgs);
 	}
 
 	@Override
-	public Pager<StatisDepartCounsumeDto> statisDepartConsumePager(
-			StatisDepartConsumeArgs queryArgs) {
+	public Pager<StatisDepartCounsumeDto> statisDepartConsumePager(Map<String, Object>map) {
+		StatisDepartConsumeArgs queryArgs = (StatisDepartConsumeArgs) BeanMapUtil.convertMap(StatisDepartConsumeArgs.class, map);
 		return departmentCenterDao.statisDepartConsumePager(queryArgs);
 	}
 
@@ -341,8 +347,9 @@ public class DepartmentCenterService implements IDepartmentCenterService {
 	}
 
 	@Override
-	public boolean updateDepartConsume(MaterialConsumeAddArgs updateArgs) {
+	public boolean updateDepartConsume(Map<String, Object>map) {
 		try {
+			MaterialConsumeAddArgs updateArgs = (MaterialConsumeAddArgs) BeanMapUtil.convertMap(MaterialConsumeAddArgs.class, map);
 			MaterialConsume consume = departmentCenterDao.queryConsumeInfo(null, updateArgs.getId());
 			Date date = consume.getConsumeDate();
 			Integer tagetDepartId = consume.getTargetDepartId();

@@ -1,39 +1,44 @@
-package com.material.website.service.impl;
+package com.material.website.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.stereotype.Service;
-
+import com.material.website.api.StockAPI;
 import com.material.website.args.StockArgs;
 import com.material.website.dao.IGoodsDao;
 import com.material.website.dao.IStockDao;
 import com.material.website.dto.StockDto;
-import com.material.website.service.IStockService;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 
 /**
  * 库存业务实现类
  * @author sunxiaorong
  *
  */
-@Service
-public class StockService implements IStockService {
+@RestController
+@Transactional 
+public class StockService implements StockAPI {
 	
-	@Inject
+	@Autowired
 	private IStockDao stockDao;
-	@Inject
+	@Autowired
 	private IGoodsDao goodsDao;
 
 	@Override
-	public Pager<StockDto> queryStockPager(StockArgs stockArgs) {
+	public Pager<StockDto> queryStockPager(Map<String, Object>map) {
+		StockArgs stockArgs = (StockArgs) BeanMapUtil.convertMap(StockArgs.class, map);
 		return stockDao.queryStockPager(stockArgs);
 	}
 
 	@Override
-	public List<StockDto> queryStockList(StockArgs stockArgs) {
+	public List<StockDto> queryStockList(Map<String, Object>map) {
+		StockArgs stockArgs = (StockArgs) BeanMapUtil.convertMap(StockArgs.class, map);
 		List<StockDto> list = stockDao.queryStockList(stockArgs);
 		List<StockDto>stockList = new ArrayList<StockDto>();
 		Double temNum = null;

@@ -42,7 +42,7 @@ public interface DepartmentCenterAPI {
 	 * @return
 	 */
 	@RequestMapping(value="/queryMonthPlanGoods",method=RequestMethod.GET)
-	public List<MonthPlanGoodsDto> queryMonthPlanGoods(@RequestParam("planId") String planId);
+	public List<MonthPlanGoodsDto> queryMonthPlanGoods(@RequestParam("planId") Integer planId);
 	
     /**
      * 添加月计划

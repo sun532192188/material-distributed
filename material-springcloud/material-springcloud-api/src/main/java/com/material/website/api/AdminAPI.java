@@ -2,6 +2,7 @@ package com.material.website.api;
 
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,7 @@ import com.material.website.system.Pager;
  * @author Sunxiaorong
  *
  */
-@RequestMapping("/AdminAPI")
+@RequestMapping(value="/AdminAPI")
 public interface AdminAPI {
    
 	/**
@@ -25,7 +26,7 @@ public interface AdminAPI {
 	 * @return
 	 */
 	@RequestMapping(value="/login",method=RequestMethod.GET)
-	public Admin login(@RequestParam("username") String username,@RequestParam("paddword") String paddword);
+	public Admin login(@RequestParam("username") String username,@RequestParam("password") String password);
 	
 	/**
 	 * 加载管理员列表(分页)
@@ -60,7 +61,7 @@ public interface AdminAPI {
 	 * @RequestParam id
 	 * @return
 	 */
-	@RequestMapping(value="/updateStatus",method=RequestMethod.GET)
+	@RequestMapping(value="/loadAdminInfo",method=RequestMethod.GET)
 	public Admin loadAdminInfo(@RequestParam("id") Integer id);
 	
 	/**

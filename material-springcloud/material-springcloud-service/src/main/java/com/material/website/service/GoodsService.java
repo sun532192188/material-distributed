@@ -1,14 +1,16 @@
-package com.material.website.service.impl;
+package com.material.website.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.material.website.api.GoodsAPI;
 import com.material.website.args.GoodsAddArgs;
 import com.material.website.args.GoodsQueryArgs;
 import com.material.website.dao.IDepartmentCenterDao;
@@ -25,8 +27,8 @@ import com.material.website.entity.OperatTemp;
 import com.material.website.entity.Storage;
 import com.material.website.entity.Supplier;
 import com.material.website.entity.UseAlloct;
-import com.material.website.service.IGoodsService;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
 
 /**
@@ -35,30 +37,33 @@ import com.material.website.util.BigDecimaUtil;
  * @author sunxiaorong
  * 
  */
-@Service
-public class GoodsService implements IGoodsService {
+@RestController
+@Transactional 
+public class GoodsService implements GoodsAPI {
 
-	@Inject
+	@Autowired
 	private IGoodsDao goodsDao;
-	@Inject
+	@Autowired
 	private IOpeartTempDao tempDao;
-	@Inject
+	@Autowired
 	private IStorageDao storageDao;
-	@Inject
+	@Autowired
 	private IUseAlloctDao useAlloctDao;
-	@Inject
+	@Autowired
 	private IDepartmentCenterDao departCenterDao;
-	@Inject
+	@Autowired
 	private ISupplierDao supplierDao;
 
 	@Override
-	public Pager<GoodsDto> queryGoodsPager(GoodsQueryArgs queryArgs) {
+	public Pager<GoodsDto> queryGoodsPager(Map<String, Object>map) {
+		GoodsQueryArgs queryArgs = (GoodsQueryArgs) BeanMapUtil.convertMap(GoodsQueryArgs.class, map);
 		return goodsDao.queryGoodsPager(queryArgs);
 	}
 
 	@Override
-	public boolean addGoods(GoodsAddArgs goodsAddArgs) {
+	public boolean addGoods(Map<String, Object>map) {
 		try {
+			GoodsAddArgs goodsAddArgs = (GoodsAddArgs) BeanMapUtil.convertMap(GoodsAddArgs.class, map);
 			Goods goods = new Goods();
 			BeanUtils.copyProperties(goodsAddArgs, goods);
 			goods.setStatus(0);
@@ -72,8 +77,9 @@ public class GoodsService implements IGoodsService {
 	}
 
 	@Override
-	public boolean updateGoods(GoodsAddArgs goodsArgs) {
+	public boolean updateGoods(Map<String, Object>map) {
 		try {
+			GoodsAddArgs goodsArgs = (GoodsAddArgs) BeanMapUtil.convertMap(GoodsAddArgs.class, map);
 			Goods goods = new Goods();
 			BeanUtils.copyProperties(goodsArgs, goods);
 			goods.setStatus(0);
@@ -104,7 +110,8 @@ public class GoodsService implements IGoodsService {
 	}
 
 	@Override
-	public List<GoodsDto> queryAllGoods(GoodsQueryArgs queryArgs) {
+	public List<GoodsDto> queryAllGoods(Map<String, Object>map) {
+		GoodsQueryArgs queryArgs = (GoodsQueryArgs) BeanMapUtil.convertMap(GoodsQueryArgs.class, map);
 		return goodsDao.queryAllGoods(queryArgs);
 	}
 
@@ -121,7 +128,8 @@ public class GoodsService implements IGoodsService {
 	}
 
 	@Override
-	public boolean addOperatTemp(OperatTemp operatTemp) {
+	public boolean addOperatTemp(Map<String, Object>map) {
+		OperatTemp operatTemp = (OperatTemp) BeanMapUtil.convertMap(OperatTemp.class, map);
 		goodsDao.addEntity(operatTemp);
 		return true;
 	}
@@ -164,7 +172,8 @@ public class GoodsService implements IGoodsService {
 	}
 
 	@Override
-	public void updateTempGoodsNum(OperatTemp temp) {
+	public void updateTempGoodsNum(Map<String, Object>map) {
+		OperatTemp temp = (OperatTemp) BeanMapUtil.convertMap(OperatTemp.class, map);
 		 goodsDao.updateEntity(temp);
 	}
 
@@ -189,5 +198,4 @@ public class GoodsService implements IGoodsService {
 		}
 		return false;
 	}
-
 }

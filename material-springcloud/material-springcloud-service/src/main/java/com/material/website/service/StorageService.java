@@ -1,4 +1,4 @@
-package com.material.website.service.impl;
+package com.material.website.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -6,12 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.material.website.api.StorageAPI;
 import com.material.website.args.StaticsStorageArgs;
 import com.material.website.args.StorageAddArgs;
 import com.material.website.args.StorageQueryArgs;
@@ -25,8 +26,8 @@ import com.material.website.entity.Goods;
 import com.material.website.entity.Stock;
 import com.material.website.entity.Storage;
 import com.material.website.entity.StorageMaterial;
-import com.material.website.service.IStorageService;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 import com.material.website.util.DateFormatUtils;
 
 /**
@@ -34,16 +35,17 @@ import com.material.website.util.DateFormatUtils;
  * @author sunxiaorong
  *
  */
-@Service
-public class StorageService implements IStorageService {
+@RestController
+@Transactional 
+public class StorageService implements StorageAPI {
  
-	@Inject
+	@Autowired
 	private IStorageDao storageDao;
 	
-	@Inject
+	@Autowired
 	private IGoodsDao goodsDao;
 	
-	@Inject
+	@Autowired
 	private IStockDao stockDao;
 	
 	@Override
@@ -52,8 +54,9 @@ public class StorageService implements IStorageService {
 	}
 
 	@Override
-	public boolean addStorage(StorageAddArgs storageArgs) {
+	public boolean addStorage(Map<String, Object>map) {
 		try {
+			StorageAddArgs storageArgs = (StorageAddArgs) BeanMapUtil.convertMap(StorageAddArgs.class, map);
 			//1.生成入库单数据
 			Storage storage = new Storage();
 			BeanUtils.copyProperties(storageArgs, storage);
@@ -78,7 +81,8 @@ public class StorageService implements IStorageService {
 	}
 
 	@Override
-	public Pager<StorageDto> queryStoragePager(StorageQueryArgs queryArgs) {
+	public Pager<StorageDto> queryStoragePager(Map<String, Object>map) {
+		StorageQueryArgs queryArgs = (StorageQueryArgs) BeanMapUtil.convertMap(StorageQueryArgs.class, map);
 		return  storageDao.queryStoragePager(queryArgs);
 	}
 
@@ -88,8 +92,8 @@ public class StorageService implements IStorageService {
 	}
 
 	@Override
-	public Pager<StaticsStorageDto> staticsStoragePager(
-			StaticsStorageArgs queryArgs) {
+	public Pager<StaticsStorageDto> staticsStoragePager(Map<String, Object>map) {
+		StaticsStorageArgs queryArgs = (StaticsStorageArgs) BeanMapUtil.convertMap(StaticsStorageArgs.class, map);
 		return storageDao.staticsStoragePager(queryArgs);
 	}
 
@@ -155,8 +159,9 @@ public class StorageService implements IStorageService {
 	}
 
 	@Override
-	public boolean updateStorageInfo(StorageAddArgs updateArgs) {
+	public boolean updateStorageInfo(Map<String, Object>map) {
 	    try {
+	    	StorageAddArgs updateArgs  = (StorageAddArgs) BeanMapUtil.convertMap(StorageAddArgs.class, map);
 			Storage storage = storageDao.get(updateArgs.getId());
 			BeanUtils.copyProperties(updateArgs, storage);
 			storageDao.updateEntity(storage);

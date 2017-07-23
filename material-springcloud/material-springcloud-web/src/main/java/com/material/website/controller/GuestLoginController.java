@@ -43,7 +43,7 @@ public class GuestLoginController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping(value="/loginStart")
+	@RequestMapping(value="/login")
 	public String login(Model model) throws UnsupportedEncodingException {
 		String systemName = PropertiesUtil.newInstance().loadValue("system_name", "system_config.properties");
 	   // systemName = new String(systemName.getBytes("ISo-8859-1"),"UTF-8");
@@ -55,8 +55,8 @@ public class GuestLoginController {
 	 * 登陆
 	 * @return
 	 */
-	@GetMapping("/login")
-	//@RequestMapping(value="/login",method=RequestMethod.POST)
+	
+	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public String login(String username,String password,HttpSession session,Model model){
 		/*Admin  obj= (Admin) session.getAttribute("loginManager");
 		if(obj!=null){
@@ -77,7 +77,9 @@ public class GuestLoginController {
 		}
 		try {
 			Admin loginManager=adminFeign.login(username, password);
-		/*	LoginLog log = adminFeign.queryLogByUserName(username);
+		    System.out.println(loginManager.getUserName());
+		    System.out.println(loginManager.getPassword());
+			/*	LoginLog log = adminFeign.queryLogByUserName(username);
 			if(log != null){
 				if(log.getStatus() == 1){
 					errors.add("该账号已在其他设备中登录");

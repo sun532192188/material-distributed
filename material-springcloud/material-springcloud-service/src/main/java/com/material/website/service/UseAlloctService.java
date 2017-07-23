@@ -1,4 +1,4 @@
-package com.material.website.service.impl;
+package com.material.website.service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,12 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.material.website.api.UseAlloctAPI;
 import com.material.website.args.StatisUseAlloctArgs;
 import com.material.website.args.UseAlloctAddArgs;
 import com.material.website.args.UseAlloctQueryArgs;
@@ -30,9 +31,9 @@ import com.material.website.entity.Stock;
 import com.material.website.entity.Supplier;
 import com.material.website.entity.UseAlloct;
 import com.material.website.entity.UseAlloctDetail;
-import com.material.website.service.IUseAlloctService;
 import com.material.website.system.MaterialOperate;
 import com.material.website.system.Pager;
+import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
 import com.material.website.util.MaterialNoUtil;
 
@@ -42,24 +43,26 @@ import com.material.website.util.MaterialNoUtil;
  * @author sunxiaorong
  * 
  */
-@Service
-public class UseAlloctService implements IUseAlloctService {
+@RestController
+@Transactional 
+public class UseAlloctService implements UseAlloctAPI {
 
-	@Inject
+	@Autowired
 	private IUseAlloctDao useAlloctDao;
-	@Inject
+	@Autowired
 	private IGoodsDao goodsDao;
-	@Inject
+	@Autowired
 	private IStockDao stockDao;
-	@Inject
+	@Autowired
 	private IDepartmentCenterDao departmentCenterDao;
-	@Inject
+	@Autowired
 	private IStorageDao storageDao;
-	@Inject
+	@Autowired
 	private ISupplierDao supplierDao;
 
 	@Override
-	public Pager<UseAlloctDto> queryDepartUsePager(UseAlloctQueryArgs queryArgs) {
+	public Pager<UseAlloctDto> queryDepartUsePager(Map<String, Object>map) {
+		UseAlloctQueryArgs queryArgs = (UseAlloctQueryArgs) BeanMapUtil.convertMap(UseAlloctQueryArgs.class, map);
 		return useAlloctDao.queryDepartUsePager(queryArgs);
 	}
 
@@ -136,8 +139,8 @@ public class UseAlloctService implements IUseAlloctService {
 	}
 
 	@Override
-	public Pager<StatisUseAlloctDto> statisUseAlloctPager(
-			StatisUseAlloctArgs queryArgs) {
+	public Pager<StatisUseAlloctDto> statisUseAlloctPager(Map<String, Object>map) {
+		StatisUseAlloctArgs queryArgs = (StatisUseAlloctArgs) BeanMapUtil.convertMap(StatisUseAlloctArgs.class, map);
 		return useAlloctDao.statisUseAlloctPager(queryArgs);
 	}
 
@@ -153,8 +156,9 @@ public class UseAlloctService implements IUseAlloctService {
 	}
 
 	@Override
-	public boolean updateUseAlloct(UseAlloctAddArgs updateArgs) {
+	public boolean updateUseAlloct(Map<String, Object>map) {
 		try {
+			UseAlloctAddArgs updateArgs = (UseAlloctAddArgs) BeanMapUtil.convertMap(UseAlloctAddArgs.class, map);
 			UseAlloct useAlloct = useAlloctDao.get(updateArgs.getId());
 			BeanUtils.copyProperties(updateArgs, useAlloct);
 			useAlloctDao.updateEntity(useAlloct);
