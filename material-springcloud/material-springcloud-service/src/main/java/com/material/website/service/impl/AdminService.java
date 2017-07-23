@@ -23,7 +23,7 @@ import com.material.website.util.SecurityUtil;
  * @date 2015年5月20日 下午2:23:40  
  */
 @Service
-public class AdminService implements IAdminService{
+public class AdminService implements {
 	
 	@Inject
 	private IAdminDao adminDao;
