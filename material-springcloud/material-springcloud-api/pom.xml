@@ -32,7 +32,6 @@
 	 <dependency>
 		  <groupId>com.material.website</groupId>
 		  <artifactId>material-springcloud-common</artifactId>
-		  <version>0.0.1-SNAPSHOT</version>
 	</dependency>
 	<dependency>
 	    <groupId>javax.persistence</groupId>

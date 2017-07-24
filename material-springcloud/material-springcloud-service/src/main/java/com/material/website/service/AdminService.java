@@ -24,18 +24,13 @@ import com.material.website.util.SecurityUtil;
  * @author 孙晓荣 sunxiaorong@yuntengzhiyong.com  
  * @date 2015年5月20日 下午2:23:40  
  */
-<<<<<<< HEAD:material-springcloud/material-springcloud-service/src/main/java/com/material/website/service/impl/AdminService.java
-@Service
-public class AdminService implements {
+
 	
-	@Inject
-=======
 @RestController
 @Transactional 
 public class AdminService implements AdminAPI{
 
 	@Autowired
->>>>>>> 01824f394343533ac525f475b6ba1f92a454ef41:material-springcloud/material-springcloud-service/src/main/java/com/material/website/service/AdminService.java
 	private IAdminDao adminDao;
 
 	/* (non-Javadoc)
