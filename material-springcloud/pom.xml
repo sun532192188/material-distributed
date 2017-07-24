@@ -28,10 +28,11 @@
             <type>pom</type>
             <scope>import</scope>
         </dependency>
-        <dependency>
-		  <groupId>com.material.website</groupId>
-		  <artifactId>material-springcloud-common</artifactId>
-		  <version>0.0.1-SNAPSHOT</version>
+    <dependency>
+	  <groupId>com.material.website</groupId>
+	  <artifactId>material-springcloud-api</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+	  <classifier>sources</classifier>
 	</dependency>
 	<dependency>
 	  <groupId>com.material.website</groupId>
@@ -71,7 +72,7 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
@@ -82,18 +83,18 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 	</plugins>
    </build>
    
   <modules>
-  	<module>material-springcloud-service</module>
+  	<!-- <module>material-springcloud-service</module> -->
   	<module>material-discovery-eureka</module>
     <module>material-config-server</module>
     <module>material-springcloud-zuul</module>
-    <module>material-provider-user</module>
-    <module>material-springcloud-web</module>
+   <!--  <module>material-provider-user</module> -->
+   <!--  <module>material-springcloud-web</module> -->
+    <module>material-test</module>
     <module>material-springcloud-api</module>
-    <module>material-provider-user-feign</module>
   </modules>
 </project>

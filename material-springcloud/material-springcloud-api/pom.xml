@@ -3,14 +3,23 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
  
+  <groupId>com.material.website</groupId> 
   <artifactId>material-springcloud-api</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>  
  
-  <parent>
+ <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.4.1.RELEASE</version>
+  </parent>
+  
+  <!-- <parent>
     <groupId>com.material.website</groupId>
     <artifactId>material-springcloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-  </parent>
+  </parent> -->
+  
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,7 +28,7 @@
   </properties>
  
   <dependencies>
-    <!-- 添加web 依赖 -->
+    <!--   添加web 依赖 -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
@@ -52,7 +61,11 @@
 					<target>1.6</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
-			</plugin>
+			</plugin> 
+			<!-- <plugin> 
+				 <groupId>org.springframework.boot</groupId> 
+				 <artifactId>spring-boot-maven-plugin</artifactId> 
+			 </plugin>  -->
 		</plugins>
 	</build>
    <distributionManagement>
