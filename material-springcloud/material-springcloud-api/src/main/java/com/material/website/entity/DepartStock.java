@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,7 +13,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name ="departStock")
+@Table(name ="departstock")
 public class DepartStock {
 
 	/**
@@ -22,14 +23,17 @@ public class DepartStock {
 	/**
 	 * 商品编号
 	 */
+	@Column(name="goodsid")
 	private Integer goodsId = 0;
 	/**
 	 * 商品单价
 	 */
+	@Column(name="goodsprice")
 	private Double goodsPrice = 0.0;
 	/**
 	 * 数量
 	 */
+	@Column(name="stocknum")
 	private Double stockNum = 0.0;
 	/**
 	 * 1.物资 2.固定资产

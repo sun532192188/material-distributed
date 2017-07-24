@@ -42,7 +42,7 @@ public class Admin {
 	/**
 	 * 所属角色
 	 */
-	@Column(name="roleId")
+	@Column(name="roleid")
 	private Integer roleId;
 	
 	/**

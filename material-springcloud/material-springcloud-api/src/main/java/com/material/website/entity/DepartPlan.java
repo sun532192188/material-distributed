@@ -2,6 +2,7 @@ package com.material.website.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="DepartPlan")
+@Table(name="departplan")
 public class DepartPlan {
 	/**
 	 * id
@@ -22,18 +23,22 @@ public class DepartPlan {
 	/**
 	 * 计划名称(比如:采购部一月份月计划申请)
 	 */
+	@Column(name="planname")
 	private String planName;
 	/**
 	 * 部门编号
 	 */
+	@Column(name="planname")
 	private Integer departmentId;
 	/**
 	 * 创建日期
 	 */
+	@Column(name="createdate")
 	private Date createDate;
     /**
      * 总金额
      */
+	@Column(name="planname")
 	private Double sumPrice = 0.0;
 	/**
 	 * 备注
@@ -46,6 +51,7 @@ public class DepartPlan {
 	/**
 	 * 部门名称
 	 */
+	@Column(name="departmentname")
 	private String departmentName;
 	
 	@Id

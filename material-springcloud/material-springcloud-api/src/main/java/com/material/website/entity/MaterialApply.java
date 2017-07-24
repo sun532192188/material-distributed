@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,10 +21,12 @@ public class MaterialApply {
 	/**
 	 * 计划编号
 	 */
+	@Column(name="planid")
 	private Integer planId = 0;
 	/**
 	 *商品编号 
 	 */
+	@Column(name="goodsid")
 	private Integer goodsId ;
 	/**
 	 * 商品单价
@@ -32,10 +35,12 @@ public class MaterialApply {
 	/**
 	 * 商品数量
 	 */
+	@Column(name="goodsnum")
 	private Double goodsNum = 0.0;
 	/**
 	 * 一种类型商品金额(水2.0 *2 = 4.0)
 	 */
+	@Column(name="singleprice")
 	private Double singlePrice = 0.0;
 	
 	@Id

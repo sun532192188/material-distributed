@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,18 +22,22 @@ public class UseAlloctDetail {
 	/**
 	 * 领用/调拨单编号
 	 */
+	@Column(name="usealloctid")
 	private Integer useAlloctId ;
 	/**
 	 * 物资编号
 	 */
+	@Column(name="usealloctid")
 	private Integer goodsId = 0;
 	/**
 	 * 物资名称
 	 */
+	@Column(name="usealloctid")
 	private String goodsName = "";
 	/**
 	 * 品牌型号
 	 */
+	@Column(name="usealloctid")
 	private Integer goodsType;
 	/**
 	 * 单位
@@ -41,15 +46,18 @@ public class UseAlloctDetail {
 	/**
 	 * 数量
 	 */
+	@Column(name="usealloctid")
 	private Double goodsNum = 0.0;
 	/**
 	 * 商品所属大类
 	 */
+	@Column(name="usealloctid")
 	private Integer categoryOne = 0;
 
 	/**
 	 * 商品所属小类
 	 */
+	@Column(name="usealloctid")
 	private Integer categoryTwo = 0;
 	/**
 	 * 单价
@@ -58,6 +66,7 @@ public class UseAlloctDetail {
 	/**
 	 * 金额
 	 */
+	@Column(name="usealloctid")
 	private Double singleMoney = 0.0;
 	/**
 	 * 供应商编号
