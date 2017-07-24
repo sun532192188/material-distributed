@@ -14,13 +14,6 @@
     <version>1.4.1.RELEASE</version>
   </parent>
   
-  <!-- <parent>
-    <groupId>com.material.website</groupId>
-    <artifactId>material-springcloud</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent> -->
-  
-  
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -41,7 +34,6 @@
 	 <dependency>
 		  <groupId>com.material.website</groupId>
 		  <artifactId>material-springcloud-common</artifactId>
-		  <version>0.0.1-SNAPSHOT</version>
 	</dependency>
 	<dependency>
 	    <groupId>javax.persistence</groupId>
@@ -62,10 +54,6 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin> 
-			<!-- <plugin> 
-				 <groupId>org.springframework.boot</groupId> 
-				 <artifactId>spring-boot-maven-plugin</artifactId> 
-			 </plugin>  -->
 		</plugins>
 	</build>
    <distributionManagement>

@@ -88,10 +88,11 @@
 			<groupId>com.belerweb</groupId>
 			<artifactId>pinyin4j</artifactId>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 		  <groupId>com.material.website</groupId>
 		  <artifactId>material-springcloud-common</artifactId>
-		</dependency> -->
+		  <version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	    <dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-mail</artifactId>

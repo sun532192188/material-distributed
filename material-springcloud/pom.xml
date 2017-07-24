@@ -36,6 +36,11 @@
 	</dependency>
 	<dependency>
 	  <groupId>com.material.website</groupId>
+	  <artifactId>material-springcloud-util</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+	  <groupId>com.material.website</groupId>
 	  <artifactId>material-springcloud-api</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
 	</dependency>

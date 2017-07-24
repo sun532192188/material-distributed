@@ -24,6 +24,8 @@ import com.material.website.util.SecurityUtil;
  * @author 孙晓荣 sunxiaorong@yuntengzhiyong.com  
  * @date 2015年5月20日 下午2:23:40  
  */
+
+	
 @RestController
 @Transactional 
 public class AdminService implements AdminAPI{

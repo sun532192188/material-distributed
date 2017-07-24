@@ -132,11 +132,6 @@
 		    <scope>provided</scope>
 		</dependency>
 		<dependency>
-		  <groupId>com.material.website</groupId>
-		  <artifactId>material-springcloud-common</artifactId>
-		  <version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-email</artifactId>
 		    <version>1.4</version>
@@ -178,8 +173,8 @@
   </dependencyManagement>
   
   <modules>
-  	<module>material-springcloud</module>
   	<module>material-springcloud-util</module>
   	<module>material-springcloud-common</module>
+    <module>material-springcloud</module>
   </modules>
 </project>
