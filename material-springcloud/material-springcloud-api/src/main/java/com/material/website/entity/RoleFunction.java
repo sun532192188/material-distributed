@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class RoleFunction {
 	 */
 	private String functionName;
 	/**
-	 * ' 功能路径
+	 *  功能路径
 	 */
 	private String url;
 
@@ -42,23 +43,21 @@ public class RoleFunction {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Column(name="roleid")
 	public Integer getRoleId() {
 		return roleId;
 	}
-
 	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
-
+	@Column(name="functionid")
 	public Integer getFunctionId() {
 		return functionId;
 	}
-
 	public void setFunctionId(Integer functionId) {
 		this.functionId = functionId;
 	}
-
+	@Column(name="functionname")
 	public String getFunctionName() {
 		return functionName;
 	}
@@ -74,4 +73,5 @@ public class RoleFunction {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+
 }

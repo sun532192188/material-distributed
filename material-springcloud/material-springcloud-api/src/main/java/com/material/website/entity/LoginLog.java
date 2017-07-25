@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,7 +12,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="LoginLog")
+@Table(name="loginlog")
 public class LoginLog {
     /**
      * 编号
@@ -42,18 +43,21 @@ public class LoginLog {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name="userid")
 	public Integer getUserId() {
 		return userId;
 	}
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+	@Column(name="username")
 	public String getUserName() {
 		return userName;
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	@Column(name="logintime")
 	public String getLoginTime() {
 		return loginTime;
 	}

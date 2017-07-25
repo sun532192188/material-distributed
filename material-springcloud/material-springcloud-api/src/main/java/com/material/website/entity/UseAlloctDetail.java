@@ -22,12 +22,10 @@ public class UseAlloctDetail {
 	/**
 	 * 领用/调拨单编号
 	 */
-	@Column(name="usealloctid")
 	private Integer useAlloctId ;
 	/**
 	 * 物资编号
 	 */
-	@Column(name="usealloctid")
 	private Integer goodsId = 0;
 	/**
 	 * 物资名称
@@ -82,7 +80,7 @@ public class UseAlloctDetail {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Column(name="usealloctid")
 	public Integer getUseAlloctId() {
 		return useAlloctId;
 	}
@@ -90,7 +88,7 @@ public class UseAlloctDetail {
 	public void setUseAlloctId(Integer useAlloctId) {
 		this.useAlloctId = useAlloctId;
 	}
-
+	@Column(name="goodsid")
 	public Integer getGoodsId() {
 		return goodsId;
 	}
@@ -99,6 +97,7 @@ public class UseAlloctDetail {
 		this.goodsId = goodsId;
 	}
 
+	@Column(name="goodsname")
 	public String getGoodsName() {
 		return goodsName;
 	}
@@ -106,7 +105,7 @@ public class UseAlloctDetail {
 	public void setGoodsName(String goodsName) {
 		this.goodsName = goodsName;
 	}
-
+	@Column(name="goodstype")
 	public Integer getGoodsType() {
 		return goodsType;
 	}
@@ -122,7 +121,7 @@ public class UseAlloctDetail {
 	public void setSpec(String spec) {
 		this.spec = spec;
 	}
-
+	@Column(name="goodsnum")
 	public Double getGoodsNum() {
 		return goodsNum;
 	}
@@ -130,7 +129,7 @@ public class UseAlloctDetail {
 	public void setGoodsNum(Double goodsNum) {
 		this.goodsNum = goodsNum;
 	}
-
+	@Column(name="categoryone")
 	public Integer getCategoryOne() {
 		return categoryOne;
 	}
@@ -138,7 +137,7 @@ public class UseAlloctDetail {
 	public void setCategoryOne(Integer categoryOne) {
 		this.categoryOne = categoryOne;
 	}
-
+	@Column(name="categorytwo")
 	public Integer getCategoryTwo() {
 		return categoryTwo;
 	}
@@ -154,7 +153,7 @@ public class UseAlloctDetail {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-
+	@Column(name="singlemoney")
 	public Double getSingleMoney() {
 		return singleMoney;
 	}
@@ -162,7 +161,7 @@ public class UseAlloctDetail {
 	public void setSingleMoney(Double singleMoney) {
 		this.singleMoney = singleMoney;
 	}
-
+	@Column(name="supplierid")
 	public Integer getSupplierId() {
 		return supplierId;
 	}

@@ -17,7 +17,6 @@ public class Department{
 	/**
 	 * 部门名称
 	 */
-	@Column(name="categoryno")
 	private String departmentName = "";
 	
 	/**
@@ -40,7 +39,7 @@ public class Department{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Column(name="departmentname")
 	public String getDepartmentName() {
 		return departmentName;
 	}

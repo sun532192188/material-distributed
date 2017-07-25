@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -30,6 +31,7 @@ public class Role {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name="rolename")
 	public String getRoleName() {
 		return roleName;
 	}

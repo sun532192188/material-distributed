@@ -2,6 +2,7 @@ package com.material.website.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -61,24 +62,28 @@ public class UseAlloct {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name="operatno")
 	public String getOperatNo() {
 		return operatNo;
 	}
 	public void setOperatNo(String operatNo) {
 		this.operatNo = operatNo;
 	}
+	@Column(name="usealloctdate")
 	public Date getUseAlloctDate() {
 		return useAlloctDate;
 	}
 	public void setUseAlloctDate(Date useAlloctDate) {
 		this.useAlloctDate = useAlloctDate;
 	}
+	@Column(name="departmentid")
 	public Integer getDepartmentId() {
 		return departmentId;
 	}
 	public void setDepartmentId(Integer departmentId) {
 		this.departmentId = departmentId;
 	}
+	@Column(name="summoney")
 	public Double getSumMoney() {
 		return sumMoney;
 	}
@@ -97,6 +102,7 @@ public class UseAlloct {
 	public void setType(Integer type) {
 		this.type = type;
 	}
+	@Column(name="usename")
 	public String getUseName() {
 		return useName;
 	}

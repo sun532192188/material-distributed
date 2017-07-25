@@ -21,12 +21,10 @@ public class MaterialApply {
 	/**
 	 * 计划编号
 	 */
-	@Column(name="planid")
 	private Integer planId = 0;
 	/**
 	 *商品编号 
 	 */
-	@Column(name="goodsid")
 	private Integer goodsId ;
 	/**
 	 * 商品单价
@@ -35,12 +33,10 @@ public class MaterialApply {
 	/**
 	 * 商品数量
 	 */
-	@Column(name="goodsnum")
 	private Double goodsNum = 0.0;
 	/**
 	 * 一种类型商品金额(水2.0 *2 = 4.0)
 	 */
-	@Column(name="singleprice")
 	private Double singlePrice = 0.0;
 	
 	@Id
@@ -51,12 +47,14 @@ public class MaterialApply {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name="planid")
 	public Integer getPlanId() {
 		return planId;
 	}
 	public void setPlanId(Integer planId) {
 		this.planId = planId;
 	}
+	@Column(name="goodsid")
 	public Integer getGoodsId() {
 		return goodsId;
 	}
@@ -69,12 +67,14 @@ public class MaterialApply {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	@Column(name="goodsnum")
 	public Double getGoodsNum() {
 		return goodsNum;
 	}
 	public void setGoodsNum(Double goodsNum) {
 		this.goodsNum = goodsNum;
 	}
+	@Column(name="singleprice")
 	public Double getSinglePrice() {
 		return singlePrice;
 	}

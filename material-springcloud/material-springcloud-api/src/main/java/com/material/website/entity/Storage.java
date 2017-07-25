@@ -3,6 +3,7 @@ package com.material.website.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -67,7 +68,7 @@ public class Storage {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Column(name="storageno")
 	public String getStorageNo() {
 		return storageNo;
 	}
@@ -75,7 +76,7 @@ public class Storage {
 	public void setStorageNo(String storageNo) {
 		this.storageNo = storageNo;
 	}
-
+	@Column(name="supplierid")
 	public Integer getSupplierId() {
 		return supplierId;
 	}
@@ -83,7 +84,7 @@ public class Storage {
 	public void setSupplierId(Integer supplierId) {
 		this.supplierId = supplierId;
 	}
-
+	@Column(name="storagedate")
 	public Date getStorageDate() {
 		return storageDate;
 	}
@@ -91,7 +92,7 @@ public class Storage {
 	public void setStorageDate(Date storageDate) {
 		this.storageDate = storageDate;
 	}
-
+	@Column(name="storagemoney")
 	public Double getStorageMoney() {
 		return storageMoney;
 	}
@@ -99,7 +100,7 @@ public class Storage {
 	public void setStorageMoney(Double storageMoney) {
 		this.storageMoney = storageMoney;
 	}
-
+	@Column(name="storagetype")
 	public Integer getStorageType() {
 		return storageType;
 	}
@@ -107,7 +108,7 @@ public class Storage {
 	public void setStorageType(Integer storageType) {
 		this.storageType = storageType;
 	}
-
+	@Column(name="signdepart")
 	public Integer getSignDepart() {
 		return signDepart;
 	}
@@ -115,7 +116,7 @@ public class Storage {
 	public void setSignDepart(Integer signDepart) {
 		this.signDepart = signDepart;
 	}
-
+	@Column(name="signname")
 	public String getSignName() {
 		return signName;
 	}

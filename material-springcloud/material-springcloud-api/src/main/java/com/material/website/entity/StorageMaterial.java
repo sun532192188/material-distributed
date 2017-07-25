@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -46,30 +47,35 @@ public class StorageMaterial {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name="storageid")
 	public Integer getStorageId() {
 		return storageId;
 	}
 	public void setStorageId(Integer storageId) {
 		this.storageId = storageId;
 	}
+	@Column(name="goodsId")
 	public Integer getGoodsId() {
 		return goodsId;
 	}
 	public void setGoodsId(Integer goodsId) {
 		this.goodsId = goodsId;
 	}
+	@Column(name="goodsprice")
 	public Double getGoodsPrice() {
 		return goodsPrice;
 	}
 	public void setGoodsPrice(Double goodsPrice) {
 		this.goodsPrice = goodsPrice;
 	}
+	@Column(name="goodsnum")
 	public Double getGoodsNum() {
 		return goodsNum;
 	}
 	public void setGoodsNum(Double goodsNum) {
 		this.goodsNum = goodsNum;
 	}
+	@Column(name="singlemoney")
 	public Double getSingleMoney() {
 		return singleMoney;
 	}

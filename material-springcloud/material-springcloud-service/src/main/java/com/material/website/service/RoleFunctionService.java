@@ -29,7 +29,8 @@ public class RoleFunctionService implements RoleFunctionAPI {
 
 	@Override
 	public List<RoleFunctionDto> queryFunctionByRoleId(Integer roleId) {
-		return roleFunctionDao.queryFunctionByRoleId(roleId);
+		List<RoleFunctionDto> roleFunctionList = roleFunctionDao.queryFunctionByRoleId(roleId);
+		return roleFunctionList;
 	}
 
 	@Override

@@ -5,6 +5,7 @@
  
   <groupId>com.material.website</groupId> 
   <artifactId>material-springcloud-api</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>  
  
  <parent>

@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -77,41 +78,61 @@ public class OperatTemp {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name="operatid")
+	public Integer getOperatId() {
+		return operatId;
+	}
+	public void setOperatId(Integer operatId) {
+		this.operatId = operatId;
+	}
+	@Column(name="supplierid")
 	public Integer getSupplierId() {
 		return supplierId;
 	}
 	public void setSupplierId(Integer supplierId) {
 		this.supplierId = supplierId;
 	}
+	@Column(name="operattype")
+	public Integer getOperatType() {
+		return operatType;
+	}
+	public void setOperatType(Integer operatType) {
+		this.operatType = operatType;
+	}
+	@Column(name="operatno")
 	public String getOperatNo() {
 		return operatNo;
 	}
 	public void setOperatNo(String operatNo) {
 		this.operatNo = operatNo;
 	}
+	@Column(name="goodsid")
 	public Integer getGoodsId() {
 		return goodsId;
 	}
 	public void setGoodsId(Integer goodsId) {
 		this.goodsId = goodsId;
 	}
+	@Column(name="goodsno")
+	public String getGoodsNo() {
+		return goodsNo;
+	}
+	public void setGoodsNo(String goodsNo) {
+		this.goodsNo = goodsNo;
+	}
+	@Column(name="goodsname")
+	public String getGoodsName() {
+		return goodsName;
+	}
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+	@Column(name="specmodel")
 	public String getSpecModel() {
 		return specModel;
 	}
 	public void setSpecModel(String specModel) {
 		this.specModel = specModel;
-	}
-	public Double getPrice() {
-		return price;
-	}
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-	public Double getGoodsNum() {
-		return goodsNum;
-	}
-	public void setGoodsNum(Double goodsNum) {
-		this.goodsNum = goodsNum;
 	}
 	public String getSpec() {
 		return spec;
@@ -119,34 +140,24 @@ public class OperatTemp {
 	public void setSpec(String spec) {
 		this.spec = spec;
 	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	@Column(name="goodsnum")
+	public Double getGoodsNum() {
+		return goodsNum;
+	}
+	public void setGoodsNum(Double goodsNum) {
+		this.goodsNum = goodsNum;
+	}
+	@Column(name="singlemoney")
 	public Double getSingleMoney() {
 		return singleMoney;
 	}
 	public void setSingleMoney(Double singleMoney) {
 		this.singleMoney = singleMoney;
-	}
-	public String getGoodsName() {
-		return goodsName;
-	}
-	public void setGoodsName(String goodsName) {
-		this.goodsName = goodsName;
-	}
-	public Integer getOperatId() {
-		return operatId;
-	}
-	public void setOperatId(Integer operatId) {
-		this.operatId = operatId;
-	}
-	public Integer getOperatType() {
-		return operatType;
-	}
-	public void setOperatType(Integer operatType) {
-		this.operatType = operatType;
-	}
-	public String getGoodsNo() {
-		return goodsNo;
-	}
-	public void setGoodsNo(String goodsNo) {
-		this.goodsNo = goodsNo;
 	}
 }

@@ -2,6 +2,7 @@ package com.material.website.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "materialConsume")
+@Table(name = "materialconsume")
 public class MaterialConsume {
 	/**
 	 * 主键
@@ -63,7 +64,15 @@ public class MaterialConsume {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+    @Column(name="departid")
+	public Integer getDepartId() {
+		return departId;
+	}
 
+	public void setDepartId(Integer departId) {
+		this.departId = departId;
+	}
+	 @Column(name="operatno")
 	public String getOperatNo() {
 		return operatNo;
 	}
@@ -71,7 +80,7 @@ public class MaterialConsume {
 	public void setOperatNo(String operatNo) {
 		this.operatNo = operatNo;
 	}
-
+	@Column(name="consumedate")
 	public Date getConsumeDate() {
 		return consumeDate;
 	}
@@ -79,7 +88,7 @@ public class MaterialConsume {
 	public void setConsumeDate(Date consumeDate) {
 		this.consumeDate = consumeDate;
 	}
-
+	@Column(name="consumemoney")
 	public Double getConsumeMoney() {
 		return consumeMoney;
 	}
@@ -87,13 +96,20 @@ public class MaterialConsume {
 	public void setConsumeMoney(Double consumeMoney) {
 		this.consumeMoney = consumeMoney;
 	}
-
 	public Integer getType() {
 		return type;
 	}
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+	@Column(name="targetdepartid")
+	public Integer getTargetDepartId() {
+		return targetDepartId;
+	}
+
+	public void setTargetDepartId(Integer targetDepartId) {
+		this.targetDepartId = targetDepartId;
 	}
 
 	public String getRemarks() {
@@ -104,22 +120,6 @@ public class MaterialConsume {
 		this.remarks = remarks;
 	}
 
-	public Integer getTargetDepartId() {
-		return targetDepartId;
-	}
-
-	public void setTargetDepartId(Integer targetDepartId) {
-		this.targetDepartId = targetDepartId;
-	}
-
-	public Integer getDepartId() {
-		return departId;
-	}
-
-	public void setDepartId(Integer departId) {
-		this.departId = departId;
-	}
-
 	public Integer getStatus() {
 		return status;
 	}
@@ -127,4 +127,5 @@ public class MaterialConsume {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
 }

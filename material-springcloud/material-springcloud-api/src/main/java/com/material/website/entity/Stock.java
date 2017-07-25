@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -64,30 +65,35 @@ public class Stock {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name="goodsid")
 	public Integer getGoodsId() {
 		return goodsId;
 	}
 	public void setGoodsId(Integer goodsId) {
 		this.goodsId = goodsId;
 	}
+	@Column(name="goodsprice")
 	public Double getGoodsPrice() {
 		return goodsPrice;
 	}
 	public void setGoodsPrice(Double goodsPrice) {
 		this.goodsPrice = goodsPrice;
 	}
+	@Column(name="stocknum")
 	public Double getStockNum() {
 		return stockNum;
 	}
 	public void setStockNum(Double stockNum) {
 		this.stockNum = stockNum;
 	}
+	@Column(name="goodstype")
 	public Integer getGoodsType() {
 		return goodsType;
 	}
 	public void setGoodsType(Integer goodsType) {
 		this.goodsType = goodsType;
 	}
+	@Column(name="stocktype")
 	public Integer getStockType() {
 		return stockType;
 	}
@@ -100,18 +106,21 @@ public class Stock {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	@Column(name="supplierid")
 	public Integer getSupplierId() {
 		return supplierId;
 	}
 	public void setSupplierId(Integer supplierId) {
 		this.supplierId = supplierId;
 	}
+	@Column(name="categoryone")
 	public Integer getCategoryOne() {
 		return categoryOne;
 	}
 	public void setCategoryOne(Integer categoryOne) {
 		this.categoryOne = categoryOne;
 	}
+	@Column(name="categorytwo")
 	public Integer getCategoryTwo() {
 		return categoryTwo;
 	}

@@ -16,16 +16,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-<<<<<<< HEAD
-			<name>org.eclipse.m2e.core.maven2Builder</name>
-=======
-			<name>org.springframework.ide.eclipse.core.springbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
 			<name>org.eclipse.wst.validation.validationbuilder</name>
->>>>>>> 029f4b654e33a0d17293b142ba3f07bc10ca13e7
 			<arguments>
 			</arguments>
 		</buildCommand>

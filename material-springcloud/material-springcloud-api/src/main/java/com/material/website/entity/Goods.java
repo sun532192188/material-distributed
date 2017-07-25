@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -70,12 +71,14 @@ public class Goods {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name="goodsname")
 	public String getGoodsName() {
 		return goodsName;
 	}
 	public void setGoodsName(String goodsName) {
 		this.goodsName = goodsName;
 	}
+	@Column(name="goodsno")
 	public String getGoodsNo() {
 		return goodsNo;
 	}
@@ -88,6 +91,7 @@ public class Goods {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	@Column(name="specmodel")
 	public String getSpecModel() {
 		return specModel;
 	}
@@ -100,30 +104,35 @@ public class Goods {
 	public void setSpec(String spec) {
 		this.spec = spec;
 	}
+	@Column(name="isdecimal")
 	public Integer getIsDecimal() {
 		return isDecimal;
 	}
 	public void setIsDecimal(Integer isDecimal) {
 		this.isDecimal = isDecimal;
 	}
+	@Column(name="goodstype")
 	public Integer getGoodsType() {
 		return goodsType;
 	}
 	public void setGoodsType(Integer goodsType) {
 		this.goodsType = goodsType;
 	}
+	@Column(name="categoryone")
 	public Integer getCategoryOne() {
 		return categoryOne;
 	}
 	public void setCategoryOne(Integer categoryOne) {
 		this.categoryOne = categoryOne;
 	}
+	@Column(name="categorytwo")
 	public Integer getCategoryTwo() {
 		return categoryTwo;
 	}
 	public void setCategoryTwo(Integer categoryTwo) {
 		this.categoryTwo = categoryTwo;
 	}
+	@Column(name="supplierid")
 	public Integer getSupplierId() {
 		return supplierId;
 	}

@@ -23,22 +23,18 @@ public class DepartPlan {
 	/**
 	 * 计划名称(比如:采购部一月份月计划申请)
 	 */
-	@Column(name="planname")
 	private String planName;
 	/**
 	 * 部门编号
 	 */
-	@Column(name="planname")
 	private Integer departmentId;
 	/**
 	 * 创建日期
 	 */
-	@Column(name="createdate")
 	private Date createDate;
     /**
      * 总金额
      */
-	@Column(name="planname")
 	private Double sumPrice = 0.0;
 	/**
 	 * 备注
@@ -51,7 +47,6 @@ public class DepartPlan {
 	/**
 	 * 部门名称
 	 */
-	@Column(name="departmentname")
 	private String departmentName;
 	
 	@Id
@@ -62,13 +57,14 @@ public class DepartPlan {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name="departmentid")
 	public Integer getDepartmentId() {
 		return departmentId;
 	}
 	public void setDepartmentId(Integer departmentId) {
 		this.departmentId = departmentId;
 	}
-	
+	@Column(name="sumprice")
 	public Double getSumPrice() {
 		return sumPrice;
 	}
@@ -87,18 +83,21 @@ public class DepartPlan {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	@Column(name="createdate")
 	public Date getCreateDate() {
 		return createDate;
 	}
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+	@Column(name="planname")
 	public String getPlanName() {
 		return planName;
 	}
 	public void setPlanName(String planName) {
 		this.planName = planName;
 	}
+	@Column(name="departmentname")
 	public String getDepartmentName() {
 		return departmentName;
 	}

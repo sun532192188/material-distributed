@@ -23,17 +23,14 @@ public class DepartStock {
 	/**
 	 * 商品编号
 	 */
-	@Column(name="goodsid")
 	private Integer goodsId = 0;
 	/**
 	 * 商品单价
 	 */
-	@Column(name="goodsprice")
 	private Double goodsPrice = 0.0;
 	/**
 	 * 数量
 	 */
-	@Column(name="stocknum")
 	private Double stockNum = 0.0;
 	/**
 	 * 1.物资 2.固定资产
@@ -75,7 +72,7 @@ public class DepartStock {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Column(name="goodsid")
 	public Integer getGoodsId() {
 		return goodsId;
 	}
@@ -83,7 +80,7 @@ public class DepartStock {
 	public void setGoodsId(Integer goodsId) {
 		this.goodsId = goodsId;
 	}
-
+	@Column(name="goodsprice")
 	public Double getGoodsPrice() {
 		return goodsPrice;
 	}
@@ -91,7 +88,7 @@ public class DepartStock {
 	public void setGoodsPrice(Double goodsPrice) {
 		this.goodsPrice = goodsPrice;
 	}
-
+	@Column(name="stocknum")
 	public Double getStockNum() {
 		return stockNum;
 	}
@@ -99,7 +96,7 @@ public class DepartStock {
 	public void setStockNum(Double stockNum) {
 		this.stockNum = stockNum;
 	}
-
+	@Column(name="goodstype")
 	public Integer getGoodsType() {
 		return goodsType;
 	}
@@ -107,7 +104,7 @@ public class DepartStock {
 	public void setGoodsType(Integer goodsType) {
 		this.goodsType = goodsType;
 	}
-
+	@Column(name="stocktype")
 	public Integer getStockType() {
 		return stockType;
 	}
@@ -115,7 +112,7 @@ public class DepartStock {
 	public void setStockType(Integer stockType) {
 		this.stockType = stockType;
 	}
-
+	@Column(name="categoryone")
 	public Integer getCategoryOne() {
 		return categoryOne;
 	}
@@ -123,7 +120,7 @@ public class DepartStock {
 	public void setCategoryOne(Integer categoryOne) {
 		this.categoryOne = categoryOne;
 	}
-
+	@Column(name="categorytwo")
 	public Integer getCategoryTwo() {
 		return categoryTwo;
 	}
@@ -139,7 +136,7 @@ public class DepartStock {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-
+	@Column(name="departmentid")
 	public Integer getDepartmentId() {
 		return departmentId;
 	}

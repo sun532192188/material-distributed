@@ -22,18 +22,15 @@ public class Category {
 	/**
 	 * 类型名称
 	 */
-	@Column(name="categoryname")
 	private String categoryName;
     /**
      * 父类型编号
      */
-	@Column(name="parentid")
 	private Integer parentId;
 	
 	/**
 	 * 分类编号
 	 */
-	@Column(name="categoryno")
 	private String categoryNo;
 	
 	/**
@@ -49,18 +46,21 @@ public class Category {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name="categoryname")
 	public String getCategoryName() {
 		return categoryName;
 	}
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
+	@Column(name="parentid")
 	public Integer getParentId() {
 		return parentId;
 	}
 	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
 	}
+	@Column(name="categoryno")
 	public String getCategoryNo() {
 		return categoryNo;
 	}

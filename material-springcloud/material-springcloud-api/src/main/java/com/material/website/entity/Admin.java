@@ -24,13 +24,11 @@ public class Admin {
 	/**
 	 * 用户名
 	 */
-    @Column(name="username")
 	private String userName;
 	
 	/**
 	 * 所属部门
 	 */
-    @Column(name="departid")
 	private Integer departId;
 	
 	
@@ -42,7 +40,6 @@ public class Admin {
 	/**
 	 * 所属角色
 	 */
-	@Column(name="roleid")
 	private Integer roleId;
 	
 	/**
@@ -60,7 +57,8 @@ public class Admin {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
+	@Column(name="username")
 	public String getUserName() {
 		return userName;
 	}
@@ -76,7 +74,7 @@ public class Admin {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	@Column(name="roleid")
 	public Integer getRoleId() {
 		return roleId;
 	}
@@ -93,6 +91,7 @@ public class Admin {
 		this.remove = remove;
 	}
 
+	@Column(name="departid")
 	public Integer getDepartId() {
 		return departId;
 	}

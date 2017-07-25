@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -62,12 +63,14 @@ public class Supplier {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name="fullname")
 	public String getFullName() {
 		return fullName;
 	}
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
+	@Column(name="shortname")
 	public String getShortName() {
 		return shortName;
 	}
@@ -104,12 +107,14 @@ public class Supplier {
 	public void setBank(String bank) {
 		this.bank = bank;
 	}
+	@Column(name="bankaddr")
 	public String getBankAddr() {
 		return bankAddr;
 	}
 	public void setBankAddr(String bankAddr) {
 		this.bankAddr = bankAddr;
 	}
+	@Column(name="bankcard")
 	public String getBankCard() {
 		return bankCard;
 	}

@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -41,7 +42,7 @@ public class Function {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Column(name="functionname")
 	public String getFunctionName() {
 		return functionName;
 	}
@@ -57,7 +58,7 @@ public class Function {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
+	@Column(name="parentid")
 	public Integer getParentId() {
 		return parentId;
 	}

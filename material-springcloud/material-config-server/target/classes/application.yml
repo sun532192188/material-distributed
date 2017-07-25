@@ -16,7 +16,7 @@ spring:
     config: 
       enabled: true  
       server:
-        git:
+        git:   
           uri: https://github.com/sun532192188/material-springcloud-resp.git
           clone-on-start: true
         default-label: master

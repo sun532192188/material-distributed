@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,7 +13,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name ="materialConsumeDetail")
+@Table(name ="materialconsumedetail")
 public class MaterialConsumeDetail {
 
 	/**
@@ -49,7 +50,7 @@ public class MaterialConsumeDetail {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Column(name="outstockid")
 	public Integer getOutStockId() {
 		return outStockId;
 	}
@@ -57,7 +58,7 @@ public class MaterialConsumeDetail {
 	public void setOutStockId(Integer outStockId) {
 		this.outStockId = outStockId;
 	}
-
+	@Column(name="goodsid")
 	public Integer getGoodsId() {
 		return goodsId;
 	}
@@ -65,7 +66,7 @@ public class MaterialConsumeDetail {
 	public void setGoodsId(Integer goodsId) {
 		this.goodsId = goodsId;
 	}
-
+	@Column(name="goodsprice")
 	public Double getGoodsPrice() {
 		return goodsPrice;
 	}
@@ -73,7 +74,7 @@ public class MaterialConsumeDetail {
 	public void setGoodsPrice(Double goodsPrice) {
 		this.goodsPrice = goodsPrice;
 	}
-
+	@Column(name="goodsnum")
 	public Double getGoodsNum() {
 		return goodsNum;
 	}
@@ -81,7 +82,7 @@ public class MaterialConsumeDetail {
 	public void setGoodsNum(Double goodsNum) {
 		this.goodsNum = goodsNum;
 	}
-
+	@Column(name="singlemoney")
 	public Double getSingleMoney() {
 		return singleMoney;
 	}

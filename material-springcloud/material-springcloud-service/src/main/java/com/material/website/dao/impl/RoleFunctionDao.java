@@ -22,8 +22,7 @@ public class RoleFunctionDao extends BaseDao<RoleFunction> implements
 	@Override
 	public List<RoleFunctionDto> queryFunctionByRoleId(Integer roleId) {
 		String sql = "select * from rolefunction where roleId = ? order by functionId asc ";
-		List<RoleFunction> roleFunctionList =  super.listBySql(sql, roleId, RoleFunctionDto.class, false);
-		return super.listBySql(sql, roleId, RoleFunctionDto.class, false);
+		return  super.listBySql(sql, roleId, RoleFunctionDto.class, false);
 	}
 
 	@Override
