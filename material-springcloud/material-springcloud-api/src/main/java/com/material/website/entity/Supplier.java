@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,10 +21,12 @@ public class Supplier {
 	/**
 	 * 全称
 	 */
+	@Column(name="fullname")
 	private String fullName;
 	/**
 	 * 简称
 	 */
+	@Column(name="shortname")
 	private String shortName;
 	/**
 	 * 联系人姓名
@@ -48,10 +51,12 @@ public class Supplier {
 	/**
 	 * 开户行所在地
 	 */
+	@Column(name="bankaddr")
 	private String bankAddr;
 	/**
 	 * 银行卡帐号
 	 */
+	@Column(name="bankcard")
 	private String bankCard;
 	
 	@Id

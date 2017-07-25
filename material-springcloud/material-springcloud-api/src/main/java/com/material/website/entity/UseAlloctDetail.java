@@ -27,17 +27,17 @@ public class UseAlloctDetail {
 	/**
 	 * 物资编号
 	 */
-	@Column(name="usealloctid")
+	@Column(name="goodsid")
 	private Integer goodsId = 0;
 	/**
 	 * 物资名称
 	 */
-	@Column(name="usealloctid")
+	@Column(name="goodsname")
 	private String goodsName = "";
 	/**
 	 * 品牌型号
 	 */
-	@Column(name="usealloctid")
+	@Column(name="goodstype")
 	private Integer goodsType;
 	/**
 	 * 单位
@@ -46,18 +46,18 @@ public class UseAlloctDetail {
 	/**
 	 * 数量
 	 */
-	@Column(name="usealloctid")
+	@Column(name="goodsnum")
 	private Double goodsNum = 0.0;
 	/**
 	 * 商品所属大类
 	 */
-	@Column(name="usealloctid")
+	@Column(name="categoryone")
 	private Integer categoryOne = 0;
 
 	/**
 	 * 商品所属小类
 	 */
-	@Column(name="usealloctid")
+	@Column(name="categorytwo")
 	private Integer categoryTwo = 0;
 	/**
 	 * 单价
@@ -66,11 +66,12 @@ public class UseAlloctDetail {
 	/**
 	 * 金额
 	 */
-	@Column(name="usealloctid")
+	@Column(name="singlemoney")
 	private Double singleMoney = 0.0;
 	/**
 	 * 供应商编号
 	 */
+	@Column(name="supplierid")
 	private Integer supplierId = 0;
 
 	@Id

@@ -28,7 +28,7 @@ public class DepartPlan {
 	/**
 	 * 部门编号
 	 */
-	@Column(name="planname")
+	@Column(name="departmentid")
 	private Integer departmentId;
 	/**
 	 * 创建日期
@@ -38,7 +38,7 @@ public class DepartPlan {
     /**
      * 总金额
      */
-	@Column(name="planname")
+	@Column(name="sumprice")
 	private Double sumPrice = 0.0;
 	/**
 	 * 备注

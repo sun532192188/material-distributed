@@ -2,6 +2,7 @@ package com.material.website.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "materialConsume")
+@Table(name = "materialconsume")
 public class MaterialConsume {
 	/**
 	 * 主键
@@ -23,18 +24,22 @@ public class MaterialConsume {
 	/**
 	 * 出库部门
 	 */
+	@Column(name="departid")
 	private Integer departId;
 	/**
 	 * 操作编号
 	 */
+	@Column(name="operatno")
 	private String operatNo = "";
 	/**
 	 * 消耗日期
 	 */
+	@Column(name="consumedate")
 	private Date consumeDate = new Date();
 	/**
 	 * 消耗金额
 	 */
+	@Column(name="consumemoney")
 	private Double consumeMoney = 0.0;
 	/**
 	 * 消耗类型 1.部门使用 2.部门调拨
@@ -43,6 +48,7 @@ public class MaterialConsume {
 	/**
 	 * 目标部门编号 如果为本部门消耗 则目标部门为本部门
 	 */
+	@Column(name="targetdepartid")
 	private Integer targetDepartId = 0;
 	/**
 	 * 备注

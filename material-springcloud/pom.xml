@@ -93,13 +93,12 @@
    </build>
    
   <modules>
-  	<!-- <module>material-springcloud-service</module> -->
+    <module>material-springcloud-service</module> 
   	<module>material-discovery-eureka</module>
     <module>material-config-server</module>
     <module>material-springcloud-zuul</module>
-   <!--  <module>material-provider-user</module> -->
-   <!--  <module>material-springcloud-web</module> -->
-    <module>material-test</module>
+    <module>material-provider-user</module>
+    <module>material-springcloud-web</module> 
     <module>material-springcloud-api</module>
   </modules>
 </project>

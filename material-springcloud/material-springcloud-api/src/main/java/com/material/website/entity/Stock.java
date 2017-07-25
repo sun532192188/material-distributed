@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,34 +22,42 @@ public class Stock {
 	/**
 	 * 商品编号
 	 */
+	@Column(name="goodsid")
 	private Integer goodsId = 0;
 	/**
 	 * 商品单价
 	 */
+	@Column(name="goodsprice")
 	private Double goodsPrice = 0.0;
 	/**
 	 * 供应商
 	 */
+	@Column(name="supplierid")
 	public Integer supplierId;
 	/**
 	 * 数量
 	 */
+	@Column(name="stocknum")
 	private Double stockNum = 0.0;
 	/**
 	 * 1.物资  2.固定资产
 	 */
+	@Column(name="goodstype")
 	private Integer goodsType = 0;
 	/**
 	 * 1.验收  2.预存
 	 */
+	@Column(name="stocktype")
 	private Integer stockType = 0 ;
 	/**
 	 * 一级分类
 	 */
+	@Column(name="categoryone")
 	private Integer categoryOne;
 	/**
 	 * 二级分类
 	 */
+	@Column(name="categorytwo")
 	private Integer categoryTwo;
 	/**
 	 * 备注

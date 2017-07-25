@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,10 +21,12 @@ public class Goods {
 	/**
 	 * 商品名称
 	 */
+	@Column(name="goodsname")
 	private String goodsName = "";
 	/**
 	 * 商品编号(可选商品首字母 )
 	 */
+	@Column(name="goodsno")
 	private String goodsNo = "";
 	/**
 	 * 商品单价
@@ -32,6 +35,7 @@ public class Goods {
 	/**
 	 * 规格型号
 	 */
+	@Column(name="specmodel")
 	private String specModel = "";
 	/**
 	 * 单位
@@ -40,22 +44,27 @@ public class Goods {
 	/**
 	 * 可否为小数  1 可以  0不可以
 	 */
+	@Column(name="isdecimal")
 	private Integer isDecimal;
 	/**
 	 * 1.物资  2.固定资产
 	 */
+	@Column(name="goodstype")
 	private Integer goodsType;
 	/**
 	 * 所属大类
 	 */
+	@Column(name="categoryone")
 	private Integer categoryOne;
 	/**
 	 * 所属小类
 	 */
+	@Column(name="categorytwo")
 	private Integer categoryTwo;
 	/**
 	 * 所属供应商
 	 */
+	@Column(name="supplierid")
 	private Integer supplierId;
 	/**
 	 * 状态  0.正常  1.移除

@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,14 +20,17 @@ public class RoleFunction {
 	/**
 	 * 角色编号
 	 */
+	@Column(name="roleid")
 	private Integer roleId;
 	/**
 	 * 功能编号
 	 */
+	@Column(name="functionid")
 	private Integer functionId;
 	/**
 	 * 功能名称
 	 */
+	@Column(name="functionname")
 	private String functionName;
 	/**
 	 * ' 功能路径

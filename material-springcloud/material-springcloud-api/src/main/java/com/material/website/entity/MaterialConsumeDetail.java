@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,7 +13,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name ="materialConsumeDetail")
+@Table(name ="materialconsumedetail")
 public class MaterialConsumeDetail {
 
 	/**
@@ -22,22 +23,27 @@ public class MaterialConsumeDetail {
 	/**
 	 * 消耗编号
 	 */
+	@Column(name="outstockid")
 	private Integer outStockId;
 	/**
 	 * 入库商品
 	 */
+	@Column(name="goodsid")
 	private Integer goodsId = 0;
 	/**
 	 * 商品单价
 	 */
+	@Column(name="goodsprice")
 	private Double goodsPrice = 0.0;
 	/**
 	 * 入库数量
 	 */
+	@Column(name="goodsnum")
 	private Double goodsNum = 0.0;
 	/**
 	 * 金额
 	 */
+	@Column(name="singlemoney")
 	private Double singleMoney = 0.0;
 
 	@Id

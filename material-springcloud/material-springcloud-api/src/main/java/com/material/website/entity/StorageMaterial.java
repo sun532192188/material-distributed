@@ -1,5 +1,6 @@
 package com.material.website.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,22 +21,27 @@ public class StorageMaterial {
 	/**
 	 * 入库编号
 	 */
+	@Column(name="storageid")
 	private Integer storageId;
 	/**
 	 * 入库商品
 	 */
+	@Column(name="goodsid")
 	private Integer goodsId = 0;
 	/**
 	 * 商品单价
 	 */
+	@Column(name="goodsprice")
 	private Double goodsPrice = 0.0;
 	/**
 	 * 入库数量
 	 */
+	@Column(name="goodsnum")
 	private Double goodsNum = 0.0;
 	/**
 	 * 金额
 	 */
+	@Column(name="singlemoney")
 	private Double singleMoney = 0.0;
 	
 	@Id
