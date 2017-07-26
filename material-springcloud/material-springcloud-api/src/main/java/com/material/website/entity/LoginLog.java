@@ -21,14 +21,17 @@ public class LoginLog {
 	/**
 	 * 用户编号
 	 */
+	@Column(name="userid")
 	private Integer userId = 0 ;
 	/**
 	 * 用户名
 	 */
+	@Column(name="username")
 	private String userName= "";
 	/**
 	 * 登录时间
 	 */
+	@Column(name="logintime")
 	private String loginTime = "";
 	/**
 	 * 登录日志表    1 正在登录  0 未登录

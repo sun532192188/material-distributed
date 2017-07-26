@@ -25,30 +25,37 @@ public class Storage {
 	/**
 	 * 入库编号
 	 */
+	@Column(name="storageno")
 	private String storageNo;
 	/**
 	 * 供应商编号
 	 */
+	@Column(name="supplierid")
 	private Integer supplierId;
 	/**
 	 * 入库日期
 	 */
+	@Column(name="storagedate")
 	private Date storageDate = new Date(0);
 	/**
 	 * 入库物资金额
 	 */
+	@Column(name="storagemoney")
 	private Double storageMoney;
 	/**
 	 * 入库类型 1.验收  2.预存
 	 */
+	@Column(name="storagetype")
 	private Integer storageType;
 	/**
 	 * 签收部门
 	 */
+	@Column(name="signdepart")
 	private Integer signDepart;
 	/**
 	 * 签收员姓名
 	 */
+	@Column(name="signname")
 	private String signName;
 	/**
 	 * 备注

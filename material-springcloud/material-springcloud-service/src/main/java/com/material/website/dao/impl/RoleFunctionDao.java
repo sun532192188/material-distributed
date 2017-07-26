@@ -1,6 +1,8 @@
 package com.material.website.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +24,12 @@ public class RoleFunctionDao extends BaseDao<RoleFunction> implements
 	@Override
 	public List<RoleFunctionDto> queryFunctionByRoleId(Integer roleId) {
 		String sql = "select * from rolefunction where roleId = ? order by functionId asc ";
+		//System.out.println(super.listBySql(sql, roleId,HashMap.class, false));
+		List<RoleFunction> roleFunctionList =  super.listBySql(sql, roleId,RoleFunction.class, true);
+		for(RoleFunction dto:roleFunctionList){
+			System.out.println(dto.getId()+":"+dto.getFunctionName()+":"+dto.getFunctionId()+":"+dto.getRoleId()+":"+dto.getUrl());
+		    System.out.println("-------------华丽的分隔线---------------");
+		}
 		return  super.listBySql(sql, roleId, RoleFunctionDto.class, false);
 	}
 

@@ -14,7 +14,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="useAlloct")
+@Table(name="usealloct")
 public class UseAlloct {
 	/**
      * 领用编号
@@ -23,22 +23,27 @@ public class UseAlloct {
 	/**
 	 * 领用/调拨编号
 	 */
+	@Column(name="operatno")
 	private String operatNo = "";
 	/**
 	 * 领用/调拨日期
 	 */
+	@Column(name="usealloctdate")
 	private Date useAlloctDate = new Date();
 	/**
 	 * 领用部门
 	 */
+	@Column(name="departmentid")
 	private Integer departmentId = 0;
 	/**
 	 * 领用员
 	 */
+	@Column(name="usename")
 	private String useName;
 	/**
 	 * 总金额
 	 */
+	@Column(name="summoney")
 	private Double sumMoney = 0.0;
 	/**
 	 * 备注

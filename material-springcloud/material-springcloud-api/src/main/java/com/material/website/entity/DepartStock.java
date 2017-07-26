@@ -35,18 +35,22 @@ public class DepartStock {
 	/**
 	 * 1.物资 2.固定资产
 	 */
+	@Column(name="goodstype")
 	private Integer goodsType = 0;
 	/**
 	 * 1.预存 2.调拨 3.部门调拨
 	 */
+	@Column(name="stocktype")
 	private Integer stockType = 0;
 	/**
 	 * 一级分类
 	 */
+	@Column(name="categoryone")
 	private Integer categoryOne;
 	/**
 	 * 二级分类
 	 */
+	@Column(name="categorytwo")
 	private Integer categoryTwo;
 	/**
 	 * 备注
@@ -56,6 +60,7 @@ public class DepartStock {
 	/**
 	 * 部门编号
 	 */
+	@Column(name="departmentid")
 	private Integer departmentId;
 	/**
 	 * 状态(固定资产使用) 1.未使用   2.使用中  3.已损坏   4.已调拨

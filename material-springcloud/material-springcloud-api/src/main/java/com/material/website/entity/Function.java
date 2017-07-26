@@ -22,6 +22,7 @@ public class Function {
 	/**
 	 * 功能名称
 	 */
+	@Column(name="functionname")
 	private String functionName = "";
 	
 	/**
@@ -31,6 +32,7 @@ public class Function {
 	/**
 	 * 父模块编号
 	 */
+	@Column(name="parentid")
 	private Integer parentId = 0;
 
 	@Id

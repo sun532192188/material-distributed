@@ -20,6 +20,7 @@ public class RoleFunction {
 	/**
 	 * 角色编号
 	 */
+	
 	private Integer roleId;
 	/**
 	 * 功能编号
