@@ -1,0 +1,15 @@
+spring: 
+   application:
+    name: material-springcloud-service    #配置微服务名称
+
+mybatis:
+  type-aliases-package: 
+      
+   
+
+
+    
+  
+  
+      
+   

@@ -100,5 +100,6 @@
     <module>material-provider-user</module>
     <module>material-springcloud-web</module> 
     <module>material-springcloud-api</module>
+    <module>material-springcloud-mybatis-service</module>
   </modules>
 </project>

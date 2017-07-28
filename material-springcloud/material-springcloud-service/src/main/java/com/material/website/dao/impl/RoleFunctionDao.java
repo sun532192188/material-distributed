@@ -11,6 +11,7 @@ import com.material.website.dao.IRoleFunctionDao;
 import com.material.website.dto.FunctionDto;
 import com.material.website.dto.RoleFunctionDto;
 import com.material.website.entity.RoleFunction;
+import com.material.website.util.BeanMapUtil;
 
 /**
  * 角色功能持久层实现类
@@ -24,13 +25,12 @@ public class RoleFunctionDao extends BaseDao<RoleFunction> implements
 	@Override
 	public List<RoleFunctionDto> queryFunctionByRoleId(Integer roleId) {
 		String sql = "select * from rolefunction where roleId = ? order by functionId asc ";
-		//System.out.println(super.listBySql(sql, roleId,HashMap.class, false));
-		List<RoleFunction> roleFunctionList =  super.listBySql(sql, roleId,RoleFunction.class, true);
-		for(RoleFunction dto:roleFunctionList){
+		List<RoleFunctionDto> roleFunctionList =  super.listBySql(sql, roleId,RoleFunctionDto.class, false);
+		for(RoleFunctionDto dto:roleFunctionList){
 			System.out.println(dto.getId()+":"+dto.getFunctionName()+":"+dto.getFunctionId()+":"+dto.getRoleId()+":"+dto.getUrl());
 		    System.out.println("-------------华丽的分隔线---------------");
 		}
-		return  super.listBySql(sql, roleId, RoleFunctionDto.class, false);
+		return roleFunctionList;
 	}
 
 	@Override
@@ -44,5 +44,10 @@ public class RoleFunctionDao extends BaseDao<RoleFunction> implements
 	public List<FunctionDto> queryAllFunction() {
 		String sql = "select * from function where parentId = 0 order by id asc ";
 		return super.listBySql(sql, FunctionDto.class,false);
+	}
+	@Override
+	public RoleFunction add(RoleFunction t) {
+		// TODO Auto-generated method stub
+		return super.add(t);
 	}
 }

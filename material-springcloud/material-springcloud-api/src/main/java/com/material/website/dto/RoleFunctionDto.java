@@ -23,7 +23,12 @@ public class RoleFunctionDto {
 	private String functionName = "";
 	
 	private String url;
+	
 
+	public RoleFunctionDto() {
+		super();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

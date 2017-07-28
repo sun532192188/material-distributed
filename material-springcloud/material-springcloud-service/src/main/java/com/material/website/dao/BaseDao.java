@@ -1,6 +1,10 @@
 package com.material.website.dao;
 
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +16,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
+import com.material.website.dto.RoleFunctionDto;
 import com.material.website.system.Pager;
 import com.material.website.system.SystemContext;
+import com.material.website.util.BeanMapUtil;
 
 /**
  * base-dao 实现
@@ -262,9 +269,14 @@ public class BaseDao<T> implements IBase<T> {
 		setParameter(sq, args);
 		if(hasEntity) {
 			sq.addEntity(clz);
-		} else 
-			sq.setResultTransformer(Transformers.aliasToBean(clz));
-		return sq.list();
+		} else {
+			sq.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+			//TODO	下面将结果集转换为自定义对象在这里报转换错误 所以只能转换为map 
+			//sq.setResultTransformer(Transformers.aliasToBean(clz));
+		}
+		List<Map<String,Object>>list = sq.list();
+		List<Object> convert = convert(clz, list);
+		return (List<N>) convert;
 	}
 
 	public <N extends Object>List<N> listByAliasSql(String sql, Map<String, Object> alias,
@@ -286,7 +298,6 @@ public class BaseDao<T> implements IBase<T> {
 		return findBySql(sql, null, clz, hasEntity);
 	}
 
-	@SuppressWarnings("unused")
 	public <N extends Object>Pager<N> findBySql(String sql, Object[] args,
 			Map<String, Object> alias, Class<?> clz, boolean hasEntity) {
 		sql = initSort(sql);
@@ -377,4 +388,66 @@ public class BaseDao<T> implements IBase<T> {
 	public Object getEntity(Class<?> clz,int id) {
 		return getSession().get(clz, id);
 	}
+	
+	
+	/**
+     * 数据转换
+     * @param clazz
+     * @param list
+     * @return
+     */
+	private List<Object> convert(Class<?> clazz, List<Map<String, Object>> list) {  
+        List<Object> result;  
+        if (CollectionUtils.isEmpty(list)) {  
+            return null;  
+        }  
+        result = new ArrayList<Object>();  
+        try {  
+             PropertyDescriptor[] props = Introspector.getBeanInfo(clazz).getPropertyDescriptors();  
+             for (Map<String, Object> map : list) {  
+                 Object obj = clazz.newInstance();
+                 for (String key:map.keySet()) {  
+                     String attrName = key.toLowerCase();  
+                     for (PropertyDescriptor prop : props) {  
+                         attrName = removeUnderLine(attrName);  
+                         if (!attrName.equals(prop.getName())) {  
+                             continue;  
+                         }  
+                         Method method = prop.getWriteMethod();  
+                         Object value = map.get(key);
+                         //System.out.println(prop.getPropertyType());
+                         /*if (value != null) {  
+                             value = ConvertUtils.convert(value,prop.getPropertyType());  
+                         }  */
+                         method.invoke(obj,value);  
+                     }  
+                 }  
+                 result.add(obj);  
+             }  
+        } catch (Exception e) {  
+            //throw new RuntimeException("数据转换错误"); 
+            e.printStackTrace();
+        }  
+        return result;  
+	  } 
+	  
+	  /**
+	   * 去除字段中的下划线
+	   * @param attrName
+	   * @return
+	   */
+	  private String removeUnderLine(String attrName) {  
+        //去掉数据库字段的下划线  
+         if(attrName.contains("_")) {  
+            String[] names = attrName.split("_");  
+            String firstPart = names[0];  
+            String otherPart = "";  
+            for (int i = 1; i < names.length; i++) {  
+                String word = names[i].replaceFirst(names[i].substring(0, 1), names[i].substring(0, 1).toUpperCase());  
+                otherPart += word;  
+            }  
+            attrName = firstPart + otherPart;  
+         }  
+        return attrName;  
+    }  
 }
