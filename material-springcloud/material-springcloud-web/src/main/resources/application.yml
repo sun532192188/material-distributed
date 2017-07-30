@@ -1,2 +1,4 @@
 server:
   port: 2222
+  context-path: /
+

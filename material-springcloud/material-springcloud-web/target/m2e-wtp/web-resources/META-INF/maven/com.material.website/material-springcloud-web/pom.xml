@@ -104,6 +104,11 @@
 	  <artifactId>material-springcloud-api</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
 	</dependency>
+	<!-- 只需引入spring-boot-devtools 即可实现热部署 -->
+     <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-devtools</artifactId>
+     </dependency>
   </dependencies>
    <build>
 		<plugins>
@@ -117,6 +122,18 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			 <plugin>
+                  <groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-maven-plugin</artifactId>
+                  <dependencies>
+                      <!-- 热部署 -->
+                      <dependency>
+                          <groupId>org.springframework</groupId>
+                          <artifactId>springloaded</artifactId>
+                          <version>1.2.6.RELEASE</version>
+                      </dependency>
+                  </dependencies>
+              </plugin>
 		</plugins>
 	</build>
 </project>

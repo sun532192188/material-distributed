@@ -97,7 +97,7 @@
   	<module>material-discovery-eureka</module>
     <module>material-config-server</module>
     <module>material-springcloud-zuul</module>
-    <module>material-provider-user</module>
+   <!--  <module>material-provider-user</module> -->
     <module>material-springcloud-web</module> 
     <module>material-springcloud-api</module>
     <module>material-springcloud-mybatis-service</module>

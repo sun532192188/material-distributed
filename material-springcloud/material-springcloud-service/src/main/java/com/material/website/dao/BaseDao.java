@@ -269,6 +269,7 @@ public class BaseDao<T> implements IBase<T> {
 		setParameter(sq, args);
 		if(hasEntity) {
 			sq.addEntity(clz);
+			return sq.list();
 		} else {
 			sq.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 			//TODO	下面将结果集转换为自定义对象在这里报转换错误 所以只能转换为map 
@@ -312,11 +313,14 @@ public class BaseDao<T> implements IBase<T> {
 		setPagers(sq, pages);
 		if(hasEntity) {
 			sq.addEntity(clz);
+			pages.setRows(sq.list());
 		} else {
-			sq.setResultTransformer(Transformers.aliasToBean(clz));
+		 	//sq.setResultTransformer(Transformers.aliasToBean(clz));
+		    sq.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+		    List<Map<String,Object>>list = sq.list();
+		    List<Object> convert = convert(clz, list);
+		    pages.setRows((List<N>) convert);
 		}
-		List<N> datas = sq.list();
-		pages.setRows(datas);
 		//((BigInteger)cquery.uniqueResult()).longValue();
 		long total =  listBySql(sql,args, clz, hasEntity).size();
 		pages.setTotal(total);
@@ -407,7 +411,7 @@ public class BaseDao<T> implements IBase<T> {
              for (Map<String, Object> map : list) {  
                  Object obj = clazz.newInstance();
                  for (String key:map.keySet()) {  
-                     String attrName = key.toLowerCase();  
+                     String attrName = key;    //key.toLowerCase(); 这里转换小写的问题  
                      for (PropertyDescriptor prop : props) {  
                          attrName = removeUnderLine(attrName);  
                          if (!attrName.equals(prop.getName())) {  

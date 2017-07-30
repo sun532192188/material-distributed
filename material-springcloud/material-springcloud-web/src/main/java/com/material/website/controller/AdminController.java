@@ -43,8 +43,8 @@ public class AdminController {
 	public String ids(Integer parentId, String parentFunctionName,
 			HttpServletRequest request, Model model)
 			throws UnsupportedEncodingException {
-		parentFunctionName = new String(
-				parentFunctionName.getBytes("ISO-8859-1"), "UTF-8");
+	/*	parentFunctionName = new String(
+				parentFunctionName.getBytes("ISO-8859-1"), "UTF-8");*/
 		model.addAttribute("parentId", parentId);
 		model.addAttribute("parentFunctionName", parentFunctionName);
 		return "admin/index";

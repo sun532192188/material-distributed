@@ -26,10 +26,6 @@ public class RoleFunctionDao extends BaseDao<RoleFunction> implements
 	public List<RoleFunctionDto> queryFunctionByRoleId(Integer roleId) {
 		String sql = "select * from rolefunction where roleId = ? order by functionId asc ";
 		List<RoleFunctionDto> roleFunctionList =  super.listBySql(sql, roleId,RoleFunctionDto.class, false);
-		for(RoleFunctionDto dto:roleFunctionList){
-			System.out.println(dto.getId()+":"+dto.getFunctionName()+":"+dto.getFunctionId()+":"+dto.getRoleId()+":"+dto.getUrl());
-		    System.out.println("-------------华丽的分隔线---------------");
-		}
 		return roleFunctionList;
 	}
 

@@ -15,8 +15,9 @@ public class WebConfigurer extends WebMvcConfigurerAdapter{
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		//可以多次使用 addResourceLocations 添加目录，优先级先添加的高于后添加的。
-        registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/");
-        registry.addResourceHandler("/upload/**").addResourceLocations("classpath:/upload/");
+       // registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/");
+        //registry.addResourceHandler("/upload/**").addResourceLocations("classpath:/upload/");
+	    registry.addResourceHandler("/**").addResourceLocations("classpath:/");
         super.addResourceHandlers(registry);
     }
 }

@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,9 +46,9 @@ import com.material.website.util.MaterialNoUtil;
 @Auth(ManagerType.EVERYONE)
 public class StorageController {
 	
-	@Inject
+	@Autowired
 	private StorageFeign storageFeign;
-	@Inject
+	@Autowired
 	private CategoryFeign categoryFeign;
 	
 	

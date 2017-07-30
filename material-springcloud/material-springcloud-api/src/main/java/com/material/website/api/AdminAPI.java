@@ -30,9 +30,9 @@ public interface AdminAPI {
 	/**
 	 * 加载管理员列表(分页)
 	 * @return
-	 *//*
+	 */
 	@RequestMapping(value="/queryUserPager",method=RequestMethod.GET)
-	public Pager<UserDto> queryUserPager(@RequestParam("userName") String userName,@RequestParam("roleId") Integer roleId,@RequestParam("remove") Integer remove);*/
+	public Pager<UserDto> queryUserPager(@RequestParam("userName") String userName,@RequestParam("roleId") Integer roleId,@RequestParam("remove") Integer remove);
 	
 	/**
 	 * 管理员添加
