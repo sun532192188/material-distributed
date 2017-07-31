@@ -8,11 +8,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.zh.validate.util.ValidUtil;
 
 import com.material.website.args.DepartmentArgs;
@@ -22,13 +22,14 @@ import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
 import com.material.website.util.BeanMapUtil;
+import com.material.website.web.interceptor.GetSystemContext;
 
 /**
  * 部门控制类
  * @author sunxiaorong
  *
  */
-@RestController
+@Controller
 @RequestMapping(value="/department")
 @Auth(ManagerType.EVERYONE)
 public class DepartmentController {
@@ -44,12 +45,14 @@ public class DepartmentController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/queryDepartList",method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/queryDepartList",method={RequestMethod.GET})
 	public String queryDepartList(String departName,String phone,Model model) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(departName)){
 			departName = new String(departName.getBytes("ISO-8859-1"),"UTF-8");
 		}
-		Pager pages = departmentFeign.queryDepartmentList(departName,phone);
+		
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		Pager pages = departmentFeign.queryDepartmentList(departName,phone,systemMap);
 		model.addAttribute("departName",departName);
 		model.addAttribute("phone",phone);
 		model.addAttribute("pages",pages);

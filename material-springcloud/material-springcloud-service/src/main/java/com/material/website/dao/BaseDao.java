@@ -18,10 +18,8 @@ import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
-import com.material.website.dto.RoleFunctionDto;
 import com.material.website.system.Pager;
 import com.material.website.system.SystemContext;
-import com.material.website.util.BeanMapUtil;
 
 /**
  * base-dao 实现

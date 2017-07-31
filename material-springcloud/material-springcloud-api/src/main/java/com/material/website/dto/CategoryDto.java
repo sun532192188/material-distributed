@@ -15,6 +15,12 @@ public class CategoryDto {
 	private Boolean isParent;
 	private String categoryNo;
 	private Integer status;  //接点状态
+	
+	
+	public CategoryDto() {
+		super();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

@@ -1,14 +1,14 @@
-package com.material.website.config;
+/*package com.material.website.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-/**
+*//**
  * web应用自定义资源映射
  * @author Sunxiaorong
  *
- */
+ *//*
 @Configuration
 public class WebConfigurer extends WebMvcConfigurerAdapter{
    
@@ -21,3 +21,4 @@ public class WebConfigurer extends WebMvcConfigurerAdapter{
         super.addResourceHandlers(registry);
     }
 }
+*/

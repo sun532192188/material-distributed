@@ -72,7 +72,10 @@ public class StockDto {
 	
 	private String formatSingleMoney="";
 	
-
+	public StockDto() {
+		super();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

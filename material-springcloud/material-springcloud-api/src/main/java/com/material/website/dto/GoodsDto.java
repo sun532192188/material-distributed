@@ -65,6 +65,12 @@ public class GoodsDto {
 	
 	private Integer categoryTwo;
 	
+	
+	
+	public GoodsDto() {
+		super();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

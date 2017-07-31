@@ -25,8 +25,8 @@ import com.material.website.dao.BaseDao;
 public class Application {
    
 	public static void main( String[] args ){
-        SpringApplication.run(Application.class, args);
-    }
+       SpringApplication.run(Application.class, args);
+	}
 	
     @Bean
     public HibernateJpaSessionFactoryBean sessionFactory() {
@@ -44,5 +44,4 @@ public class Application {
         System.out.println(">>>>>>>>>>" + platformTransactionManager.getClass().getName());
         return new Object();
     }
-
 }

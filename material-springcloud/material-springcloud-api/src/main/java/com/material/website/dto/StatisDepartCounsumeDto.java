@@ -32,6 +32,10 @@ public class StatisDepartCounsumeDto {
 	private String specModel = "";
 
 	private String remarks;
+	
+	public StatisDepartCounsumeDto() {
+		super();
+	}
 
 	public Integer getId() {
 		return id;

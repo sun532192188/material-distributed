@@ -59,6 +59,11 @@ public class StorageDto {
 	private String formatMoney;
 	
 	private Integer status;
+	
+
+	public StorageDto() {
+		super();
+	}
 
 	public Integer getId() {
 		return id;

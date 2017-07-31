@@ -13,6 +13,12 @@ public class AdminDto {
 	private String realname;
 	private Integer role;
 	private Integer remove;
+	
+	
+
+	public AdminDto() {
+		super();
+	}
 
 	/**
 	 * @return the id

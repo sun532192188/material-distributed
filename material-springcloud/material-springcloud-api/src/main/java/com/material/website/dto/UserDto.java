@@ -40,6 +40,10 @@ public class UserDto {
 	 * 状态
 	 */
 	private Integer remove;
+	
+	public UserDto() {
+		super();
+	}
 
 	public Integer getId() {
 		return id;

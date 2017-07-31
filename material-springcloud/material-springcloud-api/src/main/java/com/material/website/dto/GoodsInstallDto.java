@@ -59,6 +59,12 @@ public class GoodsInstallDto {
 		
 		private Integer operatType;
 		
+		
+		
+		public GoodsInstallDto() {
+			super();
+		}
+
 		public Integer getId() {
 			return id;
 		}

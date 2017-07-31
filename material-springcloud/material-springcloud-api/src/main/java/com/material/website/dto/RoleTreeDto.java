@@ -13,6 +13,10 @@ public class RoleTreeDto {
 	private String open = "false";// 是否展开树节点，默认不展开
 	private Boolean isParent;
 
+	public RoleTreeDto() {
+		super();
+	}
+
 	public Integer getId() {
 		return id;
 	}

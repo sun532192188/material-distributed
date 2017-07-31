@@ -20,6 +20,11 @@ public class ResponseMsg {
 	 * 返回接口数据
 	 */
 	private Map<String, Object>resultMap = new HashMap<String, Object>();
+   
+	
+	public ResponseMsg() {
+		super();
+	}
 
 	public Integer getStatus() {
 		return status;

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.material.website.api.DepartmentAPI;
@@ -12,6 +13,8 @@ import com.material.website.dao.IDepartmentDao;
 import com.material.website.dto.DepartmentDto;
 import com.material.website.entity.Department;
 import com.material.website.system.Pager;
+import com.material.website.system.SystemContext;
+import com.material.website.systemcontext.ConverMapToSystemContext;
 import com.material.website.util.BeanMapUtil;
 
 /**
@@ -27,7 +30,8 @@ public class DepartmentService implements DepartmentAPI {
 	private IDepartmentDao departmentDao;
 
 	@Override
-	public Pager<DepartmentDto> queryDepartmentList(String departName,String phone) {
+	public Pager<DepartmentDto> queryDepartmentList(String departName,String phone,@RequestParam Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		return departmentDao.queryDepartmentList(departName, phone);
 	}
 

@@ -17,6 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
  * @date 2014年12月4日 上午12:37:23
  */
 public class SystemContext {
+	
 	/**
 	 * 分页大小
 	 */

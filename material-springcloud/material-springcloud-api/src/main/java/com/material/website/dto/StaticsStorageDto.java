@@ -37,6 +37,11 @@ public class StaticsStorageDto {
 	private String specModel = "";
 	
 	private String remarks;
+	
+
+	public StaticsStorageDto() {
+		super();
+	}
 
 	public Integer getId() {
 		return id;

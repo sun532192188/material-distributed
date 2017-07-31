@@ -46,6 +46,12 @@ public class DepartStockDto {
 	
 	private Integer status;
 
+	
+	
+	public DepartStockDto() {
+		super();
+	}
+
 	public Integer getId() {
 		return id;
 	}

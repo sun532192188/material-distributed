@@ -38,6 +38,9 @@ public class StaticsDepartPlanDto {
 	
 	private String formatMoney="";
 	
+	public StaticsDepartPlanDto() {
+		super();
+	}
 
 	public Integer getId() {
 		return id;

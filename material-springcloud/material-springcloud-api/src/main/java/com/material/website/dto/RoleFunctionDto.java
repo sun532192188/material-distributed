@@ -24,7 +24,6 @@ public class RoleFunctionDto {
 	
 	private String url;
 	
-
 	public RoleFunctionDto() {
 		super();
 	}

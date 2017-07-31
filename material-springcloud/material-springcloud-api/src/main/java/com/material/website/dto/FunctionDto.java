@@ -26,6 +26,12 @@ public class FunctionDto {
 	
 	private Integer parentId = 0;
 	
+	
+	
+	public FunctionDto() {
+		super();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

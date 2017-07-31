@@ -24,7 +24,7 @@ public interface DepartmentAPI {
 	 * @return
 	 */
 	@RequestMapping(value="/queryDepartmentList",method=RequestMethod.GET)
-	public Pager<DepartmentDto> queryDepartmentList(@RequestParam("departName") String departName,@RequestParam("phone") String phone);
+	public Pager<DepartmentDto> queryDepartmentList(@RequestParam("departName") String departName,@RequestParam("phone") String phone,@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 添加部门数据

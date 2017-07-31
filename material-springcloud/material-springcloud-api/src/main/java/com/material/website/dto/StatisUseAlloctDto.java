@@ -38,6 +38,10 @@ public class StatisUseAlloctDto {
 	private String formatPrice="";
 	
 	private String formatMoney="";
+	
+	public StatisUseAlloctDto() {
+		super();
+	}
 
 	public Integer getId() {
 		return id;

@@ -55,6 +55,12 @@ public class UseAlloctDto {
 	 */
 	private Integer status;
 	
+	
+	
+	public UseAlloctDto() {
+		super();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

@@ -2,6 +2,7 @@ package com.material.website.web;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -9,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author sunxiaorong
  *
  */
-@Configuration 
+@Configuration  
 public class ManagerAuthAdapter extends WebMvcConfigurerAdapter{
 
 	@Override  
@@ -20,7 +21,14 @@ public class ManagerAuthAdapter extends WebMvcConfigurerAdapter{
          * addPathPatterns 用于添加拦截规则 
          * excludePathPatterns 用户排除拦截 
          */  
-        registry.addInterceptor(new ManagerAuthInterceptor()).addPathPatterns("/**");  
+        registry.addInterceptor(new ManagerAuthInterceptor()).addPathPatterns("/admin/**");  
         super.addInterceptors(registry);  
-    }  
+    } 
+	
+	
+	/*@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	    registry.addResourceHandler("/**").addResourceLocations("classpath:/");
+        super.addResourceHandlers(registry);
+    }*/
 }

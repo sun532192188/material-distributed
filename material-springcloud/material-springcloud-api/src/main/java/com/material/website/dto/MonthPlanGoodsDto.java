@@ -55,6 +55,12 @@ public class MonthPlanGoodsDto {
 	
 	private String formatMoney="";
 
+	
+	
+	public MonthPlanGoodsDto() {
+		super();
+	}
+
 	public Integer getId() {
 		return id;
 	}

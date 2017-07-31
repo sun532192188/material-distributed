@@ -42,6 +42,11 @@ public class SupplierDto {
 	 * 银行卡帐号
 	 */
 	private String bankCard;
+	
+	public SupplierDto() {
+		super();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

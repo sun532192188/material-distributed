@@ -46,6 +46,12 @@ public class DeparPlanDto {
 	private Integer status;
 	
 	private String formatMoney;
+	
+	
+
+	public DeparPlanDto() {
+		super();
+	}
 
 	public Integer getId() {
 		return id;

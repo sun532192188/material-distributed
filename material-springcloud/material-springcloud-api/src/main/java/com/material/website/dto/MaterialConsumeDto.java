@@ -52,6 +52,12 @@ public class MaterialConsumeDto {
 	 * 入账状态  0.未入账  1.已入库
 	 */
 	private Integer status;
+	
+	
+
+	public MaterialConsumeDto() {
+		super();
+	}
 
 	public Integer getId() {
 		return id;

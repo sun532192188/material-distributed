@@ -22,7 +22,7 @@ import com.material.website.system.SystemContext;
  * @author 张明虎 zhangminghu@yuntengzhiyong.com
  * @date 2014年12月4日 上午12:37:23
  */
-@WebFilter(filterName="PageFilter",urlPatterns="/*")  
+@WebFilter(filterName="SystemFilter",urlPatterns="/*")  
 public class SystemFilter implements Filter {
 	
 	@Override

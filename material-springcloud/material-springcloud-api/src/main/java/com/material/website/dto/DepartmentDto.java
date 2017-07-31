@@ -23,6 +23,10 @@ public class DepartmentDto {
 	 */
 	private String phone;
 	
+	public DepartmentDto() {
+		super();
+	}
+	
 	public Integer getId() {
 		return id;
 	}
