@@ -23,9 +23,10 @@ import com.material.website.feign.CategoryFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
-import com.material.website.util.BeanMapUtil;
+import com.material.website.util.JsonUtil;
 import com.material.website.util.MaterialNoUtil;
 import com.material.website.util.PinYin2Abbreviation;
+import com.material.website.web.interceptor.GetSystemContext;
 
 /**
  * 商品分类控制类
@@ -81,7 +82,8 @@ public class CategoryController {
 		if(StringUtils.isNotEmpty(categoryName)){
 			categoryName = new String(categoryName.getBytes("ISO-8859-1"),"UTF-8");
 		}
-		Pager<CategoryDto>pages = categoryFeign.queryCategoryPager(categoryName, parentId,status);
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		Pager<CategoryDto>pages = categoryFeign.queryCategoryPager(categoryName, parentId,status,systemMap);
 		model.addAttribute("pages",pages);
 		model.addAttribute("categoryName",categoryName);
 		model.addAttribute("status",status);
@@ -108,7 +110,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/addCategory",method=RequestMethod.GET)
+	@RequestMapping(value="/addCategory",method=RequestMethod.POST)
 	public String addSupplier(CategoryArgs categoryArgs,Model model){
 		model.addAttribute("categoryArgs",categoryArgs);
 		List validInfo=ValidUtil.newInstance().valid(categoryArgs);
@@ -140,7 +142,8 @@ public class CategoryController {
 			model.addAttribute("msg","分类编号与分类名称不符");
 			return "admin/category/add";
 		}
-		boolean isSuccess = categoryFeign.addCategory(BeanMapUtil.convertBean(categoryArgs));
+		String json = JsonUtil.newInstance().obj2json(categoryArgs);
+		boolean isSuccess = categoryFeign.addCategory(json);
 		if(!isSuccess){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -187,7 +190,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/updateCategory",method=RequestMethod.GET)
+	@RequestMapping(value="/updateCategory",method=RequestMethod.POST)
 	public String updateSupplier(CategoryArgs categoryArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(categoryArgs);
 		if(validInfo.size()>0){
@@ -197,7 +200,8 @@ public class CategoryController {
 			return "admin/category/update";
 		}
 		try {
-			categoryFeign.updateCategory(BeanMapUtil.convertBean(categoryArgs));
+			String json = JsonUtil.newInstance().obj2json(categoryArgs);
+			categoryFeign.updateCategory(json);
 			model.addAttribute("type","success");
 			model.addAttribute("title","操作成功");
 			model.addAttribute("msg","修改分类成功");

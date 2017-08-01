@@ -50,7 +50,9 @@ import com.material.website.system.MaterialOperate;
 import com.material.website.system.Pager;
 import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
+import com.material.website.util.JsonUtil;
 import com.material.website.util.MaterialNoUtil;
+import com.material.website.web.interceptor.GetSystemContext;
 
 /**
  * 部门中心(包括月计划操作 部门入库 出库 调拨)
@@ -81,7 +83,9 @@ public class DepartmentCenterController {
 	public String queryMonthPlanPager(DepartPlanQueryArgs queryArgs,Model model,HttpSession session){
 		Admin loginManager  = (Admin) session.getAttribute("loginManager");
 		queryArgs.setDepartmentId(loginManager.getDepartId());
-		Pager<DeparPlanDto>pages = departCenterFeign.queryPlanPager(BeanMapUtil.convertBean(queryArgs)); 
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
+		Pager<DeparPlanDto>pages = departCenterFeign.queryPlanPager(systemMap); 
 		model.addAttribute("queryArgs",queryArgs);
 		model.addAttribute("pages",pages);
 		return "admin/departmentCenter/monthPlan/list";
@@ -135,7 +139,8 @@ public class DepartmentCenterController {
 				addArgs.setDepartmentId(admin.getDepartId());
 				addArgs.setDepartmentName(department.getDepartmentName());
 			}
-			departCenterFeign.addMonthPlan(BeanMapUtil.convertBean(addArgs));
+			String json = JsonUtil.newInstance().obj2json(addArgs);
+			departCenterFeign.addMonthPlan(json);
 			map.put("status", 200);
 			map.put("msg", "添加成功");
 		} catch (Exception e1) {
@@ -302,7 +307,9 @@ public class DepartmentCenterController {
            goodsName = new String(goodsName.getBytes("ISO-8859-1"),"UTF-8");
            queryArgs.setGoodsName(goodsName);
         }
-        Pager<DepartStockDto> pages = departCenterFeign.queryDepartStockPager(BeanMapUtil.convertBean(queryArgs));
+        Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+        systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
+        Pager<DepartStockDto> pages = departCenterFeign.queryDepartStockPager(systemMap);
         model.addAttribute("queryArgs",queryArgs);
         model.addAttribute("pages",pages);
         model.addAttribute("categoryList", queryCategoryOne());
@@ -450,7 +457,9 @@ public class DepartmentCenterController {
 		}
 		Admin loginManager = (Admin) session.getAttribute("loginManager");
 		queryArgs.setDepartId(loginManager.getDepartId());
-	    Pager<StatisUseAlloctDto>pages = useAlloctFeign.statisUseAlloctPager(BeanMapUtil.convertBean(queryArgs));
+	    Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
+	    Pager<StatisUseAlloctDto>pages = useAlloctFeign.statisUseAlloctPager(systemMap);
 	    model.addAttribute("pages",pages);
 	    model.addAttribute("queryArgs",queryArgs);
 	    model.addAttribute("categoryList",queryCategoryOne());
@@ -470,7 +479,9 @@ public class DepartmentCenterController {
 		}
 		Admin loginManager = (Admin) session.getAttribute("loginManager");
 		queryArgs.setDepartId(loginManager.getDepartId());
-	    Pager<StatisDepartCounsumeDto>pages = departCenterFeign.statisDepartConsumePager(BeanMapUtil.convertBean(queryArgs));
+	    Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+	    systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
+		Pager<StatisDepartCounsumeDto>pages = departCenterFeign.statisDepartConsumePager(systemMap);
 	    model.addAttribute("pages",pages);
 	    model.addAttribute("queryArgs",queryArgs);
 	    model.addAttribute("categoryList",queryCategoryOne());
@@ -518,7 +529,8 @@ public class DepartmentCenterController {
 			map.put("msg", validInfo.get(0).toString());
 			return map;
 		}
-		boolean  isTrue = departCenterFeign.updateDepartConsume(BeanMapUtil.convertBean(updateArgs));
+		String json = JsonUtil.newInstance().obj2json(updateArgs);
+		boolean  isTrue = departCenterFeign.updateDepartConsume(json);
 		if(isTrue){
 			map.put("status", 200);
 			map.put("msg", "修改成功");

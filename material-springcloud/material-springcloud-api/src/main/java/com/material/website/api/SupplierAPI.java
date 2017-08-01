@@ -32,16 +32,16 @@ public interface SupplierAPI {
 	 * @RequestParam supplier
 	 * @return
 	 */
-	@RequestMapping(value="/addSupplier",method=RequestMethod.GET)
-	public boolean addSupplier(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/addSupplier",method=RequestMethod.POST)
+	public boolean addSupplier(@RequestParam("json") String json);
 	
 	/**
 	 * 修改供应商信息
 	 * @RequestParam supplier
 	 * @return
 	 */
-	@RequestMapping(value="/updateSupplier",method=RequestMethod.GET)
-	public void updateSupplier(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/updateSupplier",method=RequestMethod.POST)
+	public void updateSupplier(@RequestParam("json") String json);
 	
 	/**
 	 * 根据供应商编号查询供应商信息

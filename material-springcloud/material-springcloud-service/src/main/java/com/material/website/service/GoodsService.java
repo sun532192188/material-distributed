@@ -28,8 +28,10 @@ import com.material.website.entity.Storage;
 import com.material.website.entity.Supplier;
 import com.material.website.entity.UseAlloct;
 import com.material.website.system.Pager;
+import com.material.website.systemcontext.ConverMapToSystemContext;
 import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
+import com.material.website.util.JsonUtil;
 
 /**
  * 商品业务实现类
@@ -56,14 +58,15 @@ public class GoodsService implements GoodsAPI {
 
 	@Override
 	public Pager<GoodsDto> queryGoodsPager(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		GoodsQueryArgs queryArgs = (GoodsQueryArgs) BeanMapUtil.convertMap(GoodsQueryArgs.class, map);
 		return goodsDao.queryGoodsPager(queryArgs);
 	}
 
 	@Override
-	public boolean addGoods(Map<String, Object>map) {
+	public boolean addGoods(String json) {
 		try {
-			GoodsAddArgs goodsAddArgs = (GoodsAddArgs) BeanMapUtil.convertMap(GoodsAddArgs.class, map);
+			GoodsAddArgs goodsAddArgs = (GoodsAddArgs)JsonUtil.newInstance().json2obj(json, GoodsAddArgs.class);
 			Goods goods = new Goods();
 			BeanUtils.copyProperties(goodsAddArgs, goods);
 			goods.setStatus(0);
@@ -77,9 +80,9 @@ public class GoodsService implements GoodsAPI {
 	}
 
 	@Override
-	public boolean updateGoods(Map<String, Object>map) {
+	public boolean updateGoods(String json) {
 		try {
-			GoodsAddArgs goodsArgs = (GoodsAddArgs) BeanMapUtil.convertMap(GoodsAddArgs.class, map);
+			GoodsAddArgs goodsArgs = (GoodsAddArgs) JsonUtil.newInstance().json2obj(json, GoodsAddArgs.class);
 			Goods goods = new Goods();
 			BeanUtils.copyProperties(goodsArgs, goods);
 			goods.setStatus(0);
@@ -128,8 +131,8 @@ public class GoodsService implements GoodsAPI {
 	}
 
 	@Override
-	public boolean addOperatTemp(Map<String, Object>map) {
-		OperatTemp operatTemp = (OperatTemp) BeanMapUtil.convertMap(OperatTemp.class, map);
+	public boolean addOperatTemp(String json) {
+		OperatTemp operatTemp = (OperatTemp) JsonUtil.newInstance().json2obj(json, OperatTemp.class);
 		goodsDao.addEntity(operatTemp);
 		return true;
 	}
@@ -172,8 +175,8 @@ public class GoodsService implements GoodsAPI {
 	}
 
 	@Override
-	public void updateTempGoodsNum(Map<String, Object>map) {
-		OperatTemp temp = (OperatTemp) BeanMapUtil.convertMap(OperatTemp.class, map);
+	public void updateTempGoodsNum(String json) {
+		OperatTemp temp = (OperatTemp)JsonUtil.newInstance().json2obj(json, OperatTemp.class);
 		 goodsDao.updateEntity(temp);
 	}
 

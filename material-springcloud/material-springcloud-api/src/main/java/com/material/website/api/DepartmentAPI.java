@@ -24,23 +24,24 @@ public interface DepartmentAPI {
 	 * @return
 	 */
 	@RequestMapping(value="/queryDepartmentList",method=RequestMethod.GET)
-	public Pager<DepartmentDto> queryDepartmentList(@RequestParam("departName") String departName,@RequestParam("phone") String phone,@RequestParam Map<String, Object>map);
+	public Pager<DepartmentDto> queryDepartmentList(@RequestParam("departName") String departName,
+			@RequestParam("phone") String phone,@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 添加部门数据
 	 * @RequestParam department
 	 * @return
 	 */
-	@RequestMapping(value="/addDepartment",method=RequestMethod.GET)
-	public  boolean addDepartment(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/addDepartment",method=RequestMethod.POST)
+	public  boolean addDepartment(@RequestParam("json") String json);
 	
 	/**
 	 * 修改部门数据
 	 * @RequestParam department
 	 * @return
 	 */
-	@RequestMapping(value="/updateDepartment",method=RequestMethod.GET)
-	public boolean updateDepartment(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/updateDepartment",method=RequestMethod.POST)
+	public boolean updateDepartment(@RequestParam("json") String json);
 	
 	/**
 	 * 根据编号加载部门信息

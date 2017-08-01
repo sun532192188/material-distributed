@@ -1,7 +1,6 @@
 package com.material.website.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +12,7 @@ import com.material.website.dao.IRoleDao;
 import com.material.website.entity.Function;
 import com.material.website.entity.Role;
 import com.material.website.entity.RoleFunction;
-import com.material.website.util.BeanMapUtil;
+import com.material.website.util.JsonUtil;
 
 /**
  * 角色业务实现类
@@ -28,8 +27,8 @@ public class RoleService implements RoleAPI {
 	private IRoleDao roleDao;
 
 	@Override
-	public Integer addRole(Map<String, Object>map) {
-		RoleAddArgs roleArgs = (RoleAddArgs) BeanMapUtil.convertMap(RoleAddArgs.class, map);
+	public Integer addRole(String json) {
+		RoleAddArgs roleArgs = (RoleAddArgs) JsonUtil.newInstance().json2obj(json, RoleAddArgs.class);
 		Role role = new Role();
 		role.setRoleName(roleArgs.getRoleName());
 		role = roleDao.add(role);
@@ -74,8 +73,8 @@ public class RoleService implements RoleAPI {
 
 
 	@Override
-	public Integer updateRole(Map<String, Object>map) {
-		RoleAddArgs updateArgs = (RoleAddArgs) BeanMapUtil.convertMap(RoleAddArgs.class, map);
+	public Integer updateRole(String json) {
+		RoleAddArgs updateArgs = (RoleAddArgs) JsonUtil.newInstance().json2obj(json, RoleAddArgs.class);
 		Role role = new Role();
 		role.setRoleName(updateArgs.getRoleName());
 		role.setId(updateArgs.getId());

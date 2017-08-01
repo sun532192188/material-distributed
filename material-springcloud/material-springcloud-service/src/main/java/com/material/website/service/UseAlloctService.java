@@ -33,8 +33,10 @@ import com.material.website.entity.UseAlloct;
 import com.material.website.entity.UseAlloctDetail;
 import com.material.website.system.MaterialOperate;
 import com.material.website.system.Pager;
+import com.material.website.systemcontext.ConverMapToSystemContext;
 import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
+import com.material.website.util.JsonUtil;
 import com.material.website.util.MaterialNoUtil;
 
 /**
@@ -62,6 +64,7 @@ public class UseAlloctService implements UseAlloctAPI {
 
 	@Override
 	public Pager<UseAlloctDto> queryDepartUsePager(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		UseAlloctQueryArgs queryArgs = (UseAlloctQueryArgs) BeanMapUtil.convertMap(UseAlloctQueryArgs.class, map);
 		return useAlloctDao.queryDepartUsePager(queryArgs);
 	}
@@ -140,6 +143,7 @@ public class UseAlloctService implements UseAlloctAPI {
 
 	@Override
 	public Pager<StatisUseAlloctDto> statisUseAlloctPager(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		StatisUseAlloctArgs queryArgs = (StatisUseAlloctArgs) BeanMapUtil.convertMap(StatisUseAlloctArgs.class, map);
 		return useAlloctDao.statisUseAlloctPager(queryArgs);
 	}
@@ -156,9 +160,9 @@ public class UseAlloctService implements UseAlloctAPI {
 	}
 
 	@Override
-	public boolean updateUseAlloct(Map<String, Object>map) {
+	public boolean updateUseAlloct(String json) {
 		try {
-			UseAlloctAddArgs updateArgs = (UseAlloctAddArgs) BeanMapUtil.convertMap(UseAlloctAddArgs.class, map);
+			UseAlloctAddArgs updateArgs = (UseAlloctAddArgs) JsonUtil.newInstance().json2obj(json, UseAlloctAddArgs.class);
 			UseAlloct useAlloct = useAlloctDao.get(updateArgs.getId());
 			BeanUtils.copyProperties(updateArgs, useAlloct);
 			useAlloctDao.updateEntity(useAlloct);

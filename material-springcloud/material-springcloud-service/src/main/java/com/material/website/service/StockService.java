@@ -14,6 +14,7 @@ import com.material.website.dao.IGoodsDao;
 import com.material.website.dao.IStockDao;
 import com.material.website.dto.StockDto;
 import com.material.website.system.Pager;
+import com.material.website.systemcontext.ConverMapToSystemContext;
 import com.material.website.util.BeanMapUtil;
 
 /**
@@ -32,6 +33,7 @@ public class StockService implements StockAPI {
 
 	@Override
 	public Pager<StockDto> queryStockPager(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		StockArgs stockArgs = (StockArgs) BeanMapUtil.convertMap(StockArgs.class, map);
 		return stockDao.queryStockPager(stockArgs);
 	}

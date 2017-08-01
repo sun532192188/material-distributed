@@ -13,7 +13,9 @@ import com.material.website.dao.ISupplierDao;
 import com.material.website.dto.SupplierDto;
 import com.material.website.entity.Supplier;
 import com.material.website.system.Pager;
+import com.material.website.systemcontext.ConverMapToSystemContext;
 import com.material.website.util.BeanMapUtil;
+import com.material.website.util.JsonUtil;
 
 /**
  * 供应商业务实现类
@@ -29,14 +31,15 @@ public class SupplierService implements SupplierAPI {
 	
 	@Override
 	public Pager<SupplierDto> querySupplierList(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		SupplierQueryArgs supplierArgs = (SupplierQueryArgs) BeanMapUtil.convertMap(SupplierQueryArgs.class, map);
 		return supplierDao.querySupplierList(supplierArgs);
 	}
 
 	@Override
-	public boolean addSupplier(Map<String, Object>map) {
+	public boolean addSupplier(String json) {
 		try {
-			Supplier supplier = (Supplier) BeanMapUtil.convertMap(Supplier.class, map);
+			Supplier supplier = (Supplier) JsonUtil.newInstance().json2obj(json, Supplier.class);
 			supplierDao.addEntity(supplier);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,8 +49,8 @@ public class SupplierService implements SupplierAPI {
 	}
 
 	@Override
-	public void updateSupplier(Map<String, Object>map) {
-		Supplier supplier = (Supplier) BeanMapUtil.convertMap(Supplier.class, map);
+	public void updateSupplier(String json) {
+		Supplier supplier = (Supplier) JsonUtil.newInstance().json2obj(json, Supplier.class);
 		supplierDao.updateEntity(supplier);
 	}
 

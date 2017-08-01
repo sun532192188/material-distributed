@@ -7,12 +7,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.zh.validate.util.ValidUtil;
 
 import com.material.website.args.RoleAddArgs;
@@ -23,14 +23,14 @@ import com.material.website.entity.Role;
 import com.material.website.entity.RoleFunction;
 import com.material.website.feign.RoleFeign;
 import com.material.website.feign.RoleFunctionFeign;
-import com.material.website.util.BeanMapUtil;
+import com.material.website.util.JsonUtil;
 
 /**
  * 角色控制类
  * @author sunxiaorong
  *
  */
-@RestController
+@Controller
 @RequestMapping(value="role")
 public class RoleController {
 
@@ -87,8 +87,8 @@ public class RoleController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/addRole")
-	public String addRole(@RequestBody RoleAddArgs roleArgs,Model model){
+	@RequestMapping(value="/addRole",method=RequestMethod.POST)
+	public String addRole(RoleAddArgs roleArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(roleArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");
@@ -96,7 +96,7 @@ public class RoleController {
 			model.addAttribute("msg",validInfo.get(0).toString());
 			return "admin/role/add";
 		}
-		Integer resultNum = roleFeign.addRole(BeanMapUtil.convertBean(roleArgs));
+		Integer resultNum = roleFeign.addRole(JsonUtil.newInstance().obj2json(roleArgs));
 		if(resultNum == -1){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -190,8 +190,8 @@ public class RoleController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/updateRole")
-	public String updateRole(@RequestBody RoleAddArgs roleArgs,Model model){
+	@RequestMapping(value="/updateRole",method=RequestMethod.POST)
+	public String updateRole(RoleAddArgs roleArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(roleArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");
@@ -199,7 +199,7 @@ public class RoleController {
 			model.addAttribute("msg",validInfo.get(0).toString());
 			return "admin/role/update";
 		}
-		Integer  resultNum = roleFeign.updateRole(BeanMapUtil.convertBean(roleArgs));
+		Integer  resultNum = roleFeign.updateRole(JsonUtil.newInstance().obj2json(roleArgs));
 		if(resultNum <= 0){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");

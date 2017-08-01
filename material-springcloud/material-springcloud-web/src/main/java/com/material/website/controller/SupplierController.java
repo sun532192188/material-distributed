@@ -28,6 +28,8 @@ import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
 import com.material.website.util.BeanMapUtil;
+import com.material.website.util.JsonUtil;
+import com.material.website.web.interceptor.GetSystemContext;
 
 /**
  * 供应商控制类
@@ -59,7 +61,9 @@ public class SupplierController {
 		if(StringUtils.isNotEmpty(supplierArgs.getAddress())){
 			supplierArgs.setAddress(new String(supplierArgs.getAddress().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		Pager pager = supplierFeign.querySupplierList(BeanMapUtil.convertBean(supplierArgs));
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(supplierArgs));
+		Pager pager = supplierFeign.querySupplierList(systemMap);
 		model.addAttribute("pages",pager);
 		model.addAttribute("supplierArgs",supplierArgs);
 		return "admin/supplier/list";
@@ -81,8 +85,8 @@ public class SupplierController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/addSupplier",method={RequestMethod.GET,RequestMethod.POST})
-	public String addSupplier(@RequestBody SupplierAddArgs  supplierArgs,Model model){
+	@RequestMapping(value="/addSupplier",method={RequestMethod.POST})
+	public String addSupplier(SupplierAddArgs  supplierArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(supplierArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");
@@ -92,7 +96,7 @@ public class SupplierController {
 		}
 		Supplier supplier = new Supplier();
 		BeanUtils.copyProperties(supplierArgs, supplier);
-		boolean isSuccess = supplierFeign.addSupplier(BeanMapUtil.convertBean(supplier));
+		boolean isSuccess = supplierFeign.addSupplier(JsonUtil.newInstance().obj2json(supplierArgs));
 		if(!isSuccess){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -133,7 +137,7 @@ public class SupplierController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/updateSupplier",method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/updateSupplier",method={RequestMethod.POST})
 	public String updateSupplier(@RequestBody SupplierAddArgs updateArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(updateArgs);
 		if(validInfo.size()>0){
@@ -145,7 +149,7 @@ public class SupplierController {
 		Supplier supplier = new Supplier();
 		BeanUtils.copyProperties(updateArgs, supplier);
 		try {
-			supplierFeign.updateSupplier(BeanMapUtil.convertBean(supplier));
+			supplierFeign.updateSupplier(JsonUtil.newInstance().obj2json(updateArgs));
 			model.addAttribute("type","success");
 			model.addAttribute("title","操作成功");
 			model.addAttribute("msg","修改供应商成功");

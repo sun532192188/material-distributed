@@ -9,11 +9,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.zh.validate.util.ValidUtil;
 
 import com.material.website.args.AdminArgs;
@@ -23,7 +23,8 @@ import com.material.website.feign.AdminFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
-import com.material.website.util.BeanMapUtil;
+import com.material.website.util.JsonUtil;
+import com.material.website.web.interceptor.GetSystemContext;
 
 
 /**
@@ -31,7 +32,7 @@ import com.material.website.util.BeanMapUtil;
  * @author sunxiaorong
  *
  */
-@RestController
+@Controller
 @RequestMapping(value="/user")
 @Auth(ManagerType.EVERYONE)
 public class UserController {
@@ -50,7 +51,7 @@ public class UserController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/addUser",method=RequestMethod.GET)
+	@RequestMapping(value="/addUser",method=RequestMethod.POST)
 	public String addUser(AdminArgs userArgs, Model model) {
 		List validInfo = ValidUtil.newInstance().valid(userArgs);
 		if (validInfo.size() > 0) {
@@ -60,7 +61,8 @@ public class UserController {
 			return "admin/user/add";
 		}
 		try {
-			adminFeign.add(BeanMapUtil.convertBean(userArgs));
+			String json = JsonUtil.newInstance().obj2json(userArgs);
+			adminFeign.add(json);
 			model.addAttribute("type", "success");
 			model.addAttribute("title", "操作成功");
 			model.addAttribute("msg", "添加用户成功");
@@ -83,10 +85,11 @@ public class UserController {
 	 */
 	@RequestMapping(value="/queryUserPager")
 	public String queryUserPager(String userName,String realName,Integer roleId,Integer remove,Model model,HttpSession session) throws UnsupportedEncodingException{
-		if(StringUtils.isNotEmpty(userName)){
+		/*if(StringUtils.isNotEmpty(userName)){
 			userName = new String(userName.getBytes("ISO-8859-1"),"UTF-8");
-		}
-		Pager<UserDto> pages = adminFeign.queryUserPager(userName, roleId,remove);
+		}*/
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		Pager<UserDto> pages = adminFeign.queryUserPager(userName, roleId,remove,systemMap);
 	    model.addAttribute("pages",pages);
 	    model.addAttribute("userName",userName);
 	    model.addAttribute("roleId",roleId);
@@ -112,7 +115,7 @@ public class UserController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/updateUser",method=RequestMethod.GET)
+	@RequestMapping(value="/updateUser",method=RequestMethod.POST)
 	public String updateUser(AdminArgs userArgs, Model model) {
 		List validInfo = ValidUtil.newInstance().valid(userArgs);
 		if (validInfo.size() > 0) {
@@ -122,7 +125,8 @@ public class UserController {
 			return "admin/user/add";
 		}
 		try {
-			adminFeign.update(BeanMapUtil.convertBean(userArgs));
+			String json = JsonUtil.newInstance().obj2json(userArgs);
+			adminFeign.update(json);
 			model.addAttribute("type", "success");
 			model.addAttribute("title", "操作成功");
 			model.addAttribute("msg", "修改用户成功");

@@ -36,7 +36,9 @@ import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
 import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
+import com.material.website.util.JsonUtil;
 import com.material.website.util.MaterialNoUtil;
+import com.material.website.web.interceptor.GetSystemContext;
 
 /**
  * 商品控制类
@@ -69,7 +71,9 @@ public class GoodsController {
 		if(StringUtils.isNotEmpty(queryArgs.getGoodsName())){
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		Pager<GoodsDto> pages = goodsFeign.queryGoodsPager(BeanMapUtil.convertBean(queryArgs));
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
+		Pager<GoodsDto> pages = goodsFeign.queryGoodsPager(systemMap);
 		model.addAttribute("queryArgs", queryArgs);
 		model.addAttribute("pages", pages);
 		model.addAttribute("categoryList", queryCategoryOne());
@@ -106,7 +110,7 @@ public class GoodsController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/addGoods", method = { RequestMethod.POST })
-	public String addSupplier(@RequestBody GoodsAddArgs goodsAddArgs, Model model) {
+	public String addSupplier(GoodsAddArgs goodsAddArgs, Model model) {
 		List validInfo = ValidUtil.newInstance().valid(goodsAddArgs);
 		if (validInfo.size() > 0) {
 			model.addAttribute("type", "danger");
@@ -114,7 +118,8 @@ public class GoodsController {
 			model.addAttribute("msg", validInfo.get(0).toString());
 			return "admin/goods/add";
 		}
-		boolean isSuccess = goodsFeign.addGoods(BeanMapUtil.convertBean(goodsAddArgs));
+		String json = JsonUtil.newInstance().obj2json(goodsAddArgs);
+		boolean isSuccess = goodsFeign.addGoods(json);
 		if (!isSuccess) {
 			model.addAttribute("type", "danger");
 			model.addAttribute("title", "错误提示");
@@ -190,7 +195,8 @@ public class GoodsController {
 			return "admin/goods/update";
 		}
 		try {
-			goodsFeign.updateGoods(BeanMapUtil.convertBean(goodsArgs));
+			String json = JsonUtil.newInstance().obj2json(goodsArgs);
+			goodsFeign.updateGoods(json);
 			model.addAttribute("type", "success");
 			model.addAttribute("title", "操作成功");
 			model.addAttribute("msg", "修改商品成功");
@@ -312,7 +318,8 @@ public class GoodsController {
 					Double singleMoney = temp.getGoodsNum()*temp.getPrice();
 					singleMoney = BigDecimaUtil.formatDouble(singleMoney);
 					temp.setSingleMoney(singleMoney);
-					goodsFeign.updateTempGoodsNum(BeanMapUtil.convertBean(temp));
+					String json = JsonUtil.newInstance().obj2json(temp);
+					goodsFeign.updateTempGoodsNum(json);
 				}else{
 					Goods goods = goodsFeign.loadGoods(goodsId); 
 					if(goods != null){
@@ -327,7 +334,8 @@ public class GoodsController {
 						temp.setGoodsId(goodsId);
 						temp.setSupplierId(suppId);
 						temp.setGoodsNo(goods.getGoodsNo());
-						goodsFeign.addOperatTemp(BeanMapUtil.convertBean(temp));
+						String json = JsonUtil.newInstance().obj2json(temp);
+						goodsFeign.addOperatTemp(json);
 					}
 				}
 			}

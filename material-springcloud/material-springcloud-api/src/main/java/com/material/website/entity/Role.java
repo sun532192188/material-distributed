@@ -21,7 +21,6 @@ public class Role {
 	/**
 	 * 角色名称
 	 */
-	@Column(name="rolename")
 	private String roleName = "";
 	
 	@Id

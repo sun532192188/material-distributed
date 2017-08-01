@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +62,7 @@ import com.material.website.util.ExcelUtil;
 import com.material.website.util.JsonUtil;
 import com.material.website.util.NumberToCN;
 import com.material.website.web.MySqlImportAndExport;
+import com.material.website.web.interceptor.GetSystemContext;
 
 /**
  * 数据打印、导出控制类
@@ -103,7 +105,9 @@ public class DataOperatController {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName()
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
-		Pager<StockDto> pages = stockFeign.queryStockPager(BeanMapUtil.convertBean(queryArgs));
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
+		Pager<StockDto> pages = stockFeign.queryStockPager(systemMap);
 		List<StockDto> resultList = pages.getRows();
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
@@ -225,8 +229,10 @@ public class DataOperatController {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName()
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
 		Pager<StaticsDepartPlanDto> pages = departCenterFiegn
-				.staticsDepartPlan(BeanMapUtil.convertBean(queryArgs));
+				.staticsDepartPlan(systemMap);
 		List<StaticsDepartPlanDto> resultList = pages.getRows();
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
@@ -336,7 +342,9 @@ public class DataOperatController {
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName()
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
-		Pager<StaticsStorageDto> pages = storageFeign.staticsStoragePager(BeanMapUtil.convertBean(queryArgs));
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
+		Pager<StaticsStorageDto> pages = storageFeign.staticsStoragePager(systemMap);
 		List<StaticsStorageDto> resultList = pages.getRows();
 		Integer buchongNum = 0;
 		if(resultList.size() <= 0){
@@ -453,7 +461,9 @@ public class DataOperatController {
 			queryArgs.setTitle(new String(queryArgs.getTitle()
 					.getBytes("ISO-8859-1"), "UTF-8"));
 		}
-		Pager<StatisUseAlloctDto> pages = useAlloctFeign.statisUseAlloctPager(BeanMapUtil.convertBean(queryArgs));
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
+		Pager<StatisUseAlloctDto> pages = useAlloctFeign.statisUseAlloctPager(systemMap);
 		List<StatisUseAlloctDto> resultList = pages.getRows();
 		Double sumMoney = 0.0;
     	for(StatisUseAlloctDto dto:resultList){
@@ -678,7 +688,9 @@ public class DataOperatController {
 		if(StringUtils.isNotEmpty(queryArgs.getAddress())){
 			queryArgs.setAddress(new String(queryArgs.getAddress().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		Pager<SupplierDto>pages = supplierFeign.querySupplierList(BeanMapUtil.convertBean(queryArgs));
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
+		Pager<SupplierDto>pages = supplierFeign.querySupplierList(systemMap);
 		if(StringUtils.isEmpty(queryArgs.getSupplierName())){
 			queryArgs.setSupplierName("全部");
 		}

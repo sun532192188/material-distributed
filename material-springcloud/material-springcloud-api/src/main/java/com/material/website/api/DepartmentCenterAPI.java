@@ -48,8 +48,8 @@ public interface DepartmentCenterAPI {
      * 添加月计划
      * @return
      */
-	@RequestMapping(value="/addMonthPlan",method=RequestMethod.GET)
-	public boolean addMonthPlan(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/addMonthPlan",method=RequestMethod.POST)
+	public boolean addMonthPlan(@RequestParam("json") String json);
 	
 	/**
 	 * 部门出库
@@ -71,7 +71,7 @@ public interface DepartmentCenterAPI {
 	 * @param goodsId
 	 * @return
 	 */
-	@RequestMapping(value="/delPlanGoods",method=RequestMethod.GET)
+	@RequestMapping(value="/delPlanGoods",method=RequestMethod.POST)
 	public boolean delPlanGoods(@RequestParam("goodsId") Integer goodsId);
 	
 	/**
@@ -80,7 +80,7 @@ public interface DepartmentCenterAPI {
 	 * @param goodsStr
 	 * @return
 	 */
-	@RequestMapping(value="/updatePlanGoods",method=RequestMethod.GET)
+	@RequestMapping(value="/updatePlanGoods",method=RequestMethod.POST)
 	public String updatePlanGoods(@RequestParam("planId") Integer planId,@RequestParam("goodsStr") String goodsStr);
 	
 	
@@ -130,7 +130,7 @@ public interface DepartmentCenterAPI {
      * @param type
      * @param remarks
      */
-	@RequestMapping(value="/updateFixedGoodsStatus",method=RequestMethod.GET)
+	@RequestMapping(value="/updateFixedGoodsStatus",method=RequestMethod.POST)
     public boolean updateFixedGoodsStatus(@RequestParam("id") Integer id,@RequestParam("type") Integer type, @RequestParam("remarks") String remarks,@RequestParam("departId") Integer departId,@RequestParam("targetDepart") Integer targetDepart);
     
     /**
@@ -154,7 +154,7 @@ public interface DepartmentCenterAPI {
      * @param consumeId
      * @return
      */
-	@RequestMapping(value="/updateDepartConsumeInit",method=RequestMethod.GET)
+	@RequestMapping(value="/updateDepartConsumeInit",method=RequestMethod.POST)
 	public Map<String, Object> updateDepartConsumeInit(@RequestParam("consumeId") Integer consumeId);
 	
 	
@@ -163,8 +163,8 @@ public interface DepartmentCenterAPI {
 	 * @param updateArgs
 	 * @return
 	 */
-	@RequestMapping(value="/updateDepartConsume",method=RequestMethod.GET)
-	public boolean updateDepartConsume(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/updateDepartConsume",method=RequestMethod.POST)
+	public boolean updateDepartConsume(@RequestParam("json") String json);
 	
 	/**
 	 * 根据物资编号查询出库信息
@@ -178,6 +178,6 @@ public interface DepartmentCenterAPI {
 	 * 入账 入库信息
 	 * @return
 	 */
-	@RequestMapping(value="/addLockConsume",method=RequestMethod.GET)
+	@RequestMapping(value="/addLockConsume",method=RequestMethod.POST)
 	public boolean addLockConsume(@RequestParam("consumeId") Integer consumeId);
 }

@@ -19,8 +19,8 @@ public interface RoleAPI {
      * @RequestParam role
      * @return
      */
-	@RequestMapping(value="/addRole",method=RequestMethod.GET)
-	public Integer addRole(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/addRole",method=RequestMethod.POST)
+	public Integer addRole(@RequestParam("json") String json);
 	
 	/**
 	 * 查询所有的角色信息
@@ -58,6 +58,6 @@ public interface RoleAPI {
 	 * @RequestParam updateArgs
 	 * @return
 	 */
-	@RequestMapping(value="/updateRole",method=RequestMethod.GET)
-	public Integer updateRole(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/updateRole",method=RequestMethod.POST)
+	public Integer updateRole(@RequestParam("json") String json);
 }

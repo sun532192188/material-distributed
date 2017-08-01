@@ -45,8 +45,10 @@ import com.material.website.entity.UseAlloct;
 import com.material.website.entity.UseAlloctDetail;
 import com.material.website.system.MaterialOperate;
 import com.material.website.system.Pager;
+import com.material.website.systemcontext.ConverMapToSystemContext;
 import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
+import com.material.website.util.JsonUtil;
 import com.material.website.util.MaterialNoUtil;
 
 @RestController
@@ -66,6 +68,7 @@ public class DepartmentCenterService implements DepartmentCenterAPI {
 
 	@Override
 	public Pager<DeparPlanDto> queryPlanPager(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		DepartPlanQueryArgs queryArgs = (DepartPlanQueryArgs) BeanMapUtil.convertMap(DepartPlanQueryArgs.class, map);
 		return departmentCenterDao.queryPlanPager(queryArgs);
 	}
@@ -76,9 +79,9 @@ public class DepartmentCenterService implements DepartmentCenterAPI {
 	}
 
 	@Override
-	public boolean addMonthPlan(Map<String, Object>map) {
+	public boolean addMonthPlan(String json) {
 		try {
-			DepartPlanAddArgs addArgs = (DepartPlanAddArgs) BeanMapUtil.convertMap(DepartPlanAddArgs.class, map);
+			DepartPlanAddArgs addArgs = (DepartPlanAddArgs) JsonUtil.newInstance().json2obj(json, DepartPlanAddArgs.class);
 			String operatNo = addArgs.getTempId();
 			DepartPlan plan = new DepartPlan();
 			plan.setCreateDate(new Date());
@@ -217,12 +220,14 @@ public class DepartmentCenterService implements DepartmentCenterAPI {
 
 	@Override
 	public Pager<MaterialConsumeDto> queryConsumePager(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		MaterialConsumeQueryArgs queryArgs = (MaterialConsumeQueryArgs) BeanMapUtil.convertMap(MaterialConsumeQueryArgs.class, map);
 		return departmentCenterDao.queryConsumePager(queryArgs);
 	}
 
 	@Override
 	public Pager<DepartStockDto> queryDepartStockPager(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		DepartStockQueryArgs queryArgs = (DepartStockQueryArgs) BeanMapUtil.convertMap(DepartStockQueryArgs.class, map);
 		return departmentCenterDao.queryDepartStockPager(queryArgs);
 	}
@@ -324,12 +329,14 @@ public class DepartmentCenterService implements DepartmentCenterAPI {
 
 	@Override
 	public Pager<StaticsDepartPlanDto> staticsDepartPlan(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		StaticsDepartPlanArgs queryArgs  = (StaticsDepartPlanArgs) BeanMapUtil.convertMap(StaticsDepartPlanArgs.class, map);
 		return departmentCenterDao.staticsDepartPlan(queryArgs);
 	}
 
 	@Override
 	public Pager<StatisDepartCounsumeDto> statisDepartConsumePager(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		StatisDepartConsumeArgs queryArgs = (StatisDepartConsumeArgs) BeanMapUtil.convertMap(StatisDepartConsumeArgs.class, map);
 		return departmentCenterDao.statisDepartConsumePager(queryArgs);
 	}
@@ -347,9 +354,9 @@ public class DepartmentCenterService implements DepartmentCenterAPI {
 	}
 
 	@Override
-	public boolean updateDepartConsume(Map<String, Object>map) {
+	public boolean updateDepartConsume(String json) {
 		try {
-			MaterialConsumeAddArgs updateArgs = (MaterialConsumeAddArgs) BeanMapUtil.convertMap(MaterialConsumeAddArgs.class, map);
+			MaterialConsumeAddArgs updateArgs = (MaterialConsumeAddArgs) JsonUtil.newInstance().json2obj(json, MaterialConsumeAddArgs.class);
 			MaterialConsume consume = departmentCenterDao.queryConsumeInfo(null, updateArgs.getId());
 			Date date = consume.getConsumeDate();
 			Integer tagetDepartId = consume.getTargetDepartId();
@@ -469,4 +476,5 @@ public class DepartmentCenterService implements DepartmentCenterAPI {
 		}
 		return false;
 	}
+	
 }

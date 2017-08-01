@@ -6,8 +6,9 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
 
 /**
  * java bean 与map 之间的转换
@@ -64,12 +65,12 @@ public class BeanMapUtil {
 	     * @throws IllegalAccessException 如果实例化 JavaBean 失败  
 	     * @throws InvocationTargetException 如果调用属性的 setter 方法失败  
 	     */    
-	    @SuppressWarnings({ "rawtypes", "unchecked" })    
+	    @SuppressWarnings({ "rawtypes" })    
 	    public static Map<String,Object>convertBean(Object bean){    
 	        Map<String,Object>returnMap = null;
 			try {
 				Class type = bean.getClass();    
-				returnMap = new HashMap();    
+				returnMap = new LinkedHashMap<String,Object>();
 				BeanInfo beanInfo = Introspector.getBeanInfo(type);    
    
 				PropertyDescriptor[] propertyDescriptors =  beanInfo.getPropertyDescriptors();    
@@ -93,8 +94,8 @@ public class BeanMapUtil {
 	    } 
 	    
 	    
-	    /*public static void main(String[] args) {
-		Admin admin = new Admin();
+	  public static void main(String[] args) {
+		/*Admin admin = new Admin();
 		admin.setId(1);
 		admin.setDepartId(2);
 		admin.setPassword("123456");
@@ -102,6 +103,6 @@ public class BeanMapUtil {
 		admin.setRoleId(2);
 		admin.setUserName("张三");
 		Map<String,Object>convertBean = BeanMapUtil.convertBean(admin);
-		System.out.println(convertBean);
-	}*/
+		System.out.println(convertBean);*/
+ 	}
 }

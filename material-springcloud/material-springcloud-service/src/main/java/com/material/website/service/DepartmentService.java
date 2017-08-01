@@ -13,9 +13,8 @@ import com.material.website.dao.IDepartmentDao;
 import com.material.website.dto.DepartmentDto;
 import com.material.website.entity.Department;
 import com.material.website.system.Pager;
-import com.material.website.system.SystemContext;
 import com.material.website.systemcontext.ConverMapToSystemContext;
-import com.material.website.util.BeanMapUtil;
+import com.material.website.util.JsonUtil;
 
 /**
  * 部门业务实现类
@@ -28,6 +27,7 @@ public class DepartmentService implements DepartmentAPI {
 	
 	@Autowired 
 	private IDepartmentDao departmentDao;
+	
 
 	@Override
 	public Pager<DepartmentDto> queryDepartmentList(String departName,String phone,@RequestParam Map<String, Object>map) {
@@ -36,9 +36,12 @@ public class DepartmentService implements DepartmentAPI {
 	}
 
 	@Override
-	public boolean addDepartment(Map<String, Object>map) {
+	public boolean addDepartment(String json) {
 		try {
-			Department department = (Department) BeanMapUtil.convertMap(Department.class, map);
+			//Department department = (Department) BeanMapUtil.convertMap(Department.class, map);
+			Department department = (Department) JsonUtil.newInstance().json2obj(json, Department.class);
+			System.out.println(department.getDepartmentName());
+			System.out.println(department.getPhone());
 			departmentDao.addEntity(department);
 			return true;
 		} catch (Exception e) {
@@ -46,11 +49,12 @@ public class DepartmentService implements DepartmentAPI {
 			return false;
 		}
 	}
+	
 
 	@Override
-	public boolean updateDepartment(Map<String, Object>map) {
+	public boolean updateDepartment(String json) {
 		try {
-			Department department = (Department) BeanMapUtil.convertMap(Department.class, map);
+			Department department = (Department) JsonUtil.newInstance().json2obj(json, Department.class);
 			departmentDao.updateEntity(department);
 			return true;
 		} catch (Exception e) {
@@ -69,5 +73,6 @@ public class DepartmentService implements DepartmentAPI {
 	public List<Department> queryAllDepartMent() {
 		return departmentDao.queryAllDepartMent();
 	}
+
 
 }

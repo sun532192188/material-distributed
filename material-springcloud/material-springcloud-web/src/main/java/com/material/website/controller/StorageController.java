@@ -34,7 +34,9 @@ import com.material.website.system.MaterialOperate;
 import com.material.website.system.Pager;
 import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
+import com.material.website.util.JsonUtil;
 import com.material.website.util.MaterialNoUtil;
+import com.material.website.web.interceptor.GetSystemContext;
 
 /**
  * 入库控制类
@@ -59,14 +61,16 @@ public class StorageController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping(value="/queryStorage",method=RequestMethod.POST)
+	@RequestMapping(value="/queryStorage",method=RequestMethod.GET)
 	public String queryStorage(StorageQueryArgs queryArgs,Model model,HttpServletRequest request) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(queryArgs.getOperatNo())){
 			queryArgs.setOperatNo(new String(queryArgs.getOperatNo().getBytes("ISO-8859-1"),"UTF-8"));
 		}
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
 		Pager<StorageDto>pages = null;
 		model.addAttribute("queryArgs",queryArgs);
-		pages = storageFeign.queryStoragePager(BeanMapUtil.convertBean(queryArgs));
+		pages = storageFeign.queryStoragePager(systemMap);
 		model.addAttribute("pages",pages);
 		if(queryArgs.getType() == 1){
 			return "admin/storage/yanshou/checkList";
@@ -99,7 +103,7 @@ public class StorageController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/addStoage",method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value="/addStoage",method={RequestMethod.POST})
 	@ResponseBody
 	public Map<String, Object> addStoage(StorageAddArgs stoageArgs){
 		Map<String, Object>map = new HashMap<String, Object>();
@@ -109,7 +113,7 @@ public class StorageController {
 			map.put("msg", validInfo.get(0).toString());
 			return map;
 		}
-		boolean  isTrue = storageFeign.addStorage(BeanMapUtil.convertBean(stoageArgs));
+		boolean  isTrue = storageFeign.addStorage(JsonUtil.newInstance().obj2json(stoageArgs));
 		if(isTrue){
 			map.put("status", 200);
 			map.put("msg", "添加成功");
@@ -181,7 +185,7 @@ public class StorageController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/updateStorage",method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value="/updateStorage",method={RequestMethod.POST})
 	@ResponseBody
 	public Map<String, Object> updateStorage(StorageAddArgs updsateArgs){
 		Map<String, Object>map = new HashMap<String, Object>();
@@ -191,7 +195,7 @@ public class StorageController {
 			map.put("msg", validInfo.get(0).toString());
 			return map;
 		}
-		boolean  isTrue = storageFeign.updateStorageInfo(BeanMapUtil.convertBean(updsateArgs));
+		boolean  isTrue = storageFeign.updateStorageInfo(JsonUtil.newInstance().obj2json(updsateArgs));
 		if(isTrue){
 			map.put("status", 200);
 			map.put("msg", "修改成功");
@@ -247,7 +251,9 @@ public class StorageController {
 		if(StringUtils.isNotEmpty(queryArgs.getGoodsName())){
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-		Pager<StaticsStorageDto>pages = storageFeign.staticsStoragePager(BeanMapUtil.convertBean(queryArgs));
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
+		Pager<StaticsStorageDto>pages = storageFeign.staticsStoragePager(systemMap);
 		model.addAttribute("queryArgs",queryArgs);
 	    model.addAttribute("pages",pages);
 	    model.addAttribute("categoryList",queryCategoryOne());

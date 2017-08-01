@@ -22,43 +22,35 @@ public class OperatTemp {
 	/**
 	 * 操作类型主键(保存操作完成后该字段中保存相应的主键)
 	 */
-	@Column(name="operatid")
 	private Integer operatId;
 	/**
 	 * 供应商编号
 	 */
-	@Column(name="supplierid")
 	private Integer supplierId;
 	/**
 	 * 操作类型 1.验收入库 2.预存入库  3.调拨  4.领用 5.部门出库 6.部门调拨
 	 */
-	@Column(name="operattype")
 	private Integer operatType;
 	/**
 	 * 操作编号  验收  预存  领用  调拨  出库  部门调拨
 	 */
-	@Column(name="operatno")
 	private String operatNo;
 	
 	/**
 	 * 商品编号
 	 */
-	@Column(name="goodsid")
 	private Integer goodsId;
 	/**
 	 * 商品编号
 	 */
-	@Column(name="goodsno")
 	private String goodsNo;
 	/**
 	 * 商品名称
 	 */
-	@Column(name="goodsname")
 	private String goodsName;
 	/**
 	 * 商品型号
 	 */
-	@Column(name="specmodel")
 	private String specModel;
 	/**
 	 * 单位
@@ -71,13 +63,11 @@ public class OperatTemp {
 	/**
 	 * 商品数量
 	 */
-	@Column(name="goodsnum")
 	private Double goodsNum;
 	
 	/**
 	 * 金额
 	 */
-	@Column(name="singlemoney")
 	private Double singleMoney;
 	
 	@Id

@@ -15,7 +15,8 @@ import com.material.website.dto.UserDto;
 import com.material.website.entity.Admin;
 import com.material.website.entity.LoginLog;
 import com.material.website.system.Pager;
-import com.material.website.util.BeanMapUtil;
+import com.material.website.systemcontext.ConverMapToSystemContext;
+import com.material.website.util.JsonUtil;
 import com.material.website.util.SecurityUtil;
 
 
@@ -49,7 +50,8 @@ public class AdminService implements AdminAPI{
 	 * @see org.ytzy.app.service.IAdminService#loadAdmin()
 	 */
 	@Override
-	public Pager<UserDto> queryUserPager(String userName,Integer roleId,Integer remove){
+	public Pager<UserDto> queryUserPager(String userName,Integer roleId,Integer remove,@RequestParam Map<String, Object>map){
+		ConverMapToSystemContext.convertSystemContext(map);
 		return adminDao.queryUserPager(userName, roleId,remove);
 	}
 
@@ -57,8 +59,8 @@ public class AdminService implements AdminAPI{
 	 * @see org.ytzy.app.service.IAdminService#add(org.ytzy.app.args.AddAdminArgs)
 	 */
 	@Override
-	public void add(@RequestParam Map<String, Object>map) {
-		AdminArgs adminArgs = (AdminArgs) BeanMapUtil.convertMap(AdminArgs.class, map);
+	public void add(String json) {
+		AdminArgs adminArgs = (AdminArgs) JsonUtil.newInstance().json2obj(json, AdminArgs.class);
 		Admin admin=new Admin();
 		BeanUtils.copyProperties(adminArgs, admin);
 		admin.setPassword(SecurityUtil.password(adminArgs.getPassword()));
@@ -70,8 +72,8 @@ public class AdminService implements AdminAPI{
 	 * @see org.ytzy.app.service.IAdminService#update(org.ytzy.app.args.AddAdminArgs)
 	 */
 	@Override
-	public Admin update(Map<String, Object>map) {
-		AdminArgs adminArgs = (AdminArgs) BeanMapUtil.convertMap(AdminArgs.class, map);
+	public Admin update(String json) {
+		AdminArgs adminArgs = (AdminArgs) JsonUtil.newInstance().json2obj(json, AdminArgs.class);
 		Admin admin= adminDao.get(adminArgs.getId());
 		if(admin != null){
 			String pwd = admin.getPassword();
@@ -111,8 +113,8 @@ public class AdminService implements AdminAPI{
 	}
 	
 	@Override
-	public void addUserLoginLog(Map<String, Object>map) {
-		LoginLog userLoginLog =  (LoginLog) BeanMapUtil.convertMap(LoginLog.class, map);
+	public void addUserLoginLog(String json) {
+		LoginLog userLoginLog =  (LoginLog) JsonUtil.newInstance().json2obj(json, LoginLog.class);
 		 adminDao.addEntity(userLoginLog);
 	}
 	

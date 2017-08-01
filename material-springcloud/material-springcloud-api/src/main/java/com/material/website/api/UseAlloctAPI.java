@@ -76,8 +76,8 @@ public interface UseAlloctAPI {
 	 * @RequestParam addArgs
 	 * @return
 	 */
-	@RequestMapping(value="/updateUseAlloct",method=RequestMethod.GET)
-	public boolean updateUseAlloct(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/updateUseAlloct",method=RequestMethod.POST)
+	public boolean updateUseAlloct(@RequestParam("json") String json);
 	
 	/**
 	 * 根据物资编号查询调拨/领用信息
@@ -92,6 +92,6 @@ public interface UseAlloctAPI {
 	 * @RequestParam useAlloctId
 	 * @return
 	 */
-	@RequestMapping(value="/addLockUseAlloct",method=RequestMethod.GET)
+	@RequestMapping(value="/addLockUseAlloct",method=RequestMethod.POST)
 	public boolean addLockUseAlloct(@RequestParam("useAlloctId")  Integer useAlloctId);
 }

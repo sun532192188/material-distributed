@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,7 @@ import com.material.website.feign.DepartmentFeign;
 import com.material.website.system.Auth;
 import com.material.website.system.ManagerType;
 import com.material.website.system.Pager;
-import com.material.website.util.BeanMapUtil;
+import com.material.website.util.JsonUtil;
 import com.material.website.web.interceptor.GetSystemContext;
 
 /**
@@ -47,9 +46,9 @@ public class DepartmentController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/queryDepartList",method={RequestMethod.GET})
 	public String queryDepartList(String departName,String phone,Model model) throws UnsupportedEncodingException{
-		if(StringUtils.isNotEmpty(departName)){
+		/*if(StringUtils.isNotEmpty(departName)){
 			departName = new String(departName.getBytes("ISO-8859-1"),"UTF-8");
-		}
+		}*/
 		
 		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
 		Pager pages = departmentFeign.queryDepartmentList(departName,phone,systemMap);
@@ -73,6 +72,7 @@ public class DepartmentController {
 	 * 添加部门
 	 * @param supplierAddArgs
 	 * @return
+	 * //Map<String, Object> convertBean = BeanMapUtil.convertBean(department);
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/addDepart",method={RequestMethod.POST})
@@ -87,7 +87,8 @@ public class DepartmentController {
 		Department department = new Department();
 		BeanUtils.copyProperties(departmentArgs, department);
 		department.setDescription(department.getDescription().trim());
-		boolean isSuccess = departmentFeign.addDepartment(BeanMapUtil.convertBean(department));
+		String json = JsonUtil.newInstance().obj2json(department);
+		boolean isSuccess = departmentFeign.addDepartment(json);
 		if(!isSuccess){
 			model.addAttribute("type","danger");
 			model.addAttribute("title","错误提示");
@@ -128,7 +129,7 @@ public class DepartmentController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/updateDepart",method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/updateDepart",method={RequestMethod.POST})
 	public String updateSupplier(DepartmentArgs updateArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(updateArgs);
 		if(validInfo.size()>0){
@@ -140,7 +141,8 @@ public class DepartmentController {
 		Department department = new Department();
 		BeanUtils.copyProperties(updateArgs, department);
 		try {
-			departmentFeign.updateDepartment(BeanMapUtil.convertBean(department));
+			String json = JsonUtil.newInstance().obj2json(updateArgs);
+			departmentFeign.updateDepartment(json);
 			model.addAttribute("type","success");
 			model.addAttribute("title","操作成功");
 			model.addAttribute("msg","修改部门成功");

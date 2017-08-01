@@ -34,8 +34,8 @@ public interface StorageAPI {
 	 * @RequestParam storageArgs
 	 * @return
 	 */
-	@RequestMapping(value="/addStorage",method=RequestMethod.GET)
-	public boolean addStorage(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/addStorage",method=RequestMethod.POST)
+	public boolean addStorage(@RequestParam("json") String json);
 	
 	/**
 	 * 查询入库信息
@@ -68,7 +68,7 @@ public interface StorageAPI {
 	 * 入账 入库信息
 	 * @return
 	 */
-	@RequestMapping(value="/addLockStorage",method=RequestMethod.GET)
+	@RequestMapping(value="/addLockStorage",method=RequestMethod.POST)
 	public boolean addLockStorage(@RequestParam("storageId") Integer storageId);
 	
 	/**
@@ -84,8 +84,8 @@ public interface StorageAPI {
 	 * @RequestParam updsateArgs
 	 * @return
 	 */
-	@RequestMapping(value="/updateStorageInfo",method=RequestMethod.GET)
-	public boolean updateStorageInfo(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/updateStorageInfo",method=RequestMethod.POST)
+	public boolean updateStorageInfo(@RequestParam("json") String json);
 	
 	/**
 	 * 根据物资编号查询入库信息

@@ -35,21 +35,22 @@ public interface CategoryAPI {
 	 * @return
 	 */
 	@RequestMapping(value="/queryCategoryPager",method=RequestMethod.GET)
-	public Pager<CategoryDto> queryCategoryPager(@RequestParam("categoryName") String categoryName,@RequestParam("paretId") Integer paretId,@RequestParam("status") Integer status);
+	public Pager<CategoryDto> queryCategoryPager(@RequestParam("categoryName") String categoryName,@RequestParam("paretId") Integer paretId,
+			@RequestParam("status") Integer status,@RequestParam Map<String, Object>map);
 	/**
 	 * 添加分类
 	 * @RequestParam categoryArgs
 	 * @return
 	 */
-	@RequestMapping(value="/addCategory",method=RequestMethod.GET)
-	public boolean addCategory(@RequestParam  Map<String, Object>map);
+	@RequestMapping(value="/addCategory",method=RequestMethod.POST)
+	public boolean addCategory(@RequestParam("json") String json);
 	/**
 	 * 修改分类信息
 	 * @RequestParam categoryArgs
 	 * @return
 	 */
-	@RequestMapping(value="/updateCategory",method=RequestMethod.GET)
-	public boolean updateCategory(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/updateCategory",method=RequestMethod.POST)
+	public boolean updateCategory(@RequestParam("json") String json);
 	/**
 	 * 删除分类
 	 * @RequestParam categoryId

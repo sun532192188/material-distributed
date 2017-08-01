@@ -36,7 +36,9 @@ import com.material.website.system.MaterialOperate;
 import com.material.website.system.Pager;
 import com.material.website.util.BeanMapUtil;
 import com.material.website.util.BigDecimaUtil;
+import com.material.website.util.JsonUtil;
 import com.material.website.util.MaterialNoUtil;
+import com.material.website.web.interceptor.GetSystemContext;
 
 /**
  * 领用/调拨控制类
@@ -70,8 +72,10 @@ public class UseAlloctController {
 			queryArgs.setDepartId(loginManager.getDepartId());
 		}
 		model.addAttribute("queryArgs", queryArgs);
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
 		Pager<UseAlloctDto> pages = useAlloctFeign
-				.queryDepartUsePager(BeanMapUtil.convertBean(queryArgs));
+				.queryDepartUsePager(systemMap);
 		model.addAttribute("pages", pages);
 		if (queryArgs.getType() == 1) {
 			return "admin/usealloct/alloct/list";
@@ -160,7 +164,9 @@ public class UseAlloctController {
 		if(StringUtils.isNotEmpty(queryArgs.getGoodsName())){
 			queryArgs.setGoodsName(new String(queryArgs.getGoodsName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
-	    Pager<StatisUseAlloctDto>pages = useAlloctFeign.statisUseAlloctPager(BeanMapUtil.convertBean(queryArgs));
+		Map<String, Object> systemMap = GetSystemContext.getSystemMap();
+		systemMap.putAll(BeanMapUtil.convertBean(queryArgs));
+	    Pager<StatisUseAlloctDto>pages = useAlloctFeign.statisUseAlloctPager(systemMap);
 	    model.addAttribute("pages",pages);
 	    model.addAttribute("queryArgs",queryArgs);
 	    model.addAttribute("categoryList",queryCategoryOne());
@@ -229,9 +235,9 @@ public class UseAlloctController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/updateUseAlloct",method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value="/updateUseAlloct",method={RequestMethod.POST})
 	@ResponseBody
-	public Map<String, Object> updateUseAlloct(@RequestBody UseAlloctAddArgs updateArgs){
+	public Map<String, Object> updateUseAlloct(UseAlloctAddArgs updateArgs){
 		Map<String, Object>map = new HashMap<String, Object>();
 		List validInfo = ValidUtil.newInstance().valid(updateArgs);
 		if (validInfo.size() > 0) {
@@ -239,7 +245,7 @@ public class UseAlloctController {
 			map.put("msg", validInfo.get(0).toString());
 			return map;
 		}
-		boolean  isTrue = useAlloctFeign.updateUseAlloct(BeanMapUtil.convertBean(updateArgs));
+		boolean  isTrue = useAlloctFeign.updateUseAlloct(JsonUtil.newInstance().obj2json(updateArgs));
 		if(isTrue){
 			map.put("status", 200);
 			map.put("msg", "修改成功");

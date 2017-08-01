@@ -32,21 +32,22 @@ public interface AdminAPI {
 	 * @return
 	 */
 	@RequestMapping(value="/queryUserPager",method=RequestMethod.GET)
-	public Pager<UserDto> queryUserPager(@RequestParam("userName") String userName,@RequestParam("roleId") Integer roleId,@RequestParam("remove") Integer remove);
+	public Pager<UserDto> queryUserPager(@RequestParam("userName") String userName,@RequestParam("roleId") Integer roleId,
+			@RequestParam("remove") Integer remove,@RequestParam Map<String, Object>map);
 	
 	/**
 	 * 管理员添加
 	 * @RequestParam adminArgs
 	 */
-	@RequestMapping(value="/add",method=RequestMethod.GET)
-	public void add(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/add",method=RequestMethod.POST)
+	public void add(@RequestParam("json") String json);
 	
 	/**
 	 * 修改管理员信息
 	 * @RequestParam adminArgs
 	 */
-	@RequestMapping(value="/update",method=RequestMethod.GET)
-	public Admin update(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/update",method=RequestMethod.POST)
+	public Admin update(@RequestParam("json") String json);
 	
 	/**
 	 * 更改管理员状态
@@ -75,8 +76,8 @@ public interface AdminAPI {
 	 * 添加用户 登录日志
 	 * @RequestParam userLoginLog
 	 */
-	@RequestMapping(value="/addUserLoginLog",method=RequestMethod.GET)
-	public void addUserLoginLog(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/addUserLoginLog",method=RequestMethod.POST)
+	public void addUserLoginLog(@RequestParam("json") String json);
 	
 	/**
 	 * 根据用户名查询用户 登录日志

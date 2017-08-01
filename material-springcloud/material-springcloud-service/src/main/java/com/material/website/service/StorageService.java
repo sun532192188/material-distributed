@@ -27,8 +27,10 @@ import com.material.website.entity.Stock;
 import com.material.website.entity.Storage;
 import com.material.website.entity.StorageMaterial;
 import com.material.website.system.Pager;
+import com.material.website.systemcontext.ConverMapToSystemContext;
 import com.material.website.util.BeanMapUtil;
 import com.material.website.util.DateFormatUtils;
+import com.material.website.util.JsonUtil;
 
 /**
  * 入库业务实现类
@@ -54,9 +56,9 @@ public class StorageService implements StorageAPI {
 	}
 
 	@Override
-	public boolean addStorage(Map<String, Object>map) {
+	public boolean addStorage(String json) {
 		try {
-			StorageAddArgs storageArgs = (StorageAddArgs) BeanMapUtil.convertMap(StorageAddArgs.class, map);
+			StorageAddArgs storageArgs = (StorageAddArgs) JsonUtil.newInstance().json2obj(json, StorageAddArgs.class);
 			//1.生成入库单数据
 			Storage storage = new Storage();
 			BeanUtils.copyProperties(storageArgs, storage);
@@ -82,6 +84,7 @@ public class StorageService implements StorageAPI {
 
 	@Override
 	public Pager<StorageDto> queryStoragePager(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		StorageQueryArgs queryArgs = (StorageQueryArgs) BeanMapUtil.convertMap(StorageQueryArgs.class, map);
 		return  storageDao.queryStoragePager(queryArgs);
 	}
@@ -93,6 +96,7 @@ public class StorageService implements StorageAPI {
 
 	@Override
 	public Pager<StaticsStorageDto> staticsStoragePager(Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		StaticsStorageArgs queryArgs = (StaticsStorageArgs) BeanMapUtil.convertMap(StaticsStorageArgs.class, map);
 		return storageDao.staticsStoragePager(queryArgs);
 	}
@@ -159,9 +163,9 @@ public class StorageService implements StorageAPI {
 	}
 
 	@Override
-	public boolean updateStorageInfo(Map<String, Object>map) {
+	public boolean updateStorageInfo(String json) {
 	    try {
-	    	StorageAddArgs updateArgs  = (StorageAddArgs) BeanMapUtil.convertMap(StorageAddArgs.class, map);
+	    	StorageAddArgs updateArgs  = (StorageAddArgs)JsonUtil.newInstance().json2obj(json, StorageAddArgs.class);
 			Storage storage = storageDao.get(updateArgs.getId());
 			BeanUtils.copyProperties(updateArgs, storage);
 			storageDao.updateEntity(storage);

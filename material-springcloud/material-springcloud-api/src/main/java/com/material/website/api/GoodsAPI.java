@@ -35,8 +35,8 @@ public interface GoodsAPI {
 	 * @param goodsAddArgs
 	 * @return
 	 */
-	@RequestMapping(value="/addGoods",method=RequestMethod.GET)
-	public boolean addGoods(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/addGoods",method=RequestMethod.POST)
+	public boolean addGoods(@RequestParam("json") String json);
 	
 	
 	/**
@@ -44,8 +44,8 @@ public interface GoodsAPI {
 	 * @param goodsArgs
 	 * @return
 	 */
-	@RequestMapping(value="/updateGoods",method=RequestMethod.GET)
-	public boolean updateGoods(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/updateGoods",method=RequestMethod.POST)
+	public boolean updateGoods(@RequestParam("json") String json);
 	
 	/**
 	 * 根据id加载商品
@@ -60,7 +60,7 @@ public interface GoodsAPI {
 	 * @param goodsId
 	 * @return
 	 */
-	@RequestMapping(value="/delGoods",method=RequestMethod.GET)
+	@RequestMapping(value="/delGoods",method=RequestMethod.POST)
 	public boolean delGoods(@RequestParam("goodsId") Integer goodsId);
 	
 	/**
@@ -84,14 +84,14 @@ public interface GoodsAPI {
 	 * @param operatTemp
 	 * @return
 	 */
-	@RequestMapping(value="/addOperatTemp",method=RequestMethod.GET)
-	public boolean addOperatTemp(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/addOperatTemp",method=RequestMethod.POST)
+	public boolean addOperatTemp(@RequestParam("json") String json);
 	/**
 	 * 删除临时操作表
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="/delOperaTemp",method=RequestMethod.GET)
+	@RequestMapping(value="/delOperaTemp",method=RequestMethod.POST)
 	public boolean delOperaTemp(@RequestParam("id") Integer id);
 	
 	/**
@@ -99,15 +99,15 @@ public interface GoodsAPI {
 	 * @param suplierId
 	 * @param operatNo
 	 */
-	@RequestMapping(value="/delAllTemp",method=RequestMethod.GET)
+	@RequestMapping(value="/delAllTemp",method=RequestMethod.POST)
 	public void delAllTemp(@RequestParam("suplierId") Integer suplierId, @RequestParam("operatNo") String operatNo);
 	
 	/**
 	 * 根据id更新临时表数据
 	 * @param tempId
 	 */
-	@RequestMapping(value="/updateTempGoodsNum",method=RequestMethod.GET)
-    public void updateTempGoodsNum(@RequestParam Map<String, Object>map);
+	@RequestMapping(value="/updateTempGoodsNum",method=RequestMethod.POST)
+    public void updateTempGoodsNum(@RequestParam("json") String json);
     
     /**
      * 根据条件加载单条数据
@@ -130,6 +130,6 @@ public interface GoodsAPI {
     /**
      * 定时删除临时表数据(防止对库存量造成影响)
      */
-	@RequestMapping(value="/delTempData",method=RequestMethod.GET)
+	@RequestMapping(value="/delTempData",method=RequestMethod.POST)
 	public boolean delTempData();
 }

@@ -19,7 +19,8 @@ import com.material.website.dto.CategoryDto;
 import com.material.website.entity.Category;
 import com.material.website.entity.Goods;
 import com.material.website.system.Pager;
-import com.material.website.util.BeanMapUtil;
+import com.material.website.systemcontext.ConverMapToSystemContext;
+import com.material.website.util.JsonUtil;
 
 /**
  * 分类业务实现类
@@ -53,14 +54,15 @@ public class CategoryServiceImpl implements CategoryAPI {
 
 	@Override
 	public Pager<CategoryDto> queryCategoryPager(String categoryName,
-			Integer parentId,Integer status) {
+			Integer parentId,Integer status,Map<String, Object>map) {
+		ConverMapToSystemContext.convertSystemContext(map);
 		return categoryDao.queryCategoryPager(categoryName, parentId,status);
 	}
 	
 	@Override
-	public boolean addCategory(Map<String, Object>map) {
+	public boolean addCategory(String json) {
 		try {
-			CategoryArgs categoryArgs = (CategoryArgs) BeanMapUtil.convertMap(CategoryArgs.class, map);
+			CategoryArgs categoryArgs = (CategoryArgs) JsonUtil.newInstance().json2obj(json, CategoryArgs.class);
 			Category category = new Category();
 			BeanUtils.copyProperties(categoryArgs, category);
 			category.setStatus(0);
@@ -73,9 +75,9 @@ public class CategoryServiceImpl implements CategoryAPI {
 	}
 
 	@Override
-	public boolean updateCategory(Map<String, Object>map) {
+	public boolean updateCategory(String json) {
 		try {
-			CategoryArgs categoryArgs =  (CategoryArgs) BeanMapUtil.convertMap(CategoryArgs.class, map);
+			CategoryArgs categoryArgs =  (CategoryArgs) JsonUtil.newInstance().json2obj(json, CategoryArgs.class);
 			Category category = new Category();
 			BeanUtils.copyProperties(categoryArgs, category);
 			categoryDao.updateEntity(category);
