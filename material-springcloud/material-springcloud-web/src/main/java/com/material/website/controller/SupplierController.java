@@ -11,12 +11,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.zh.validate.util.ValidUtil;
 
 import com.material.website.args.SupplierAddArgs;
@@ -36,7 +35,7 @@ import com.material.website.web.interceptor.GetSystemContext;
  * @author sunxiaorong
  *
  */
-@RestController
+@Controller
 @RequestMapping(value="/supplier")
 @Auth(ManagerType.EVERYONE)
 public class SupplierController {
@@ -54,7 +53,7 @@ public class SupplierController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/querySupplierList",method={RequestMethod.GET,RequestMethod.POST})
-	public String querySupplierList(@RequestBody SupplierQueryArgs supplierArgs,Model model) throws UnsupportedEncodingException{
+	public String querySupplierList(SupplierQueryArgs supplierArgs,Model model) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(supplierArgs.getSupplierName())){
 			 supplierArgs.setSupplierName(new String(supplierArgs.getSupplierName().getBytes("ISO-8859-1"),"UTF-8"));
 		}
@@ -138,7 +137,7 @@ public class SupplierController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/updateSupplier",method={RequestMethod.POST})
-	public String updateSupplier(@RequestBody SupplierAddArgs updateArgs,Model model){
+	public String updateSupplier(SupplierAddArgs updateArgs,Model model){
 		List validInfo=ValidUtil.newInstance().valid(updateArgs);
 		if(validInfo.size()>0){
 			model.addAttribute("type","danger");

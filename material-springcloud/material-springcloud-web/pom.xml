@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
  
   <artifactId>material-springcloud-web</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
   
   <parent>
@@ -135,7 +135,7 @@
                       <dependency>
                           <groupId>org.springframework</groupId>
                           <artifactId>springloaded</artifactId>
-                          <version>1.2.6.RELEASE</version>
+                          <version>1.2.6.RELEASE</version> 
                       </dependency>
                   </dependencies>
               </plugin>

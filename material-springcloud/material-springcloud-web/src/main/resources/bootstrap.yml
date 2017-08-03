@@ -27,7 +27,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://sunxiaorong:xiaorong1111@localhost:8761/eureka
+      defaultZone: http://sunxiaorong:xiaorong1111@192.168.38.177:8761/eureka
   instance:
     ip-address: true
     #instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
