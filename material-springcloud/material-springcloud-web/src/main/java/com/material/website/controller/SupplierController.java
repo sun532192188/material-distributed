@@ -52,7 +52,7 @@ public class SupplierController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/querySupplierList",method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/querySupplierList",method={RequestMethod.GET})
 	public String querySupplierList(SupplierQueryArgs supplierArgs,Model model) throws UnsupportedEncodingException{
 		if(StringUtils.isNotEmpty(supplierArgs.getSupplierName())){
 			 supplierArgs.setSupplierName(new String(supplierArgs.getSupplierName().getBytes("ISO-8859-1"),"UTF-8"));

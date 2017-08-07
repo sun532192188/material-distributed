@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.material.website.api.SupplierAPI;
@@ -30,7 +31,7 @@ public class SupplierService implements SupplierAPI {
 	private ISupplierDao supplierDao;
 	
 	@Override
-	public Pager<SupplierDto> querySupplierList(Map<String, Object>map) {
+	public Pager<SupplierDto> querySupplierList(@RequestParam Map<String, Object>map) {
 		ConverMapToSystemContext.convertSystemContext(map);
 		SupplierQueryArgs supplierArgs = (SupplierQueryArgs) BeanMapUtil.convertMap(SupplierQueryArgs.class, map);
 		return supplierDao.querySupplierList(supplierArgs);

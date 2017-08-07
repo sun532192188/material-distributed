@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.material.website.api.CategoryAPI;
@@ -54,7 +55,7 @@ public class CategoryServiceImpl implements CategoryAPI {
 
 	@Override
 	public Pager<CategoryDto> queryCategoryPager(String categoryName,
-			Integer parentId,Integer status,Map<String, Object>map) {
+			Integer parentId,Integer status,@RequestParam Map<String, Object>map) {
 		ConverMapToSystemContext.convertSystemContext(map);
 		return categoryDao.queryCategoryPager(categoryName, parentId,status);
 	}
